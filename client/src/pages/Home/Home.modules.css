@@ -1,0 +1,54 @@
+.home{
+    width: 100%;
+}
+
+.topHome {
+    width: 100%;
+    height: 36px;
+    background-color: #071355;
+    position: fixed;
+
+}
+
+.title {
+    padding-top: 4em;
+    color: #fff;
+    width: 100%;
+    font-size: 1.4vw;
+    margin-left: 4.3vw;
+    margin-bottom: 0.7em;
+    display: flex;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;;
+}
+
+.timer{
+    padding-bottom: 15em;
+}
+
+.clock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clock p{
+    text-align: center;
+    line-height: 112px;
+    width: 131.36px;
+    height: 112px;
+    background: #1E1E1E;
+}
+
+@media (max-width: 800px) {
+    .titulo {
+        font-size: 12px;
+    }
+    
+}
+
+.pageElements{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
+    url(../../assets/fundo_montanhas.png);
+    width: 100%;
+}
