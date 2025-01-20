@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import logo2 from "../../assets/logo_reduzido.png";
 import "./Home.modules.css";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-    const targetDate = new Date("2025-01-12T18:59:59");
+    const targetDate = new Date("2025-01-20T18:59:59");
 
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
@@ -46,8 +47,9 @@ const Home = () => {
                     <img src={logo2} alt="Logo2"></img>
                     <h1>AWARDS MELHOR DO ANO</h1>
                 </div>
+                <section className="subtitle">
                 <div className="description">
-                    <button>CONHEÇA OS INDICADOS</button>
+                    <Link to="/categories">CONHEÇA OS INDICADOS</Link>
                 </div>
                 <div className="timer">
                     <h2>OS VENCEDORES SERÃO REVELADOS EM:</h2>
@@ -57,10 +59,15 @@ const Home = () => {
                         <p>{minutes}</p>:
                         <p>{seconds}</p>
                     </div>
-                    <button>VOTE AGORA</button>
+                    <Link to="/vote">VOTE AGORA</Link>
                 </div>
+                </section>
             </section>
-            <section>
+            <section className="honors">
+            <p>MENÇÕES HONROSAS</p>
+            <div>
+                <h1><img src=""></img><h2>DEADPOOL & WOLVERINE</h2><p>MELHOR FILME</p></h1>
+            </div>
             </section>
         </div>
     );

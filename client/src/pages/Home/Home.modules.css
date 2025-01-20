@@ -14,30 +14,94 @@
     padding-top: 4em;
     color: #fff;
     width: 100%;
-    font-size: 1.4vw;
+    font-size: 19px;
     margin-left: 4.3vw;
-    margin-bottom: 0.7em;
+    margin-bottom: 2.7em;
     display: flex;
     align-items: center;
     font-family: 'Raleway', sans-serif;;
 }
 
+.description a{
+    background-color: #2C3B88;
+    border: none;
+    font-size: 13px;
+    padding: 1.4em 2.6em 1.4em 2.6em;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5em;
+    cursor: pointer;
+}
+
+.subtitle{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0em 0.5em;
+}
+
 .timer{
+    margin-top: -3em;
     padding-bottom: 15em;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.timer h2{
+    background-color: #1A1F3E;
+    padding: 0.4em 1.5em 0.4em 1.5em;
+    width: 15em;
+    text-align: center;
+    margin-bottom: 1.3em;
 }
 
 .clock{
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1.2em;
 }
 
 .clock p{
     text-align: center;
-    line-height: 112px;
-    width: 131.36px;
-    height: 112px;
+    line-height: 70px;
+    width: 80px;
+    height: 70px;
+    font-size: 36px;
+    margin-inline: 0.2em;
     background: #1E1E1E;
+}
+
+.timer a{
+    background-color: #4556AA;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    padding: 0.8em 2em 0.8em 2em;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+.honors{
+    background-color: #020519;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.honors div{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.honors div h1{
+    
 }
 
 @media (max-width: 800px) {
