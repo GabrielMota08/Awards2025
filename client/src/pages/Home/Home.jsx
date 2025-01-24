@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import logo2 from "../../assets/logo_reduzido.png";
 import "./Home.modules.css";
 import { Link } from "react-router-dom";
-
+const targetDate = new Date("2025-01-27T18:59:59");
 const Home = () => {
-    const targetDate = new Date("2025-01-20T18:59:59");
-
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -59,7 +57,7 @@ const Home = () => {
                         <p>{minutes}</p>:
                         <p>{seconds}</p>
                     </div>
-                    <Link to="/vote">VOTE AGORA</Link>
+                    <Link to="/nominees">VOTE AGORA</Link>
                 </div>
                 </section>
             </section>

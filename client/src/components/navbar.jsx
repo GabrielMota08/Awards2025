@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import awards from "../assets/awards.png";
 import user from "../assets/user.png";
-
+import { BsPerson } from "react-icons/bs";
 import "./navbar.modules.css";
 
 const Navbar = () => {
@@ -16,12 +16,12 @@ const Navbar = () => {
             </h2>
             <div className="optionsNavbar">
                 <Link to="/winners"><p>VENCEDORES</p></Link>
-                <Link to="/vote"><p>VOTAÇÃO</p></Link>
+                <Link to="/nominees/0"><p>VOTAÇÃO</p></Link>
                 <Link to="/categories"><p>CATEGORIAS</p></Link>
             </div>
             <div>
             <Link to="/login">
-                    <img src={user} alt="user" className="userImg"/>
+                <BsPerson />
             </Link>
             </div>
         </nav>

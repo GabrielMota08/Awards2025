@@ -31,10 +31,36 @@
     width: 100%;
 }
 
-.optionsNavbar p{
+.optionsNavbar a{
     padding-right: .5;
 }
 
 .optionsNavbar p:first-child{
     padding-left: 1.5em;
+}
+
+#navbar div a svg{
+    transform: scale(1.8);
+}
+
+@media (max-width: 700px) {
+    #navbar {
+        flex-wrap: wrap;
+        height: 207px;
+        justify-content: center;
+    } 
+    .optionsNavbar {
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .optionsNavbar a{
+        padding-block: 0.4em;
+        padding-right: 0;
+        font-size: 15px;
+    }
+
+    .optionsNavbar p:first-child{
+        padding-left: 0;
+    }
 }

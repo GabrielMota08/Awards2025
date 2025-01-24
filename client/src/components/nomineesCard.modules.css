@@ -1,0 +1,128 @@
+ .nomineesCardDiv li{
+    /* height: 15em; */
+    transition-duration: filter 0.5s
+} 
+
+.marginBottom5em{
+    padding-bottom: 1em;
+}
+
+.nomineesCardB {
+    width: 17.3em !important;
+}
+
+.nomineesCardB h2{
+    margin-top: 3.2em !important;
+}
+
+
+.nomineesCard {
+    display: flex;
+    width: 7.5em;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    height: 17.3em;
+}
+
+
+.nomineesCard img {
+    z-index: 30;
+    width: 100%;
+}
+
+.nomineesCard .winner_background {
+    position: absolute;
+    top: 1px;
+    left: -5px;
+    z-index: 10; 
+    scale: 1.08;
+    width: 100%;
+    display: none;
+}
+
+.nomineesCard .voteButton {
+    z-index: 50;
+    position: absolute;
+    top: 14.3em;
+    width: 100%;
+    padding: 0.5em 1em;
+    font-size: 16px;
+    height: 3.6em;
+    font-weight: bold;
+    color: white;
+    background-color: #2C3B88;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nomineesCard .voteButton:hover {
+    background-color: #4455aa;
+}
+
+.nomineesCard h2{
+    z-index: 50;
+    margin: 0.5em;
+    margin-top: 1.4em;
+    width: 100%;
+    font-weight: 700;
+    font-size: 18.5px;
+}
+
+.nomineesCard p{
+    z-index: 50;
+    width: 100%;
+    font-weight: 300;
+    font-size: 13px;
+}
+
+.votado{
+    border: #8F9BFF, solid 2px !important;
+}
+
+.unVote span{
+    transition-duration: 0.5s;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.unVoteDiv{
+    transition-duration: 0.5s;
+    filter: grayscale(100%);
+}
+
+.exchangeButton{
+    z-index: 50;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.5em 1em;
+    font-size: 16px;
+    height: 3.6em;
+    font-weight: bold;
+    color: white;
+    background-color: #2C3B88;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 12px;
+    font-weight: 550;
+    background-color: rgba(44, 59, 136, 0.6);
+    display: none;
+}
+
+.exchangeButton svg{
+    font-size: 23px;
+    margin-left: 5%;
+}
+
+.exchangeButton:hover{
+    background-color: rgba(44, 59, 136, 0.9);
+}
+
+.exchangeButtonVisible{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

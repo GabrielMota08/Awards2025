@@ -1,0 +1,70 @@
+.categories {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.categories h1 {
+    background-color: rgba(7, 25, 118, 0.7);
+    width: 100%;
+    text-align: center;
+    line-height: 3.3em;
+    font-size: 15px;
+    height: 3.3em;
+    position: fixed;
+}
+
+.categories div{
+    width: 70%;
+    margin-top: 5em;
+}
+
+.categories h2 {
+    margin-left: 0.5em;
+}
+
+.categories h2 span{
+    color: rgb(162, 176, 255);
+    font-weight: 800;
+    margin-right: 1vw;
+}
+
+
+.categories div p{
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: start;
+    align-items: center;
+}
+
+.categories div p a {
+    width: 150px;
+    height: 150px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 1em;
+    text-align: center;
+    border: solid rgba(125, 182, 255, 0.3) 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition-duration: 0.3s;
+    color: white;
+}
+
+.categories div p a:hover{
+    background-color: rgb(0, 24, 53);
+}
+
+@media (max-width: 700px){
+    .categories div p{
+        justify-content: center;
+    }
+
+    .categories div p a {
+        width: 90%;
+        height: 60px;
+        margin: 0.4em;
+    }
+}
