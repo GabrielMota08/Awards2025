@@ -42,7 +42,7 @@ const Indicados = () => {
     return (
         <div className="indicados-container">
             <div className="categoriesNominees">
-                <div className="backToHome"><FaArrowLeftLong /> PÁGINA INICIAL</div>
+                <Link to="/" className="backToHome"><FaArrowLeftLong /> PÁGINA INICIAL</Link>
                 <section className="categoriesNomineesSection">
                 <div className={` ${lowOpacity === 1 ? "lowOpacity " : "setaAnterior"}`} onClick={() => navigateTo("prev")}>
                     <MdArrowBackIosNew />

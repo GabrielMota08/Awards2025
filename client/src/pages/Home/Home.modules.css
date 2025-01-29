@@ -108,6 +108,10 @@
     .titulo {
         font-size: 12px;
     } 
+
+    .timer{
+        margin-top: 4em;
+    }
 }
 
 .pageElements{

@@ -8,7 +8,11 @@
 }
 
 .nomineesCardB {
-    width: 17.3em !important;
+    width: 16em !important;
+}
+
+.nomineesCardB .voteButton {
+    top: 13em !important;
 }
 
 .nomineesCardB h2{
@@ -80,6 +84,14 @@
 
 .votado{
     border: #8F9BFF, solid 2px !important;
+}
+
+.unVote{
+    cursor: default !important;
+}
+
+.unVote:hover{
+    background-color: #2C3B88 !important;
 }
 
 .unVote span{
