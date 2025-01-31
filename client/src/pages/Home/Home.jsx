@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import logo2 from "../../assets/logo_reduzido.png";
+import logoFooter from "../../assets/awards.png";
 import "./Home.modules.css";
 import { Link } from "react-router-dom";
-const targetDate = new Date("2025-01-27T18:59:59");
+import AppContext from "../../context/AppContext";
+const targetDate = new Date("2025-01-04T18:59:59");
 const Home = () => {
+    const { shortlisted } = useContext(AppContext);
+    const [isLoadingTimer, setIsLoadingTimer] = useState(true)
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -31,7 +35,7 @@ const Home = () => {
                 clearInterval(interval);
             }
         }, 1000);
-
+        setIsLoadingTimer(false)
         return () => clearInterval(interval);
     }, [targetDate]);
 
@@ -43,11 +47,12 @@ const Home = () => {
             <section className="pageElements">
                 <div className="title">
                     <img src={logo2} alt="Logo2"></img>
-                    <h1>AWARDS MELHOR DO ANO</h1>
+                    <h1 className="titleAwards">AWARDS MELHORES DO ANO</h1>
                 </div>
                 <section className="subtitle">
                 <div className="description">
-                    <Link to="/categories">CONHEÇA OS INDICADOS</Link>
+                    <Link className={!isLoadingTimer && (days + hours + minutes + seconds > 0) ? "disableWinners" : ""} to="/winners">CONFIRA OS VENCEDORES</Link>
+                    <Link to="/categories">VEJA OS INDICADOS</Link>
                 </div>
                 <div className="timer">
                     <h2>OS VENCEDORES SERÃO REVELADOS EM:</h2>
@@ -57,15 +62,39 @@ const Home = () => {
                         <p>{minutes}</p>:
                         <p>{seconds}</p>
                     </div>
-                    <Link to="/nominees">VOTE AGORA</Link>
+                    <Link to="/nominees/0">VOTE AGORA</Link>
                 </div>
                 </section>
             </section>
             <section className="honors">
-            <p>MENÇÕES HONROSAS</p>
+            <p className="honorsTitle">MENÇÕES HONROSAS</p>
             <div>
-                <h1><img src=""></img><h2>DEADPOOL & WOLVERINE</h2><p>MELHOR FILME</p></h1>
+                {shortlisted.map((indicado) => (
+                    <li className="honorsCard" key={indicado.id}>
+                        <img src={indicado.img}
+                        alt={indicado.name}
+                        onLoad={(e) => {
+                            const img = e.target;
+                            const parent = img.parentNode;
+                            parent.classList.remove("honorsCardA", "honorsCardB");
+                            if (img.naturalWidth > img.naturalHeight) {
+                                parent.classList.add("honorsCardB");
+                            } else {
+                                parent.classList.add("honorsCardA");
+                            }
+                        }}></img>
+                        <h2>{indicado.name}</h2>
+                        <p>{indicado.description}</p>
+                    </li>
+                ))}
             </div>
+            </section>
+            <section className="footer">
+                <div className="footerLogo">
+                    <img src={logoFooter} alt="LogoFooter"></img>
+                    <h1 className="titleFooter">AWARDS MELHORES DO ANO</h1>
+                </div>
+                <p>© 2024</p>
             </section>
         </div>
     );

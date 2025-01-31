@@ -21,3 +21,7 @@ a{
 a:hover{
   color: #b3b3b3;
 }
+
+.titleAwards, .footerLogo h1{
+  font-family: 'Raleway', sans-serif;
+}

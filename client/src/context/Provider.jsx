@@ -8,6 +8,13 @@ function Provider({ children }) {
         setVotes((prevVotes) => ({ ...prevVotes, [categoryIndex]: vote }));
     };
 
+    const shortlisted  = [ // Aqueles que não estão concorrendo
+        { id: 0, name: "DEADPOOL & WOLVERINE", description: "SHAWN LEVY", img: "https://upload.wikimedia.org/wikipedia/pt/2/2a/Deadpool_%26_Wolverine_cartaz.jpg" },
+        { id: 1, name: "MEU MALVADO FAVORITO 4", description: "CHRIS RENAUD", img: "https://ingresso-a.akamaihd.net/prd/img/movie/meu-malvado-favorito-4/4d756249-3b88-4b59-baa2-527f5e3d4c3e.webp" },
+        { id: 2, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
+        {id: 3, name: "O PIOR MECÂNICO DOS MARES! - BARONTRAUMA", description: "ALANZOKA", img: "https://i.ytimg.com/vi/xPQs7EW0AAw/maxresdefault.jpg" },
+    ];
+
     const indicados = [
         { 
             id: 0, 
@@ -95,6 +102,7 @@ function Provider({ children }) {
         votes,
         saveVote,
         indicados,
+        shortlisted,
     };
 
     return (
