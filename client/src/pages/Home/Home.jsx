@@ -4,10 +4,11 @@ import logoFooter from "../../assets/awards.png";
 import "./Home.modules.css";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
-const targetDate = new Date("2025-01-04T18:59:59");
+const targetDate = new Date("2025-02-04T18:59:59");
+const targetDateA = import.meta.env.VITE_TARGET_DATE;
 const Home = () => {
     const { shortlisted } = useContext(AppContext);
-    const [isLoadingTimer, setIsLoadingTimer] = useState(true)
+
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -35,7 +36,7 @@ const Home = () => {
                 clearInterval(interval);
             }
         }, 1000);
-        setIsLoadingTimer(false)
+        console.log(targetDateA)
         return () => clearInterval(interval);
     }, [targetDate]);
 
@@ -51,7 +52,7 @@ const Home = () => {
                 </div>
                 <section className="subtitle">
                 <div className="description">
-                    <Link className={!isLoadingTimer && (days + hours + minutes + seconds > 0) ? "disableWinners" : ""} to="/winners">CONFIRA OS VENCEDORES</Link>
+                    <Link className={days + hours + minutes + seconds !== 0 && "disableWinners"} to="/winners">CONFIRA OS VENCEDORES</Link>
                     <Link to="/categories">VEJA OS INDICADOS</Link>
                 </div>
                 <div className="timer">
@@ -67,7 +68,7 @@ const Home = () => {
                 </section>
             </section>
             <section className="honors">
-            <p className="honorsTitle">MENÇÕES HONROSAS</p>
+            <p className="honorsTitle">MENÇÕES</p>
             <div>
                 {shortlisted.map((indicado) => (
                     <li className="honorsCard" key={indicado.id}>

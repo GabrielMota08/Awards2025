@@ -34,13 +34,17 @@
 
 .optionsNavbar button{
     border: none;
-    background-color: rgb(11, 23, 87, 0.7);
+    background-color: rgb(11, 23, 87, 0.0);
     font-size: 30px;
     color: white;
 }
 
 .optionsNavbar a{
     padding-right: .5;
+}
+
+.optionsNavbar a:hover{
+    color: rgb(199, 210, 255);
 }
 
 .optionsNavbar p:first-child{
@@ -50,6 +54,11 @@
 #navbar div a svg{
     transform: scale(1.8);
     margin-bottom: 0.4em;
+    transition-duration: 0.3s;
+}
+
+#navbar div a svg:hover{
+    color: rgb(181, 195, 255);
 }
 
 @media (max-width: 700px) {

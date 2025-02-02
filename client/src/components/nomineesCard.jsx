@@ -7,11 +7,10 @@ import "./nomineesCard.modules.css";
 import AppContext from "../context/AppContext";
 
 const NomineesCard = ({content, numericId}) => {
-    const { indicados, saveVote, votes } = useContext(AppContext);
-
+    const { saveVote, votes } = useContext(AppContext);
      const handleVote = (voteId) => {
         saveVote(numericId, voteId);
-        console.log(`Voto salvo para o indicado ${numericId}:`, voteId);
+        //console.log(`Voto salvo para o indicado ${numericId}:`, voteId);
     };
     
     return (

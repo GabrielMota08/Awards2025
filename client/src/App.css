@@ -1,6 +1,16 @@
-#outlet{
+:root {
+    --margin-top-desktop: 91px;
+    --margin-top-mobile: 50px;
+    --margin-top-mobile-menu-open: 5em;
+}
+
+#outlet {
     color: white;
-    margin-top: 91px;
+    margin-top: var(--margin-top-desktop);
     display: flex;
     width: 100%;
+}
+
+.navbarHeight {
+    margin-top: var(--margin-top-navbar-open);
 }

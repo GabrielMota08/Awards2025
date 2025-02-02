@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import awards from "../assets/awards.png";
 import { BsPerson } from "react-icons/bs";
 import { IoMdMenu } from "react-icons/io";
 import "./navbar.modules.css";
+import AppContext from "../context/AppContext";
 
 const Navbar = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
+    const {menuOpen, setMenuOpen} = useContext(AppContext);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");

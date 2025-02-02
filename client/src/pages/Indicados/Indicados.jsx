@@ -13,7 +13,6 @@ const Indicados = () => {
     const [lowOpacity, setLowOpacity] = useState(0);
     const numericId = Number(id); // Converte id para número
     const indicado = indicados.find((item) => item.id === numericId);
-
     if (!indicado) {
         return <div>Indicado não encontrado!</div>;
     }
@@ -36,7 +35,7 @@ const Indicados = () => {
         if (nextId >= 0 && nextId < indicados.length) {
             navigate(`/nominees/${nextId}`);
         }
-        console.log("mudou")
+        //console.log("mudou")
     };
 
     return (
@@ -58,11 +57,16 @@ const Indicados = () => {
                     <MdArrowForwardIos />
                 </div>
                 </section>
-                <div className="votesCast">{votes.length ? `${votes.length}` : "0"}/{indicados.length}</div>
+                <div className="votesCast"> {Object.values(votes).filter(vote => vote !== undefined && vote !== null).length}/{indicados.length}</div>
+
+                
             </div>
             
             <section className="indicadosSection">   
-            <h1>{indicado.categoria}</h1>
+                <div>
+                    <h1>{indicado.categoria}</h1>
+                    {/* <button className="finishButton">Finalizar votação</button> */}
+                </div>
             <h2>{indicado.description}</h2>
             <ul>
             {nomeados.map((indicados) => (<NomineesCard key={indicados.id} content={indicados} numericId={numericId}/>))}

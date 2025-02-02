@@ -3,9 +3,20 @@ import AppContext from './AppContext';
 import PropTypes from 'prop-types';
 
 function Provider({ children }) {
+    const [menuOpen, setMenuOpen] = useState(false);
     const [votes, setVotes] = useState({}); // { 0: "Filme A", 1: "Filme B", ... }
     const saveVote = (categoryIndex, vote) => {
-        setVotes((prevVotes) => ({ ...prevVotes, [categoryIndex]: vote }));
+        setVotes((prevVotes) => {
+            const newVotes = { ...prevVotes };
+            
+            if (vote === undefined) {
+              delete newVotes[categoryIndex];
+            } else {
+              newVotes[categoryIndex] = vote;
+            }
+            //console.log("Novo estado de votos:", newVotes);
+            return newVotes;
+          });
     };
 
     const shortlisted  = [ // Aqueles que não estão concorrendo
@@ -23,7 +34,7 @@ function Provider({ children }) {
             nomeados: [
                 { id: 0, name: "DEADPOOL & WOLVERINE", description: "SHAWN LEVY", img: "https://upload.wikimedia.org/wikipedia/pt/2/2a/Deadpool_%26_Wolverine_cartaz.jpg" },
                 { id: 1, name: "BEEKEEPER: REDE DE VINGANÇA", description: "DAVID AYER", img: "https://m.media-amazon.com/images/M/MV5BNGEwYWU2NmQtNjU5NS00ZjkzLWE2ZTYtYzgzMjEzOGJhYWQwXkEyXkFqcGc@._V1_.jpg" },
-                { id: 2, name: "MEU MALVADO FAVORITO 4", description: "CHRIS RENAUD", img: "https://ingresso-a.akamaihd.net/prd/img/movie/meu-malvado-favorito-4/4d756249-3b88-4b59-baa2-527f5e3d4c3e.webp" },
+                { id: 2, name: "KUNG FU PANDA 4", description: "MIKE MITCHELL", img: "https://dx35vtwkllhj9.cloudfront.net/universalstudios/kung-fu-panda-4/images/regions/us/onesheet.jpg" },
                 { id: 3, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
                 { id: 4, name: "GUERRA SEM REGRAS", description: "GUY RITCHIE", img: "https://resizing.flixster.com/XOofxyC1iBne3Da7spP3GsfVtXQ=/206x305/v2/https://resizing.flixster.com/1eHwSs4Hsk8dmj_7g_HOVkw8x6U=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzRiZTU3MTJhLTA4NjgtNDViYS05YTRlLWUzODcwMGExZWNlZC5qcGc=" }
             ] 
@@ -103,6 +114,8 @@ function Provider({ children }) {
         saveVote,
         indicados,
         shortlisted,
+        menuOpen, 
+        setMenuOpen,
     };
 
     return (
