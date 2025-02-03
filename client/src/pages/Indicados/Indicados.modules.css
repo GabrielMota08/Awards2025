@@ -2,6 +2,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    /* background: url('../../assets/Frame_4.png') no-repeat center center;
+            background-size: cover; */
 }
 
 .indicados-container .categoriesNominees{
@@ -173,7 +175,7 @@
 
 @media (max-width: 700px){
     .indicados-container{
-        margin-top: 4.8em;
+        /* margin-top: 4.8em; */
     }
     .indicados-container .indicadosSection{
         width: 92%;

@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <div className="outlet-container">
-        <h2 id="outlet" className={menuOpen && "navbarHeight"}><Outlet/></h2>
+        <h2 id="outlet" className={!menuOpen && "menuOpenOutlet"}><Outlet/></h2>
       </div>
     </div>
   )

@@ -5,11 +5,14 @@
   box-sizing: border-box;
 }
 
-body{
+body {
   overflow-x: hidden;
-  background: radial-gradient(circle at 128% 40%, rgba(110, 127, 255, 0.6), transparent 30%),
-  #080808;
-  height: 100vh;
+  background: #080808;
+  background-image: url('assets/Frame_4.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto; /* Faz a imagem ocupar toda a largura e ajustar a altura automaticamente */
+  width: 100vw;
 }
 
 a{

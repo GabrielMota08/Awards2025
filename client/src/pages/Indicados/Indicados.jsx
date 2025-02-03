@@ -5,11 +5,12 @@ import "./Indicados.modules.css";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import NomineesCard from "../../components/nomineesCard";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import NomineesCardExpired from "../../components/nomineesCardExpired";
 
 const Indicados = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { indicados, votes } = useContext(AppContext);
+    const { indicados, votes, targetDate } = useContext(AppContext);
     const [lowOpacity, setLowOpacity] = useState(0);
     const numericId = Number(id); // Converte id para número
     const indicado = indicados.find((item) => item.id === numericId);
@@ -69,8 +70,10 @@ const Indicados = () => {
                 </div>
             <h2>{indicado.description}</h2>
             <ul>
-            {nomeados.map((indicados) => (<NomineesCard key={indicados.id} content={indicados} numericId={numericId}/>))}
-            </ul>
+                {new Date() < targetDate 
+                    ? nomeados.map((indicados) => (<NomineesCard key={indicados.id} content={indicados} numericId={numericId} winner={false}/>)) 
+                    : nomeados.map((indicados) => (<NomineesCardExpired key={indicados.id} content={indicados} numericId={numericId} winner={indicados.winner}/>))}
+                </ul>
             </section>
             
         </div>

@@ -11,73 +11,109 @@
     top: 0px;
     left: 0px;
     z-index: 1000;
-    background-color: rgb(11, 23, 87, 0.7);
-    backdrop-filter: blur(5px); /* Aplica o desfoque */
-    -webkit-backdrop-filter: blur(10px); /* Compatibilidade com navegadores WebKit */
+    background-color: rgba(11, 23, 87, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-.logoImg{
+.logoImg {
     width: 4em;
 }
 
-.userImg{
+.userImg {
     width: 3em;
 }
 
-.optionsNavbar{
+.optionsNavbar {
     display: flex;
     justify-content: start;
     align-items: center;
     width: 100%;
-    transition-duration: 0.5s;
 }
 
-.optionsNavbar button{
+.optionsNavbar button {
     border: none;
-    background-color: rgb(11, 23, 87, 0.0);
+    background-color: transparent;
     font-size: 30px;
     color: white;
 }
 
-.optionsNavbar a{
-    padding-right: .5;
+.optionsNavbar a {
+    /* padding-right: 0.5; */
+    position: relative;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
 }
 
-.optionsNavbar a:hover{
-    color: rgb(199, 210, 255);
+.optionsNavbar a:hover {
+    color: rgb(255, 255, 255);
 }
 
-.optionsNavbar p:first-child{
-    padding-left: 1.5em;
+/* Linha abaixo das opções */
+.optionsNavbar a::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0%; /* Começa sem largura */
+    height: 2px;
+    background: rgba(255, 255, 255, 0.7);
+    transition: width 0.4s ease-in-out;
+    transform: translateX(-50%);
 }
 
-#navbar div a svg{
+.optionsNavbar a:hover::before {
+    width: 100%; /* Expande ao passar o mouse */
+}
+
+.winnerNavbarButton{
+    color: rgba(255, 255, 255, 0.444);
+    margin-left: 1.5em;
+}
+
+.optionsNavbar a {
+    margin-left: 1.5em;
+}
+
+#navbar div a svg {
     transform: scale(1.8);
     margin-bottom: 0.4em;
     transition-duration: 0.3s;
 }
 
-#navbar div a svg:hover{
+#navbar div a svg:hover {
     color: rgb(181, 195, 255);
 }
 
+/* Responsividade */
 @media (max-width: 700px) {
     #navbar {
         flex-wrap: wrap;
         justify-content: center;
-    } 
+        padding-inline: 2em;
+    }
     .optionsNavbar {
         justify-content: center;
         flex-direction: column;
     }
-
-    .optionsNavbar a{
+    .optionsNavbar a {
         padding-block: 0.4em;
-        padding-right: 0;
-        font-size: 15px;
+        font-size: 1em;
+    }
+    .optionsNavbar a {
+        margin-left: 0;
     }
 
-    .optionsNavbar p:first-child{
-        padding-left: 0;
+    .optionsNavbar a:hover::before {
+        width: 100%; /* Expande ao passar o mouse */
+    }
+
+    .marginTop0em{
+        margin-top: 0em !important;
+    }
+
+    #navbar div:last-child{
+        margin-top: 0.7em;
     }
 }

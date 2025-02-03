@@ -1,14 +1,14 @@
- .nomineesCardDiv li{
+.nomineesCardExpiredDiv li{
     /* height: 15em; */
     transition: transform 0.5s ease, filter 0.5s ease;  
 } 
 
-.nomineesCardDiv li:hover{
-    transform: translateY(5px);
+.nomineesCardExpiredDiv li:hover{
+    transform: translateY(0px);
 } 
 
-.marginBottom5em{
-    padding-bottom: 1em;
+.winnerCard {
+    transform: translate(-2px, -4px);
 }
 
 .nomineesCardB {
@@ -73,14 +73,10 @@
     height: 3.6em;
     font-weight: bold;
     color: white;
-    background-color: #2C3B88;
+    background-color: #4455aa;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
-}
-
-.nomineesCard .voteButton:hover {
-    background-color: #4455aa;
 }
 
 .nomineesCard h2{
@@ -99,61 +95,26 @@
     font-size: 13px;
 }
 
-.votado{
+.vencedor{
     border: #8F9BFF, solid 2px !important;
-}
-
-.unVote{
     cursor: default !important;
 }
 
-.unVote:hover{
-    background-color: #2C3B88 !important;
+.voteExpired{
+    cursor: default !important;
 }
 
-.unVote span{
+.voteExpired span{
     transition-duration: 0.5s;
     color: rgba(255, 255, 255, 0.6);
 }
 
-.unVoteDiv{
+.voteExpired span{
+    transition-duration: 0.5s;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.voteExpiredDiv{
     transition-duration: 0.5s;
     filter: grayscale(100%);
-}
-
-.exchangeButton{
-    z-index: 50;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 0.5em 1em;
-    font-size: 16px;
-    height: 3.6em;
-    font-weight: bold;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 12px;
-    font-weight: 550;
-    border-radius: 10px;
-    box-shadow: 0px 0px 2px rgb(147, 176, 255);
-    background-color: rgba(44, 59, 136, 0.2);
-    /* background-color: rgba(44, 59, 136, 0.6); */
-    display: none;
-}
-
-.exchangeButton svg{
-    font-size: 23px;
-    margin-left: 5%;
-}
-
-.exchangeButton:hover{
-    background-color: rgba(44, 59, 136, 0.9);
-}
-
-.exchangeButtonVisible{
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

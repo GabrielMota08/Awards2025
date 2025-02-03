@@ -4,17 +4,26 @@ import logoFooter from "../../assets/awards.png";
 import "./Home.modules.css";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
-const targetDate = new Date("2025-02-04T18:59:59");
-const targetDateA = import.meta.env.VITE_TARGET_DATE;
+import { GoChevronDown } from "react-icons/go";
 const Home = () => {
-    const { shortlisted } = useContext(AppContext);
-
+    const { shortlisted, targetDate } = useContext(AppContext);
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
         minutes: 0,
         seconds: 0,
     });
+
+    const handleScroll = () => {
+        const target = document.getElementById("scrollTarget");
+        if (target) {
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth",
+            });
+        }
+    };
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -36,7 +45,6 @@ const Home = () => {
                 clearInterval(interval);
             }
         }, 1000);
-        console.log(targetDateA)
         return () => clearInterval(interval);
     }, [targetDate]);
 
@@ -52,7 +60,7 @@ const Home = () => {
                 </div>
                 <section className="subtitle">
                 <div className="description">
-                    <Link className={days + hours + minutes + seconds !== 0 && "disableWinners"} to="/winners">CONFIRA OS VENCEDORES</Link>
+                    <Link className={new Date() < targetDate && "disableWinners"} to="/winners">CONFIRA OS VENCEDORES</Link>
                     <Link to="/categories">VEJA OS INDICADOS</Link>
                 </div>
                 <div className="timer">
@@ -66,6 +74,7 @@ const Home = () => {
                     <Link to="/nominees/0">VOTE AGORA</Link>
                 </div>
                 </section>
+                <div id="scrollTarget" className="arrowDown"><p onClick={handleScroll}><GoChevronDown /></p></div>
             </section>
             <section className="honors">
             <p className="honorsTitle">MENÇÕES</p>

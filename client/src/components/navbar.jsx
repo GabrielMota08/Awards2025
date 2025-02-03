@@ -7,7 +7,7 @@ import "./navbar.modules.css";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
-    const {menuOpen, setMenuOpen} = useContext(AppContext);
+    const {menuOpen, setMenuOpen, targetDate} = useContext(AppContext);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
@@ -39,13 +39,13 @@ const Navbar = () => {
                     </button>
                 ) : (
                     <>
-                        <Link to="/winners"><p>VENCEDORES</p></Link>
+                        {new Date() > targetDate ? <Link to="/winners/0"><p>VENCEDORES</p></Link> : <p className="winnerNavbarButton">VENCEDORES</p>}
                         <Link to="/nominees/0"><p>VOTAÇÃO</p></Link>
                         <Link to="/categories"><p>CATEGORIAS</p></Link>
                     </>
                 )}
             </div>
-            <div>
+            <div className={menuOpen && "marginTop0em"}>
                 <Link to="/login">
                     <BsPerson />
                 </Link>

@@ -1,7 +1,7 @@
 :root {
     --margin-top-desktop: 91px;
-    --margin-top-mobile: 50px;
-    --margin-top-mobile-menu-open: 5em;
+    --margin-top-mobile: 142.1px;
+    --margin-top-mobile-menu-open: 212.1px;
 }
 
 #outlet {
@@ -11,6 +11,13 @@
     width: 100%;
 }
 
-.navbarHeight {
-    margin-top: var(--margin-top-navbar-open);
+@media (max-width: 700px) {
+
+    .menuOpenOutlet {
+        margin-top: var(--margin-top-mobile-menu-open) !important;
+    }
+
+    #outlet{
+        margin-top: var(--margin-top-mobile);
+    }
 }
