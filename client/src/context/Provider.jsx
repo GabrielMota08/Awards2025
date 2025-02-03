@@ -23,12 +23,11 @@ function Provider({ children }) {
 
     const shortlisted  = [ // Aqueles que não estão concorrendo
         { id: 0, name: "GUERRA SEM REGRAS", description: "MELHOR FILME LANÇADO NO ANO", img: "https://resizing.flixster.com/XOofxyC1iBne3Da7spP3GsfVtXQ=/206x305/v2/https://resizing.flixster.com/1eHwSs4Hsk8dmj_7g_HOVkw8x6U=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzRiZTU3MTJhLTA4NjgtNDViYS05YTRlLWUzODcwMGExZWNlZC5qcGc=" },
-        { id: 1, name: "MEU MALVADO FAVORITO 4", description: "MELHOR FILME LANÇADO NO ANO", img: "https://ingresso-a.akamaihd.net/prd/img/movie/meu-malvado-favorito-4/4d756249-3b88-4b59-baa2-527f5e3d4c3e.webp" },
-        { id: 2, name: "HOBBIT: A GUERRA DOS CINCO EXÉRCITOS", description: "MELHOR FILME", img: "https://upload.wikimedia.org/wikipedia/pt/0/0e/The_Hobbit_-_The_Battle_of_the_Five_Armies.jpg" },
-        { id: 3, name: "O SENHOR DOS ANÉIS: A SOCIEDADE DO ANEL", description: "MELHOR FILME", img: "https://br.web.img3.acsta.net/medias/nmedia/18/92/91/32/20224832.jpg" },
-        { id: 4, name: "UM FINAL ALUCINANTE! - PROJECT ZOMBOID", description: "MELHOR LIVE EM GRUPO", img: "https://i.ytimg.com/vi/nXUuo88npk0/maxresdefault.jpg" },
-        { id: 5, name: "COMO SE TORNAR UM SPOOKTUBER DE SUCESSO! - CONTENT WARNING", description: "MELHOR LIVE EM GRUPO", img: "https://i.ytimg.com/vi/QTz3ZhnVGUA/maxresdefault.jpg" },
-        { id: 6, name: "BATMAN: ARKHAM KNIGHT", description: "MELHOR JOGO", img: "https://cdn2.unrealengine.com/Diesel%2Fproductv2%2Fbatman-arkham-knight%2FEGS_WB_Batman_Arkham_Knight_G1_1920x1080_19_0911-1920x1080-1d69e15f00cb5ab57249f208f1f8f45d52cbbc59.jpg" },
+        { id: 1, name: "HOBBIT: A GUERRA DOS CINCO EXÉRCITOS", description: "MELHOR FILME", img: "https://upload.wikimedia.org/wikipedia/pt/0/0e/The_Hobbit_-_The_Battle_of_the_Five_Armies.jpg" },
+        { id: 2, name: "O SENHOR DOS ANÉIS: A SOCIEDADE DO ANEL", description: "MELHOR FILME", img: "https://br.web.img3.acsta.net/medias/nmedia/18/92/91/32/20224832.jpg" },
+        { id: 3, name: "UM FINAL ALUCINANTE! - PROJECT ZOMBOID", description: "MELHOR LIVE EM GRUPO", img: "https://i.ytimg.com/vi/nXUuo88npk0/maxresdefault.jpg" },
+        { id: 4, name: "COMO SE TORNAR UM SPOOKTUBER DE SUCESSO! - CONTENT WARNING", description: "MELHOR LIVE EM GRUPO", img: "https://i.ytimg.com/vi/QTz3ZhnVGUA/maxresdefault.jpg" },
+        { id: 5, name: "BATMAN: ARKHAM KNIGHT", description: "MELHOR JOGO", img: "https://cdn2.unrealengine.com/Diesel%2Fproductv2%2Fbatman-arkham-knight%2FEGS_WB_Batman_Arkham_Knight_G1_1920x1080_19_0911-1920x1080-1d69e15f00cb5ab57249f208f1f8f45d52cbbc59.jpg" },
     ];
 
     const indicados = [
