@@ -25,13 +25,11 @@ const Navbar = () => {
         return () => {
             mediaQuery.removeEventListener("change", handleResize);
         };
-    }, [setMenuOpen]);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
-            if (menuOpen) {
-                setMenuOpen(false);
-            }
+            setMenuOpen(true);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -39,7 +37,7 @@ const Navbar = () => {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [menuOpen, setMenuOpen]);
+    }, []);
 
     return (
         <nav id="navbar">
