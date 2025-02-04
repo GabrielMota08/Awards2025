@@ -8,7 +8,7 @@
 } 
 
 .marginBottom5em{
-    padding-bottom: 1em;
+    padding-bottom: 1.6em;
 }
 
 .nomineesCardB {
@@ -35,7 +35,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    height: 17.3em;
+    height: 17em;
 }
 
 
@@ -121,14 +121,12 @@
     filter: grayscale(100%);
 }
 
-.exchangeButton{
+.exchangeButton {
     z-index: 50;
-    position: absolute;
-    bottom: 0;
     width: 100%;
     padding: 0.5em 1em;
-    font-size: 16px;
     height: 3.6em;
+    min-height: 3.6em;
     font-weight: bold;
     color: white;
     border: none;
@@ -139,8 +137,8 @@
     border-radius: 10px;
     box-shadow: 0px 0px 2px rgb(147, 176, 255);
     background-color: rgba(44, 59, 136, 0.2);
-    /* background-color: rgba(44, 59, 136, 0.6); */
     display: none;
+    margin-top: 1em; /* Distância do conteúdo acima */
 }
 
 .exchangeButton svg{

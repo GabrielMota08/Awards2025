@@ -33,19 +33,20 @@ function Provider({ children }) {
     const indicados = [
         { 
             id: 0, 
-            categoria: "Melhor filme lançado no ano", 
-            description: "Reconhecendo o filme mais marcante do ano, com destaque para narrativa e atuações.",
+            categoria: "Melhor live", 
+            description: "Destacando a melhor transmissão ao vivo individual, baseada em entretenimento e engajamento do público.",
             nomeados: [
-                { id: 0, winner:false, name: "DEADPOOL & WOLVERINE", description: "SHAWN LEVY", img: "https://upload.wikimedia.org/wikipedia/pt/2/2a/Deadpool_%26_Wolverine_cartaz.jpg" },
-                { id: 1, winner:false, name: "O DUBLE", description: "DAVID LEITCH", img: "https://static.wixstatic.com/media/84e632_9111fdf89c5b4210845478d23ba44554~mv2.jpg/v1/fill/w_980,h_1551,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/84e632_9111fdf89c5b4210845478d23ba44554~mv2.jpg" },
-                { id: 2, winner:true, name: "KUNG FU PANDA 4", description: "MIKE MITCHELL", img: "https://dx35vtwkllhj9.cloudfront.net/universalstudios/kung-fu-panda-4/images/regions/us/onesheet.jpg" },
-                { id: 3, winner:false, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
-                { id: 4, winner:false, name: "SONIC 3", description: "JEFF FOWLER", img: "https://resizing.flixster.com/stIwab1KImKTQYXoxKDSpXjsLAc=/206x305/v2/https://resizing.flixster.com/5yCDU3YndW2EIWaEwH1FydaMwZI=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2E0MGM5YTk5LTdhY2UtNGYzNS04NGVmLTJlNjRkYjljNjQ4ZS5qcGc=" },
-            ] 
+                { id: 0, winner:false, name: "UM CARTEADO DIFERENTE!", description: "BALATRO", img: "https://i.ytimg.com/vi/iUGEa2clFU4/maxresdefault.jpg" },
+                { id: 1, winner:false, name: "FUGINDO DE UMA FREIRA", description: "EVIL NUN: THE BROKEN MASK", img: "https://i.ytimg.com/vi/xRB6viNqGx8/maxresdefault.jpg" },
+                { id: 2, winner:false, name: "ALANZOKA JOGANDO PALWORLD", description: "PALWOLRD", img: "https://i.ytimg.com/vi/B24Ql0-Ro7I/maxresdefault.jpg" },
+                { id: 3, winner:false, name: "NUNCA MAIS VOU TIRAR FÉRIAS!", description: "FEARS TO FATHOM: WOODBURY GETAWAY", img: "https://i.ytimg.com/vi/mGKK7reepug/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAZ8GR5cC5lXjMsUwtfzyV-MJO7TA" },
+                { id: 4, winner:false, name: "ALANZOKA JOGANDO MORTISOMEM", description: "MORTISOMEM", img: "https://i.ytimg.com/vi/EUWSfn-N6fc/maxresdefault.jpg" }
+            ]  
         },
         { 
             id: 1, 
             categoria: "Melhor live em grupo", 
+            description: `Reconhecendo a transmissão ao vivo mais divertida e envolvente com os "colegas".`,
             nomeados: [
                 { id: 0, winner:false, name: "O PIOR MECÂNICO DOS MARES!", description: "BARONTRAUMA", img: "https://i.ytimg.com/vi/xPQs7EW0AAw/maxresdefault.jpg" },
                 { id: 1, winner:false, name: "OS INCOMPETENTES VOLTARAM", description: "LETHAL COMPANY", img: "https://i.ytimg.com/vi/NUl026Y4VHM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBb8c19xYhbYwFnrKuE8r6verbHpg" },
@@ -58,17 +59,43 @@ function Provider({ children }) {
         { 
             id: 2, 
             categoria: "Melhor série", 
+            description: "Celebrando a série mais impactante do ano, destacando roteiro, direção e performances.",
             nomeados: [
                 { id: 0, winner:false, name: "FALLOUT", description: "1ª TEMPORADA", img: "https://resizing.flixster.com/ePgDla2nOK-2GQAxzuA11UkvhgQ=/206x305/v2/https://resizing.flixster.com/7QgV-TZ9q2kTGMrubJkFuQOLzSM=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvNzc1NWE1ODAtNTliZS00YTgyLWJmMDAtMjcyMDlmMzQzNjgwLmpwZw==" },
                 { id: 1, winner:false, name: "ROUND 6", description: "2ª TEMPORADA", img: "https://resizing.flixster.com/wgzK12s6HU9tTH0ChP_5eGy4c3Y=/206x305/v2/https://resizing.flixster.com/csfX8Ezg8smfPo1IBliNxACEJCA=/ems.cHJkLWVtcy1hc3NldHMvdHZzZWFzb24vZGFkOGYxYjgtZDU0ZS00OGIwLTk1NjktMmNjNzA1YTdkNjBiLmpwZw==" },
                 { id: 2, winner:false, name: "ARCANE", description: "2ª TEMPORADA", img: "https://resizing.flixster.com/jAlNgPqSQHpxH6ju0Eis-j8cdWE=/206x305/v2/https://resizing.flixster.com/dIDB54V_MjguvAiEPfYlB3_cYfg=/ems.cHJkLWVtcy1hc3NldHMvdHZzZWFzb24vYjExOWI4M2UtZjhiMS00MWUxLWJhN2QtNjMzNjk1ZjFlYjc0LmpwZw==" },
-                { id: 3, winner:false, name: "COBRA KAI", description: "5ª TEMPORADA", img: "https://resizing.flixster.com/eDaSH-F_M8o9Tg7NpFQzjFNyKuQ=/206x305/v2/https://resizing.flixster.com/Z-kHbJr9r5PLceKAxepwdo1ScGk=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvNTg0MWE3M2MtNjI0Ny00NmY3LThlOWUtNWYwNjU2ODE0ZjA4LmpwZw==" },
+                { id: 3, winner:false, name: "COBRA KAI", description: "6ª TEMPORADA", img: "https://resizing.flixster.com/eDaSH-F_M8o9Tg7NpFQzjFNyKuQ=/206x305/v2/https://resizing.flixster.com/Z-kHbJr9r5PLceKAxepwdo1ScGk=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvNTg0MWE3M2MtNjI0Ny00NmY3LThlOWUtNWYwNjU2ODE0ZjA4LmpwZw==" },
                 { id: 4, winner:false, name: "SENNA", description: "1ª TEMPORADA", img: "https://resizing.flixster.com/lb5LPUnkN4bphWk82QPPVwHkbh4=/206x305/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p28706525_b_v8_ac.jpg" }
             ] 
         },
         { 
             id: 3, 
+            categoria: "Melhor filme lançado no ano", 
+            description: "Reconhecendo o filme mais marcante do ano, com destaque para narrativa e atuações.",
+            nomeados: [
+                { id: 0, winner:false, name: "DEADPOOL & WOLVERINE", description: "SHAWN LEVY", img: "https://upload.wikimedia.org/wikipedia/pt/2/2a/Deadpool_%26_Wolverine_cartaz.jpg" },
+                { id: 1, winner:false, name: "O DUBLE", description: "DAVID LEITCH", img: "https://static.wixstatic.com/media/84e632_9111fdf89c5b4210845478d23ba44554~mv2.jpg/v1/fill/w_980,h_1551,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/84e632_9111fdf89c5b4210845478d23ba44554~mv2.jpg" },
+                { id: 2, winner:false, name: "KUNG FU PANDA 4", description: "MIKE MITCHELL", img: "https://dx35vtwkllhj9.cloudfront.net/universalstudios/kung-fu-panda-4/images/regions/us/onesheet.jpg" },
+                { id: 3, winner:false, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
+                { id: 4, winner:false, name: "SONIC 3", description: "JEFF FOWLER", img: "https://resizing.flixster.com/stIwab1KImKTQYXoxKDSpXjsLAc=/206x305/v2/https://resizing.flixster.com/5yCDU3YndW2EIWaEwH1FydaMwZI=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2E0MGM5YTk5LTdhY2UtNGYzNS04NGVmLTJlNjRkYjljNjQ4ZS5qcGc=" },
+            ] 
+        },
+        { 
+            id: 4, 
+            categoria: "Melhor filme", 
+            description: "Reconhecendo um dos melhores filmes de todos os tempos, independentemente do ano de lançamento. ",
+            nomeados: [
+                { id: 0, winner:false, name: "007: CONTRA SPECTRE", description: "SAM MENDES", img: "https://resizing.flixster.com/vnqt1aYlFry31bnplnjiYD63zgM=/206x305/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p11268880_p_v13_as.jpg" },
+                { id: 1, winner:false, name: "SONIC 3", description: "JEFF FOWLER", img: "https://resizing.flixster.com/stIwab1KImKTQYXoxKDSpXjsLAc=/206x305/v2/https://resizing.flixster.com/5yCDU3YndW2EIWaEwH1FydaMwZI=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2E0MGM5YTk5LTdhY2UtNGYzNS04NGVmLTJlNjRkYjljNjQ4ZS5qcGc=" },
+                { id: 2, winner:false, name: "O SENHOR DOS ANÉIS: O RETORNO DO REI", description: "PETER JACKSON", img: "https://upload.wikimedia.org/wikipedia/pt/0/0d/EsdlaIII.jpg" },
+                { id: 3, winner:false, name: "HOBBIT: A DESOLAÇÃO DE SMAUG", description: "PETER JACKSON", img: "https://br.web.img3.acsta.net/pictures/210/571/21057125_20131112201221324.jpg" },
+                { id: 4, winner:false, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
+            ] 
+        }, 
+        { 
+            id: 5, 
             categoria: "Melhor jogo", 
+            description: "Premiação para o jogo mais marcante, considerando inovação, jogabilidade e impacto cultural.",
             nomeados: [
                 { id: 0, winner:false, name: "GOD OF WAR: RAGNAROK", description: "SANTA MONICA STUDIO", img: "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/aqZdSwWyy9JcQ66BxHDKrky6.jpg" },
                 { id: 1, winner:false, name: "RED DEAD REDEMPTION 2", description: "ROCKSTAR GAMES", img: "https://store-images.s-microsoft.com/image/apps.58752.13942869738016799.078aba97-2f28-440f-97b6-b852e1af307a.95fdf1a1-efd6-4938-8100-8abae91695d6?q=90&w=480&h=270" },
@@ -77,28 +104,6 @@ function Provider({ children }) {
                 
             ]  
         },
-        { 
-            id: 4, 
-            categoria: "Melhor live", 
-            nomeados: [
-                { id: 0, winner:false, name: "UM CARTEADO DIFERENTE!", description: "BALATRO", img: "https://i.ytimg.com/vi/iUGEa2clFU4/maxresdefault.jpg" },
-                { id: 1, winner:false, name: "FUGINDO DE UMA FREIRA", description: "EVIL NUN: THE BROKEN MASK", img: "https://i.ytimg.com/vi/xRB6viNqGx8/maxresdefault.jpg" },
-                { id: 2, winner:false, name: "ALANZOKA JOGANDO PALWORLD", description: "PALWOLRD", img: "https://i.ytimg.com/vi/B24Ql0-Ro7I/maxresdefault.jpg" },
-                { id: 3, winner:false, name: "NUNCA MAIS VOU TIRAR FÉRIAS!", description: "FEARS TO FATHOM: WOODBURY GETAWAY", img: "https://i.ytimg.com/vi/mGKK7reepug/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAZ8GR5cC5lXjMsUwtfzyV-MJO7TA" },
-                { id: 4, winner:false, name: "ALANZOKA JOGANDO MORTISOMEM", description: "MORTISOMEM", img: "https://i.ytimg.com/vi/EUWSfn-N6fc/maxresdefault.jpg" }
-            ]  
-        },
-        { 
-            id: 5, 
-            categoria: "Melhor filme", 
-            nomeados: [
-                { id: 0, winner:false, name: "007: CONTRA SPECTRE", description: "sAM MENDES", img: "https://resizing.flixster.com/vnqt1aYlFry31bnplnjiYD63zgM=/206x305/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p11268880_p_v13_as.jpg" },
-                { id: 1, winner:false, name: "SONIC 3", description: "JEFF FOWLER", img: "https://resizing.flixster.com/stIwab1KImKTQYXoxKDSpXjsLAc=/206x305/v2/https://resizing.flixster.com/5yCDU3YndW2EIWaEwH1FydaMwZI=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2E0MGM5YTk5LTdhY2UtNGYzNS04NGVmLTJlNjRkYjljNjQ4ZS5qcGc=" },
-                { id: 2, winner:false, name: "o SENHOR DOS ANÉIS: O RETORNO DO REI", description: "PETER JACKSON", img: "https://upload.wikimedia.org/wikipedia/pt/0/0d/EsdlaIII.jpg" },
-                { id: 3, winner:false, name: "HOBBIT: A DESOLAÇÃO DE SMAUG", description: "PETER JACKSON", img: "https://br.web.img3.acsta.net/pictures/210/571/21057125_20131112201221324.jpg" },
-                { id: 4, winner:false, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
-            ] 
-        }, 
     ];
     
 

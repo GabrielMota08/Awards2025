@@ -5,7 +5,7 @@ import "./Indicados.modules.css";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import NomineesCard from "../../components/nomineesCard";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import NomineesCardExpired from "../../components/nomineesCardExpired";
+import ResultsCard from "../../components/ResultsCard";
 
 const Indicados = () => {
     const { id } = useParams();
@@ -70,10 +70,18 @@ const Indicados = () => {
                 </div>
             <h2>{indicado.description}</h2>
             <ul>
-                {new Date() < targetDate 
-                    ? nomeados.map((indicados) => (<NomineesCard key={indicados.id} content={indicados} numericId={numericId} winner={false}/>)) 
-                    : nomeados.map((indicados) => (<NomineesCardExpired key={indicados.id} content={indicados} numericId={numericId} winner={indicados.winner}/>))}
-                </ul>
+                {new Date() < targetDate
+                    ? nomeados.map((indicados, index) => (
+                        <li key={indicados.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                            <NomineesCard key={indicados.id} content={indicados} numericId={numericId} winner={false}/>
+                        </li>
+                    )) 
+                    : nomeados.map((indicados, index) => (
+                        <li key={indicados.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                            <ResultsCard key={indicados.id} content={indicados} numericId={numericId} winner={indicados.winner}/>
+                        </li>
+                    ))}
+            </ul>   
             </section>
             
         </div>

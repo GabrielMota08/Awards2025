@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import winner_background from "../assets/group_33.svg"
-import winner_background_larger from "../assets/group_34.svg"
+import winner_background from "../assets/winner_background.svg"
+import winner_background_larger from "../assets/winner_background_larger.svg"
 import { MdSwapHoriz } from "react-icons/md";
 import "./nomineesCard.modules.css";
 import AppContext from "../context/AppContext";

@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import winner_background from "../assets/group_33.svg"
-import winner_background_larger from "../assets/group_34.svg"
-import "./nomineesCardExpired.modules.css";
+import winner_background from "../assets/winner_background.svg"
+import winner_background_larger from "../assets/winner_background_larger.svg"
+import "./ResultsCard.modules.css";
 import AppContext from "../context/AppContext";
 
-const NomineesCardExpired = ({content, numericId, winner}) => {
+const ResultsCard = ({content, numericId, winner}) => {
     const { votes } = useContext(AppContext);
     const [ winnerBackgroundLarger, setWinnerBackgroundLarger ]  = useState(false);
     
     return (
-        <div className={`nomineesCardExpiredDiv ${winner ? "winnerCard" : "voteExpiredDiv"}`}>
+        <div className={`resultsCardDiv ${winner ? "winnerCard" : "voteExpiredDiv"}`}> 
         <li
             className={"nomineesCard" }
             key={content.name}
@@ -50,7 +50,7 @@ const NomineesCardExpired = ({content, numericId, winner}) => {
     );
 };
 
-NomineesCardExpired.propTypes = {
+ResultsCard.propTypes = {
     content: PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         img: PropTypes.string.isRequired,
@@ -62,4 +62,4 @@ NomineesCardExpired.propTypes = {
     showLink: PropTypes.bool
 };
 
-export default NomineesCardExpired;
+export default ResultsCard;

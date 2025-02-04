@@ -20,9 +20,11 @@ const Navbar = () => {
 
         // Adiciona o listener
         mediaQuery.addEventListener("change", handleResize);
-
+        console.log("Adicionei o evento")
         // Remove o listener ao desmontar
-        return () => mediaQuery.removeEventListener("change", handleResize);
+        return () => {mediaQuery.removeEventListener("change", handleResize)
+            console.log("Removi o evento")
+        };
     }, []);
 
     return (
@@ -46,7 +48,7 @@ const Navbar = () => {
                 )}
             </div>
             <div className={menuOpen && "marginTop0em"}>
-                <Link to="/login">
+                <Link to="/">
                     <BsPerson />
                 </Link>
             </div>

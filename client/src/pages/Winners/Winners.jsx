@@ -3,14 +3,13 @@ import AppContext from "../../context/AppContext";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import "./Winners.modules.css";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import NomineesCard from "../../components/nomineesCard";
-import NomineesCardExpired from "../../components/nomineesCardExpired";
+import ResultsCard from "../../components/ResultsCard";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Winners = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { indicados, votes, targetDate } = useContext(AppContext);
+    const { indicados, votes } = useContext(AppContext);
     const [lowOpacity, setLowOpacity] = useState(0);
     const numericId = Number(id); // Converte id para número
     const indicado = indicados.find((item) => item.id === numericId);
@@ -70,9 +69,19 @@ const Winners = () => {
                 </div>
             <h2>{indicado.description}</h2>
             <ul>
-            {new Date < targetDate 
-                ? nomeados.map((indicados) => (<NomineesCard key={indicados.id} content={indicados} numericId={numericId} winner={indicados.winner}/>)) 
-                : nomeados.map((indicados) => (<NomineesCardExpired key={indicados.id} content={indicados} numericId={numericId} winner={indicados.winner}/>))}
+                {nomeados.map((indicados, index) => (
+                    <li
+                        key={indicados.id}
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                        <ResultsCard
+                            key={indicados.id}
+                            content={indicados}
+                            numericId={numericId}
+                            winner={indicados.winner}
+                        />
+                    </li>
+                ))}
             </ul>
             </section>
             

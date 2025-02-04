@@ -165,8 +165,11 @@
     margin-left: 0em;
 }
 
-.indicados-container .indicadosSection ul li{
-    margin-bottom: 0em;
+.indicados-container .indicadosSection ul li {
+    opacity: 0;
+    margin-bottom: 0;
+    transform: translateX(-100%);
+    animation: slideIn 1s ease-out forwards;
 }
 
 .indicados-container .indicadosSection ul > *{
@@ -191,5 +194,16 @@
 
     .votesCast{
         display: none !important;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-10%); /* Começo à esquerda */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0); /* Finaliza na posição original */
     }
 }

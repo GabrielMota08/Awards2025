@@ -1,14 +1,16 @@
-.nomineesCardExpiredDiv li{
+.resultsCardDiv li{
     /* height: 15em; */
     transition: transform 0.5s ease, filter 0.5s ease;  
 } 
 
-.nomineesCardExpiredDiv li:hover{
+.resultsCardDiv li:hover{
     transform: translateY(0px);
 } 
 
 .winnerCard {
-    transform: translate(-2px, -4px);
+    transform: translateY(0%); /* Começa à esquerda */
+    animation: slideUP 1s ease-out forwards; /* Animação para a direita */
+    animation-delay: 0.5s;
 }
 
 .nomineesCardB {
@@ -35,7 +37,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    height: 17.3em;
+    height: 17em;
 }
 
 
@@ -105,16 +107,18 @@
 }
 
 .voteExpired span{
-    transition-duration: 0.5s;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.voteExpired span{
-    transition-duration: 0.5s;
     color: rgba(255, 255, 255, 0.6);
 }
 
 .voteExpiredDiv{
-    transition-duration: 0.5s;
     filter: grayscale(100%);
+}
+
+@keyframes slideUP {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-1.5%);
+    }
 }

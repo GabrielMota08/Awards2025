@@ -14,7 +14,7 @@ const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "banco_de_votos",
+    database: "awards_database",
 });
 
 app.use(express.json());
