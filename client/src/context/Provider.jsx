@@ -41,7 +41,7 @@ function Provider({ children }) {
                 { id: 2, winner:false, name: "ALANZOKA JOGANDO PALWORLD", description: "PALWOLRD", img: "https://i.ytimg.com/vi/B24Ql0-Ro7I/maxresdefault.jpg" },
                 { id: 3, winner:false, name: "NUNCA MAIS VOU TIRAR FÉRIAS!", description: "FEARS TO FATHOM: WOODBURY GETAWAY", img: "https://i.ytimg.com/vi/mGKK7reepug/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAZ8GR5cC5lXjMsUwtfzyV-MJO7TA" },
                 { id: 4, winner:false, name: "ALANZOKA JOGANDO MORTISOMEM", description: "MORTISOMEM", img: "https://i.ytimg.com/vi/EUWSfn-N6fc/maxresdefault.jpg" },
-                { id: 5, winner:false, name: "RED BULL LADEIRA BAIXO GEEK EDITION", description: "LADEIRA ABAIXO", img: "https://i.ytimg.com/vi/ZGe3gpvXRQk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7pkmUz5Q_g00iQ6g2jrUCyhU6ew"},
+                { id: 5, winner:true, name: "RED BULL LADEIRA BAIXO GEEK EDITION", description: "LADEIRA ABAIXO", img: "https://i.ytimg.com/vi/ZGe3gpvXRQk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7pkmUz5Q_g00iQ6g2jrUCyhU6ew"},
             ]  
         },
         { 
@@ -52,7 +52,7 @@ function Provider({ children }) {
                 { id: 0, winner:false, name: "O PIOR MECÂNICO DOS MARES!", description: "BARONTRAUMA", img: "https://i.ytimg.com/vi/xPQs7EW0AAw/maxresdefault.jpg" },
                 { id: 1, winner:false, name: "OS INCOMPETENTES VOLTARAM", description: "LETHAL COMPANY", img: "https://i.ytimg.com/vi/NUl026Y4VHM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBb8c19xYhbYwFnrKuE8r6verbHpg" },
                 { id: 2, winner:false, name: "MARIO PARTY VOLTOU! - MARIO PARTY: JAMBOREE COM OS INIMIGOS", description: "MARIO PARTY: JAMBOREE", img: "https://i.ytimg.com/vi/60BP7rh0HT8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAW2ouV5yutEi2PLBPvG8-5Z3NBxQ" },
-                { id: 3, winner:false, name: "ESSE JOGO FEZ EU ODIAR MEUS AMIGOS!", description: "PICO PARK 2", img: "https://i.ytimg.com/vi/sZ6eTrkfOEc/maxresdefault.jpg" },
+                { id: 3, winner:true, name: "ESSE JOGO FEZ EU ODIAR MEUS AMIGOS!", description: "PICO PARK 2", img: "https://i.ytimg.com/vi/sZ6eTrkfOEc/maxresdefault.jpg" },
                 { id: 4, winner:false, name: "O MAIOR MENTIROSO DO JOGO!", description: "LOCKDOWN PROTOCOL", img: "https://i.ytimg.com/vi/fK4mn_NueTo/maxresdefault.jpg" },
                 { id: 5, winner:false, name: "LETHAL COMPANY NAS PROFUNDEZAS?", description: "MURKY DIVERS", img: "https://i.ytimg.com/vi/e9GOcDPK2Do/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC9RBv7CM_Z_ikRp3oaxqzpxr69CA" }
             ] 
@@ -66,7 +66,7 @@ function Provider({ children }) {
                 { id: 1, winner:false, name: "ROUND 6", description: "2ª TEMPORADA", img: "https://resizing.flixster.com/wgzK12s6HU9tTH0ChP_5eGy4c3Y=/206x305/v2/https://resizing.flixster.com/csfX8Ezg8smfPo1IBliNxACEJCA=/ems.cHJkLWVtcy1hc3NldHMvdHZzZWFzb24vZGFkOGYxYjgtZDU0ZS00OGIwLTk1NjktMmNjNzA1YTdkNjBiLmpwZw==" },
                 { id: 2, winner:false, name: "ARCANE", description: "2ª TEMPORADA", img: "https://resizing.flixster.com/jAlNgPqSQHpxH6ju0Eis-j8cdWE=/206x305/v2/https://resizing.flixster.com/dIDB54V_MjguvAiEPfYlB3_cYfg=/ems.cHJkLWVtcy1hc3NldHMvdHZzZWFzb24vYjExOWI4M2UtZjhiMS00MWUxLWJhN2QtNjMzNjk1ZjFlYjc0LmpwZw==" },
                 { id: 3, winner:false, name: "COBRA KAI", description: "6ª TEMPORADA", img: "https://resizing.flixster.com/eDaSH-F_M8o9Tg7NpFQzjFNyKuQ=/206x305/v2/https://resizing.flixster.com/Z-kHbJr9r5PLceKAxepwdo1ScGk=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvNTg0MWE3M2MtNjI0Ny00NmY3LThlOWUtNWYwNjU2ODE0ZjA4LmpwZw==" },
-                { id: 4, winner:false, name: "SENNA", description: "1ª TEMPORADA", img: "https://resizing.flixster.com/lb5LPUnkN4bphWk82QPPVwHkbh4=/206x305/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p28706525_b_v8_ac.jpg" }
+                { id: 4, winner:true, name: "SENNA", description: "1ª TEMPORADA", img: "https://resizing.flixster.com/lb5LPUnkN4bphWk82QPPVwHkbh4=/206x305/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p28706525_b_v8_ac.jpg" }
             ] 
         },
         { 
@@ -74,7 +74,7 @@ function Provider({ children }) {
             categoria: "Melhor filme lançado no ano", 
             description: "Reconhecendo o filme mais marcante do ano, com destaque para narrativa e atuações.",
             nomeados: [
-                { id: 0, winner:false, name: "DEADPOOL & WOLVERINE", description: "SHAWN LEVY", img: "https://upload.wikimedia.org/wikipedia/pt/2/2a/Deadpool_%26_Wolverine_cartaz.jpg" },
+                { id: 0, winner:true, name: "DEADPOOL & WOLVERINE", description: "SHAWN LEVY", img: "https://upload.wikimedia.org/wikipedia/pt/2/2a/Deadpool_%26_Wolverine_cartaz.jpg" },
                 { id: 1, winner:false, name: "O DUBLE", description: "DAVID LEITCH", img: "https://static.wixstatic.com/media/84e632_9111fdf89c5b4210845478d23ba44554~mv2.jpg/v1/fill/w_980,h_1551,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/84e632_9111fdf89c5b4210845478d23ba44554~mv2.jpg" },
                 { id: 2, winner:false, name: "KUNG FU PANDA 4", description: "MIKE MITCHELL", img: "https://dx35vtwkllhj9.cloudfront.net/universalstudios/kung-fu-panda-4/images/regions/us/onesheet.jpg" },
                 { id: 3, winner:false, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
@@ -88,7 +88,7 @@ function Provider({ children }) {
             nomeados: [
                 { id: 0, winner:false, name: "007: CONTRA SPECTRE", description: "SAM MENDES", img: "https://resizing.flixster.com/vnqt1aYlFry31bnplnjiYD63zgM=/206x305/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p11268880_p_v13_as.jpg" },
                 { id: 1, winner:false, name: "SONIC 3", description: "JEFF FOWLER", img: "https://resizing.flixster.com/stIwab1KImKTQYXoxKDSpXjsLAc=/206x305/v2/https://resizing.flixster.com/5yCDU3YndW2EIWaEwH1FydaMwZI=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2E0MGM5YTk5LTdhY2UtNGYzNS04NGVmLTJlNjRkYjljNjQ4ZS5qcGc=" },
-                { id: 2, winner:false, name: "O SENHOR DOS ANÉIS: O RETORNO DO REI", description: "PETER JACKSON", img: "https://upload.wikimedia.org/wikipedia/pt/0/0d/EsdlaIII.jpg" },
+                { id: 2, winner:true, name: "O SENHOR DOS ANÉIS: O RETORNO DO REI", description: "PETER JACKSON", img: "https://upload.wikimedia.org/wikipedia/pt/0/0d/EsdlaIII.jpg" },
                 { id: 3, winner:false, name: "HOBBIT: A DESOLAÇÃO DE SMAUG", description: "PETER JACKSON", img: "https://br.web.img3.acsta.net/pictures/210/571/21057125_20131112201221324.jpg" },
                 { id: 4, winner:false, name: "GARRA DE FERRO", description: "SEAN DURKIN", img: "https://media.fstatic.com/LZAm_FvsgJkSvnrWOPJdhSS80dA=/322x478/smart/filters:format(webp)/media/movies/covers/2024/02/MV5BOGE5NjllZTEtMGJjNy00ZTFmLThlNDItNmNiZTgyOTQ4OTA2XkEyXkFqcGdeQX_g8m36XN.jpg" },
             ] 
@@ -99,7 +99,7 @@ function Provider({ children }) {
             description: "Premiação para o jogo mais marcante, considerando inovação, jogabilidade e impacto cultural.",
             nomeados: [
                 { id: 0, winner:false, name: "GOD OF WAR: RAGNAROK", description: "SANTA MONICA STUDIO", img: "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/aqZdSwWyy9JcQ66BxHDKrky6.jpg" },
-                { id: 1, winner:false, name: "RED DEAD REDEMPTION 2", description: "ROCKSTAR GAMES", img: "https://store-images.s-microsoft.com/image/apps.58752.13942869738016799.078aba97-2f28-440f-97b6-b852e1af307a.95fdf1a1-efd6-4938-8100-8abae91695d6?q=90&w=480&h=270" },
+                { id: 1, winner:true, name: "RED DEAD REDEMPTION 2", description: "ROCKSTAR GAMES", img: "https://store-images.s-microsoft.com/image/apps.58752.13942869738016799.078aba97-2f28-440f-97b6-b852e1af307a.95fdf1a1-efd6-4938-8100-8abae91695d6?q=90&w=480&h=270" },
                 { id: 2, winner:false, name: "ELDEN RING", description: "FROMSOFTWARE", img: "https://store-images.s-microsoft.com/image/apps.30323.14537704372270848.6ecb6038-5426-409a-8660-158d1eb64fb0.08703491-f5dc-4b00-bca6-486b7b293c17?q=90&w=480&h=270" },
                 { id: 3, winner:false, name: "ORI THE WILL OF THE WISPS", description: "MOON STUDIOS", img: "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000034725/cf74916275780188fd850512efe6c678318d7317bf987599205d2a3fc76dbd79" },
                 { id: 4, winner:false, name: "HOLLOW KNIGHT", description: "TEAM CHERRY", img: "https://store-images.s-microsoft.com/image/apps.24270.13847644057609868.a4a91f76-8d1c-4e19-aa78-f4d27d2818fb.d96146d7-d00a-4db9-ad68-197b2f962a17?h=862&format=jpg" },
