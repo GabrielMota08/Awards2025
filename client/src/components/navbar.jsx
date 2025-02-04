@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import awards from "../assets/awards.png";
 import { BsPerson } from "react-icons/bs";
@@ -9,35 +9,39 @@ import AppContext from "../context/AppContext";
 const Navbar = () => {
     const { menuOpen, setMenuOpen, targetDate } = useContext(AppContext);
 
+    // Estado local para controlar o comportamento do menu no tamanho da tela
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
+
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
 
         const handleResize = (e) => {
-            setMenuOpen(e.matches);
+            setIsMobile(e.matches);
+            if (!e.matches) {
+                // Se for maior que 700px, garantir que o menu permaneça aberto
+                setMenuOpen(false);
+            }
         };
 
-        // Inicializa com o estado atual da mídia
-        handleResize(mediaQuery);
+        handleResize(mediaQuery); // Inicializa com o estado atual da tela
 
-        // Adiciona o listener
         mediaQuery.addEventListener("change", handleResize);
 
-        return () => {
-            mediaQuery.removeEventListener("change", handleResize);
-        };
-    }, []);
+        return () => mediaQuery.removeEventListener("change", handleResize);
+    }, [setMenuOpen]);
 
+    // Controla o comportamento do menu ao rolar a tela
     useEffect(() => {
         const handleScroll = () => {
-            setMenuOpen(true);
+            if (isMobile) {
+                setMenuOpen(true); // Abre o menu se estiver em uma tela pequena e rolar a página
+            }
         };
 
         window.addEventListener("scroll", handleScroll);
 
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isMobile, setMenuOpen]);
 
     return (
         <nav id="navbar">
@@ -48,7 +52,10 @@ const Navbar = () => {
             </h2>
             <div className="optionsNavbar">
                 {menuOpen ? (
-                    <button className="menuOpenButton" onClick={() => setMenuOpen(false)}>
+                    <button
+                        className="menuOpenButton"
+                        onClick={() => setMenuOpen(false)}
+                    >
                         <IoMdMenu />
                     </button>
                 ) : (
@@ -63,7 +70,7 @@ const Navbar = () => {
                     </>
                 )}
             </div>
-            <div className={menuOpen && "marginTop0em"}>
+            <div className={menuOpen ? "marginTop0em" : ""}>
                 <Link to="/">
                     <BsPerson />
                 </Link>
