@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import winner_background from "../assets/winner_background.svg"
 import winner_background_larger from "../assets/winner_background_larger.svg"
-import "./ResultsCard.modules.css";
+import "./resultsCard.modules.css";
 import AppContext from "../context/AppContext";
 
 const ResultsCard = ({content, numericId, winner}) => {
