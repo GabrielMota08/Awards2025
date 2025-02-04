@@ -3,7 +3,7 @@ import AppContext from "../../context/AppContext";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import "./Winners.modules.css";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import ResultsCard from "../../components/ResultsCard";
+import ResultsCard from "../../components/resultsCard";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Winners = () => {

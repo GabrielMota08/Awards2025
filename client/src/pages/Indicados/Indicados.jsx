@@ -5,7 +5,7 @@ import "./Indicados.modules.css";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import NomineesCard from "../../components/nomineesCard";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import ResultsCard from "../../components/ResultsCard";
+import ResultsCard from "../../components/resultsCard";
 
 const Indicados = () => {
     const { id } = useParams();

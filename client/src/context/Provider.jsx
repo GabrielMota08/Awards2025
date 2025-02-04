@@ -46,7 +46,7 @@ function Provider({ children }) {
         { 
             id: 1, 
             categoria: "Melhor live em grupo", 
-            description: `Reconhecendo a transmissão ao vivo mais divertida e envolvente com os "colegas".`,
+            description: `Reconhecendo a transmissão ao vivo mais divertida e envolvente com os colegas.`,
             nomeados: [
                 { id: 0, winner:false, name: "O PIOR MECÂNICO DOS MARES!", description: "BARONTRAUMA", img: "https://i.ytimg.com/vi/xPQs7EW0AAw/maxresdefault.jpg" },
                 { id: 1, winner:false, name: "OS INCOMPETENTES VOLTARAM", description: "LETHAL COMPANY", img: "https://i.ytimg.com/vi/NUl026Y4VHM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBb8c19xYhbYwFnrKuE8r6verbHpg" },

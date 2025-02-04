@@ -56,10 +56,10 @@ ResultsCard.propTypes = {
         img: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-        winner: PropTypes.bool.isRequired,
     }).isRequired,
     numericId: PropTypes.number.isRequired,
-    showLink: PropTypes.bool
+    showLink: PropTypes.bool,
+    winner: PropTypes.bool,
 };
 
 export default ResultsCard;

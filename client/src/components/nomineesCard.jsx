@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import winner_background from "../assets/winner_background.svg"
 import winner_background_larger from "../assets/winner_background_larger.svg"
@@ -76,10 +75,10 @@ NomineesCard.propTypes = {
         img: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-        winner: PropTypes.bool.isRequired,
     }).isRequired,
     numericId: PropTypes.number.isRequired,
-    showLink: PropTypes.bool
+    showLink: PropTypes.bool,
+    winner: PropTypes.bool
 };
 
 export default NomineesCard;
