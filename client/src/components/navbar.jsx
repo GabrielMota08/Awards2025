@@ -7,10 +7,11 @@ import "./navbar.modules.css";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
-    const {menuOpen, setMenuOpen, targetDate} = useContext(AppContext);
+    const { menuOpen, setMenuOpen, targetDate } = useContext(AppContext);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
+
         const handleResize = (e) => {
             setMenuOpen(e.matches);
         };
@@ -20,12 +21,25 @@ const Navbar = () => {
 
         // Adiciona o listener
         mediaQuery.addEventListener("change", handleResize);
-        console.log("Adicionei o evento")
-        // Remove o listener ao desmontar
-        return () => {mediaQuery.removeEventListener("change", handleResize)
-            console.log("Removi o evento")
+
+        return () => {
+            mediaQuery.removeEventListener("change", handleResize);
         };
-    }, []);
+    }, [setMenuOpen]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (menuOpen) {
+                setMenuOpen(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [menuOpen, setMenuOpen]);
 
     return (
         <nav id="navbar">
@@ -41,7 +55,11 @@ const Navbar = () => {
                     </button>
                 ) : (
                     <>
-                        {new Date() > targetDate ? <Link to="/winners/0"><p>VENCEDORES</p></Link> : <p className="winnerNavbarButton">VENCEDORES</p>}
+                        {new Date() > targetDate ? (
+                            <Link to="/winners/0"><p>VENCEDORES</p></Link>
+                        ) : (
+                            <p className="winnerNavbarButton">VENCEDORES</p>
+                        )}
                         <Link to="/nominees/0"><p>VOTAÇÃO</p></Link>
                         <Link to="/categories"><p>CATEGORIAS</p></Link>
                     </>
