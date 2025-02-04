@@ -194,6 +194,24 @@
     .votesCast{
         display: none !important;
     }
+
+    .indicados-container .indicadosSection div{
+        justify-content: center;
+    }
+
+    
+    .categoriesNominees{
+        justify-content: space-around;
+    }
+
+    .categoriesNomineesSection a{
+        margin-inline: 1.6em;
+    }
+
+    .categoriesNomineesSection div:first-child, .categoriesNomineesSection div:last-child{
+        margin-left: 0em;
+        margin-right: 0em;
+    }
 }
 
 @keyframes slideIn {

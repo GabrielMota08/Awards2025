@@ -19,9 +19,10 @@
 
 .nomineesCardB img{
     height: 216px !important;
-    width: 384px !important;
+    width: 100% !important;
     max-height: 216px !important;
 }
+
 
 .nomineesCardB .voteButton {
     top: 13em !important;
@@ -65,9 +66,9 @@
 }
 
 .nomineesCardB .winner_background {
-    scale: 1.07;
-    top: -2px !important; 
-    left: 1px;
+    scale: 1.27;
+    top: 17px !important; 
+    left:-8px;
     width: 96%;
 }
 
@@ -126,5 +127,30 @@
     }
     100% {
         transform: translateY(-1.5%);
+    }
+}
+
+@media (max-width: 800px){
+    .indicados-container .indicadosSection ul > *{
+        margin-inline: 1.4em !important;
+    }
+
+    .nomineesCardB{
+        max-width: 90%;
+    }
+
+    .nomineesCardB .imgNomineesCard{
+        height: 194.4px !important;
+    }
+
+    .nomineesCardB .voteButton {
+        top: 11.6em !important;
+    }
+
+    .nomineesCardB .winner_background {
+        scale: 1.16;
+        top: 7px !important; 
+        left: -4px;
+        width: 96%;
     }
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function Provider({ children }) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const targetDate = new Date("2025-02-04T18:59:59");
+    const targetDate = new Date("2025-02-04T22:59:59");
 
     const [votes, setVotes] = useState({}); // { 0: "Filme A", 1: "Filme B", ... }
     const saveVote = (categoryIndex, vote) => {

@@ -18,6 +18,7 @@ const ResultsCard = ({content, numericId, winner}) => {
             <img
                 src={content.img}
                 alt={content.name}
+                className="imgNomineesCard"
                 onLoad={(e) => {
                     const img = e.target;
                     const parent = img.parentNode;
