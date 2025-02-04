@@ -40,7 +40,8 @@ function Provider({ children }) {
                 { id: 1, winner:false, name: "FUGINDO DE UMA FREIRA", description: "EVIL NUN: THE BROKEN MASK", img: "https://i.ytimg.com/vi/xRB6viNqGx8/maxresdefault.jpg" },
                 { id: 2, winner:false, name: "ALANZOKA JOGANDO PALWORLD", description: "PALWOLRD", img: "https://i.ytimg.com/vi/B24Ql0-Ro7I/maxresdefault.jpg" },
                 { id: 3, winner:false, name: "NUNCA MAIS VOU TIRAR FÉRIAS!", description: "FEARS TO FATHOM: WOODBURY GETAWAY", img: "https://i.ytimg.com/vi/mGKK7reepug/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAZ8GR5cC5lXjMsUwtfzyV-MJO7TA" },
-                { id: 4, winner:false, name: "ALANZOKA JOGANDO MORTISOMEM", description: "MORTISOMEM", img: "https://i.ytimg.com/vi/EUWSfn-N6fc/maxresdefault.jpg" }
+                { id: 4, winner:false, name: "ALANZOKA JOGANDO MORTISOMEM", description: "MORTISOMEM", img: "https://i.ytimg.com/vi/EUWSfn-N6fc/maxresdefault.jpg" },
+                { id: 5, winner:false, name: "RED BULL LADEIRA BAIXO GEEK EDITION", description: "LADEIRA ABAIXO", img: "https://i.ytimg.com/vi/ZGe3gpvXRQk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7pkmUz5Q_g00iQ6g2jrUCyhU6ew"},
             ]  
         },
         { 
@@ -101,7 +102,8 @@ function Provider({ children }) {
                 { id: 1, winner:false, name: "RED DEAD REDEMPTION 2", description: "ROCKSTAR GAMES", img: "https://store-images.s-microsoft.com/image/apps.58752.13942869738016799.078aba97-2f28-440f-97b6-b852e1af307a.95fdf1a1-efd6-4938-8100-8abae91695d6?q=90&w=480&h=270" },
                 { id: 2, winner:false, name: "ELDEN RING", description: "FROMSOFTWARE", img: "https://store-images.s-microsoft.com/image/apps.30323.14537704372270848.6ecb6038-5426-409a-8660-158d1eb64fb0.08703491-f5dc-4b00-bca6-486b7b293c17?q=90&w=480&h=270" },
                 { id: 3, winner:false, name: "ORI THE WILL OF THE WISPS", description: "MOON STUDIOS", img: "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000034725/cf74916275780188fd850512efe6c678318d7317bf987599205d2a3fc76dbd79" },
-                
+                { id: 4, winner:false, name: "HOLLOW KNIGHT", description: "TEAM CHERRY", img: "https://store-images.s-microsoft.com/image/apps.24270.13847644057609868.a4a91f76-8d1c-4e19-aa78-f4d27d2818fb.d96146d7-d00a-4db9-ad68-197b2f962a17?h=862&format=jpg" },
+                { id: 5, winner:false, name: "GOD OF WAR", description: "SANTA MONICA STUDIO", img: "https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LsaRVLF2IU2L1FNtu9d3MKLq.jpg" },
             ]  
         },
     ];

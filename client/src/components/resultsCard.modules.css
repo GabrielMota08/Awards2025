@@ -18,7 +18,9 @@
 }
 
 .nomineesCardB img{
-    height: auto !important;
+    height: 216px !important;
+    width: 384px !important;
+    max-height: 216px !important;
 }
 
 .nomineesCardB .voteButton {
@@ -32,20 +34,24 @@
 
 .nomineesCard {
     display: flex;
-    width: 7.5em;
+    width: 9em;
     justify-content: start;
     align-items: center;
     flex-direction: column;
     position: relative;
     height: 17em;
+    transform: scale(1.2);
 }
 
+.nomineesCardA{
+    height: 19em !important;
+}
 
 .nomineesCard img {
     z-index: 30;
     width: 100%;
     position: relative;
-    height: 266.5px;
+    max-height: 319px;
 }
 
 .nomineesCard .winner_background {
@@ -68,7 +74,7 @@
 .nomineesCard .voteButton {
     z-index: 50;
     position: absolute;
-    top: 14.3em;
+    top: 17.5em;
     width: 100%;
     padding: 0.5em 1em;
     font-size: 16px;

@@ -98,7 +98,7 @@
         flex-direction: column;
     }
     .optionsNavbar a {
-        padding-block: 0.4em;
+        margin-block: 0.4em;
         font-size: 1em;
     }
     .optionsNavbar a {
@@ -115,5 +115,10 @@
 
     #navbar div:last-child{
         margin-top: 0.7em;
+    }
+
+    .winnerNavbarButton{
+        margin-left: 0em;
+        margin-block: 0.4em;
     }
 }
