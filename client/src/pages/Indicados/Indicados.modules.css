@@ -202,7 +202,7 @@ r.indicados-container{
     }
 
     .indicados-container .indicadosSection div:first-child{
-        justify-content: center;
+        justify-content: start;
     }
     
     .categoriesNominees{
