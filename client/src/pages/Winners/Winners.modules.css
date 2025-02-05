@@ -199,8 +199,8 @@
         justify-content: center;
     }
 
-    .indicados-container .indicadosSection div:first-child{
-        justify-content: start;
+    .indicados-container .indicadosSection .categorieTitle{
+        justify-content: start !important;
     }
     
     .categoriesNominees{
