@@ -201,6 +201,9 @@ r.indicados-container{
         justify-content: center;
     }
 
+    .indicados-container .indicadosSection div:first-child{
+        justify-content: center;
+    }
     
     .categoriesNominees{
         justify-content: space-around;
