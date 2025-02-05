@@ -60,7 +60,7 @@ const Home = () => {
                 </div>
                 <section className="subtitle">
                 <div className="description">
-                    <Link className={new Date() < targetDate && "disableWinners"} to="/winners">CONFIRA OS VENCEDORES</Link>
+                    <Link className={new Date() < targetDate && "disableWinners"} to="/winners/0">CONFIRA OS VENCEDORES</Link>
                     <Link to="/categories">VEJA OS INDICADOS</Link>
                 </div>
                 <div className="timer">
