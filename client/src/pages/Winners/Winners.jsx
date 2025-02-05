@@ -63,7 +63,7 @@ const Winners = () => {
             </div>
             
             <section className="indicadosSection">   
-                <div>
+                <div className="categorieTitle">
                     <h1>{indicado.categoria}</h1>
                     {/* <button className="finishButton">Finalizar votação</button> */}
                 </div>
