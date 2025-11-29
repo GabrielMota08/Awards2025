@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: awards_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Senha do root
+      MYSQL_DATABASE: awards_database # Cria o banco automaticamente
+    ports:
+      - "3306:3306" # Libera a porta para seu PC acessar
+    volumes:
+      - mysql_data:/var/lib/mysql # Salva os dados mesmo se deletar o container
+
+volumes:
+  mysql_data:

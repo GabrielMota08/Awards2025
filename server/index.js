@@ -1,41 +1,77 @@
-require('dotenv').config(); // NPM INSTALL dotenv PARA CONSEGUIR TER O ACESSO A SECRET_KEY
-const express = require("express"); // NPM INSTALL express
-const cors = require("cors"); // NPM INSTALL cors
+require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+const mysql = require("mysql");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require('uuid');
+
 const app = express();
-const mysql = require("mysql"); // NPM INSTALL mysql
-const bcrypt = require("bcrypt"); // NPM INSTALL bcrypt
-const jwt = require("jsonwebtoken"); // NPM INSTALL jsonwebtoken PARA AUTENTICAÇÃO VIA TOKEN
-
 const saltRounds = 10;
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "chave_secreta_dev"; 
 
-
+// --- CONFIGURAÇÃO DO DOCKER ---
+// Se estiver rodando via Docker Compose use: host: "mysql_db"
+// Se estiver rodando o Node localmente e o banco no Docker use: host: "localhost"
 const db = mysql.createPool({
-    host: "localhost",
+    host: "localhost", 
     user: "root",
-    password: "",
+    password: "root", // Senha definida no docker-compose
     database: "awards_database",
+    multipleStatements: true
 });
 
 app.use(express.json());
 app.use(cors());
 
+// --- MIDDLEWARE DE AUTENTICAÇÃO ---
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) return res.status(401).send({ msg: "Acesso negado" });
+
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+        if (err) return res.status(403).send({ msg: "Token inválido" });
+        req.userId = decoded.id;
+        next();
+    });
+}
+
+// ==========================================
+// 1. AUTENTICAÇÃO
+// ==========================================
+
+app.post("/register", (req, res) => {
+    const { email, password, name } = req.body;
+
+    db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+        if (err) return res.send({ msg: err });
+        if (result.length > 0) return res.send({ msg: "Usuário já cadastrado" });
+
+        bcrypt.hash(password, saltRounds, (error, hash) => {
+            if (error) return res.send({ msg: error });
+
+            const sql = "INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)";
+            db.query(sql, [email, hash, name, 'creator'], (err, result) => {
+                if (err) return res.send({ msg: err });
+                res.send({ msg: "Cadastrado com sucesso" });
+            });
+        });
+    });
+});
+
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
 
-    db.query("SELECT * FROM usuario WHERE email = ?", [email], (err, result) => {
-        if (err) {
-            return res.send({ msg: err });
-        }
+    db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+        if (err) return res.send({ msg: err });
+        
         if (result.length > 0) {
             bcrypt.compare(password, result[0].password, (error, isMatch) => {
-                if (error) {
-                    return res.send({ msg: error });
-                }
                 if (isMatch) {
-                    const userId = result[0].userId;
-                    const token = jwt.sign({ id: userId }, SECRET_KEY, { expiresIn: "1h" });
-                    res.send({ msg: "Usuário logado com sucesso", token });
+                    const token = jwt.sign({ id: result[0].id }, SECRET_KEY, { expiresIn: "24h" });
+                    res.send({ msg: "Logado com sucesso", token, user: { name: result[0].name, id: result[0].id } });
                 } else {
                     res.send({ msg: "Senha incorreta" });
                 }
@@ -46,98 +82,143 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.post("/register", (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+// ==========================================
+// 2. GESTÃO DE GRUPOS E CATEGORIAS
+// ==========================================
 
-    db.query("SELECT * FROM usuario WHERE email = ?", [email], (err, result) => {
-        if (err) {
-            return res.send({ msg: "Erro ao buscar usuário: " + err });
-        }
-        if (result.length === 0) { // BACKEND RETORNA UM RESULT DE ACORDO COM O EMAIL QUE FOI RECEBIDO
-            bcrypt.hash(password, saltRounds, (error, hash) => {
-                if (error) {
-                    return res.send({ msg: "Erro ao gerar hash: " + error });
-                }
-                db.query("INSERT INTO usuario (email, password) VALUES (?, ?)", [email, hash], (err, result) => {
-                    if (err) {
-                        return res.send({ msg: "Erro ao cadastrar usuário: " + err });
-                    }
-                    res.send({ msg: "Cadastrado com sucesso" });
-                });
-            });
-        } else { // SE O EMAIL FOI ENCONTRADO SIGNIFICA QUE ESS EMAIL JÁ FOI USADO
-            res.send({ msg: "Usuário já cadastrado" });
-        }
+app.post("/api/groups", authenticateToken, (req, res) => {
+    const { title, description, start_date, end_date } = req.body;
+    const token = uuidv4();
+
+    const sql = "INSERT INTO award_groups (creator_id, title, description, start_date, end_date, access_token) VALUES (?, ?, ?, ?, ?, ?)";
+    
+    db.query(sql, [req.userId, title, description, start_date, end_date, token], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Grupo criado!", groupId: result.insertId, linkToken: token });
     });
 });
 
-app.listen(3001, () => {
-    console.log("Rodando na porta 3001");
-});
-
-function authenticateToken(req, res, next) {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).send("Acesso negado");
-
-    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-        if (err) return res.status(403).send("Token inválido");
-
-        req.userId = decoded.id;
-        console.log(req.userId);
-        next();
-    });
-}
-
-app.get("/watchlist", authenticateToken, (req, res) => {
-    const userId = req.userId;
-    db.query("SELECT * FROM watchlist WHERE userId = ?", [userId], (err, result) => {
-        if (err) {
-            return res.send({ msg: err });
-        }
+app.get("/api/my-groups", authenticateToken, (req, res) => {
+    const sql = "SELECT * FROM award_groups WHERE creator_id = ? ORDER BY created_at DESC";
+    db.query(sql, [req.userId], (err, result) => {
+        if (err) return res.status(500).send(err);
         res.send(result);
     });
 });
 
+app.post("/api/categories", authenticateToken, (req, res) => {
+    const { groupId, name, description } = req.body;
+    const sql = "INSERT INTO categories (group_id, name, description) VALUES (?, ?, ?)";
+    db.query(sql, [groupId, name, description], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Categoria adicionada!", categoryId: result.insertId });
+    });
+});
 
+// --- ROTA ATUALIZADA: AGORA ACEITA DESCRIÇÃO ---
+app.post("/api/nominees", authenticateToken, (req, res) => {
+    const { categoryId, name, description, imageUrl } = req.body; // Recebe description
+    
+    const sql = "INSERT INTO nominees (category_id, name, description, image_url) VALUES (?, ?, ?, ?)";
+    db.query(sql, [categoryId, name, description, imageUrl], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Indicado adicionado!" });
+    });
+});
 
-app.post("/watchlist", authenticateToken, (req, res) => {
-    const userId = req.userId;
-    const { movieId } = req.body;
+// ==========================================
+// 3. VOTAÇÃO (PÚBLICO)
+// ==========================================
 
-    db.query("SELECT * FROM watchlist WHERE userId = ? AND movieId = ?", [userId, movieId], (err, result) => {
-        if (err) {
-            return res.send({ msg: err });
-        }
+// --- ROTA ATUALIZADA: AGORA RETORNA A DESCRIÇÃO DO INDICADO ---
+app.get("/api/vote-data/:token", (req, res) => {
+    const token = req.params.token;
 
-        db.query("INSERT INTO watchlist (userId, movieId) VALUES (?, ?)", [userId, movieId], (err, result) => {
-            if (err) {
-                return res.send({ msg: err });
-            }
-            res.send({ msg: "Filme adicionado à WatchList com sucesso." });
+    db.query("SELECT * FROM award_groups WHERE access_token = ?", [token], (err, groups) => {
+        if (err || groups.length === 0) return res.status(404).send({ msg: "Votação não encontrada" });
+        
+        const group = groups[0];
+        const now = new Date();
+
+        if (now < new Date(group.start_date)) return res.status(400).send({ msg: "Votação ainda não iniciou" });
+        if (now > new Date(group.end_date)) return res.status(400).send({ msg: "Votação encerrada" });
+
+        // SQL atualizado para buscar n.description
+        const sqlData = `
+            SELECT 
+                c.id as cat_id, c.name as cat_name, c.description as cat_desc,
+                n.id as nom_id, n.name as nom_name, n.description as nom_desc, n.image_url as nom_img
+            FROM categories c
+            LEFT JOIN nominees n ON c.id = n.category_id
+            WHERE c.group_id = ?
+        `;
+
+        db.query(sqlData, [group.id], (err, rows) => {
+            if (err) return res.status(500).send(err);
+
+            const categoriesMap = {};
+            
+            rows.forEach(row => {
+                if (!categoriesMap[row.cat_id]) {
+                    categoriesMap[row.cat_id] = {
+                        id: row.cat_id,
+                        name: row.cat_name,
+                        description: row.cat_desc,
+                        nominees: []
+                    };
+                }
+                if (row.nom_id) {
+                    categoriesMap[row.cat_id].nominees.push({
+                        id: row.nom_id,
+                        name: row.nom_name,
+                        description: row.nom_desc, // Inclui descrição no JSON
+                        image: row.nom_img
+                    });
+                }
+            });
+
+            res.send({
+                group: { id: group.id, title: group.title, description: group.description },
+                categories: Object.values(categoriesMap)
+            });
         });
     });
 });
 
-app.put("/watchlist/:movieId", authenticateToken, (req, res) => {
+app.post("/api/vote", authenticateToken, (req, res) => {
+    const { groupId, categoryId, nomineeId } = req.body;
     const userId = req.userId;
-    const { movieId } = req.params;
 
-    db.query("SELECT * FROM watchlist WHERE userId = ? AND movieId = ?", [userId, movieId], (err, result) => {
+    const sql = "INSERT INTO votes (user_id, group_id, category_id, nominee_id) VALUES (?, ?, ?, ?)";
+    
+    db.query(sql, [userId, groupId, categoryId, nomineeId], (err, result) => {
         if (err) {
-            return res.status(500).send({ msg: "Erro ao verificar a watchlist" });
-        }
-
-        if (result.length === 0) {
-            return res.status(404).send({ msg: "Filme não encontrado na WatchList" });
-        }
-
-        // Aqui você pode substituir ou atualizar o recurso.
-        db.query("DELETE FROM watchlist WHERE userId = ? AND movieId = ?", [userId, movieId], (err, result) => {
-            if (err) {
-                return res.status(500).send({ msg: err });
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).send({ msg: "Você já votou nesta categoria!" });
             }
-            res.send({ msg: "Filme removido da WatchList com sucesso." });
-        });
+            return res.status(500).send({ msg: "Erro ao registrar voto" });
+        }
+        res.send({ msg: "Voto confirmado!" });
     });
+});
+
+app.get("/api/results/:groupId", authenticateToken, (req, res) => {
+    const groupId = req.params.groupId;
+    const sql = `
+        SELECT c.name as category, n.name as nominee, COUNT(v.id) as votes
+        FROM categories c
+        JOIN nominees n ON n.category_id = c.id
+        LEFT JOIN votes v ON v.nominee_id = n.id
+        WHERE c.group_id = ?
+        GROUP BY n.id
+        ORDER BY c.id, votes DESC
+    `;
+    db.query(sql, [groupId], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send(result);
+    });
+});
+
+app.listen(3001, () => {
+    console.log("Servidor rodando na porta 3001");
 });

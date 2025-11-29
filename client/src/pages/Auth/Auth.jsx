@@ -1,22 +1,24 @@
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as yup from 'yup';
 import "./Auth.modules.css";
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-const Auth = () => {
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
+import { useState } from "react";
 
-    const handleClickLogin = (values) => {
-        Axios.post("http://localhost:3001/login", {
-            email: values.email,
-            password: values.password,
-        }).then((response) => {
-            if (response.data.token) {
-                localStorage.setItem("token", response.data.token);
-                console.log("Login bem-sucedido!");
-                console.log(localStorage)
-            } else {
-                console.log(response.data.msg);
-            }
-        });
+const Auth = () => {
+    const { login } = useContext(AppContext);
+    const navigate = useNavigate();
+    const [errorMsg, setErrorMsg] = useState("");
+    
+    const handleClickLogin = async (values) => {
+        const result = await login(values.email, values.password);
+        if(result.success){
+            navigate("/dashboard");
+        } else {
+            setErrorMsg(result.msg || "Erro ao fazer o login")
+        }
     }
 
     const handleClickRegister = (values) => {
@@ -25,6 +27,7 @@ const Auth = () => {
             password: values.password,
         }).then((response) => {
             console.log(response);
+            alert(response.data.msg);
         });
     }
 

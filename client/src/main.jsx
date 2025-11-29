@@ -12,6 +12,7 @@ import AppContext from './context/AppContext.js';
 
 import './index.css';
 import Winners from './pages/Winners/Winners.jsx';
+import Dashboard from './pages/Dashboard/Dashboard.jsx';
 
 const AppRoutes = () => {
   const { targetDate } = useContext(AppContext);
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="auth" element={<Auth />} />
         <Route path="/nominees/:id" element={<Indicados />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         {new Date() > targetDate && <Route path="/winners/:id" element={<Winners />} />}
         <Route path="/categories" element={<Categoria />} />
       </Route>

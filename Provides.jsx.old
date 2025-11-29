@@ -1,47 +1,25 @@
 import React, { useState } from 'react';
 import AppContext from './AppContext';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { useEffect } from 'react';
+
 function Provider({ children }) {
     const [menuOpen, setMenuOpen] = useState(false);
-    
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const targetDate = new Date("2025-02-04T22:59:59");
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user');
-        
-        if (token && storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-        setIsLoading(false);
-    }, []);
-
-    const login = async (email, password) => {
-        try {
-            const response = await axios.post("http://localhost:3001/login", { email, password });
+    const [votes, setVotes] = useState({}); // { 0: "Filme A", 1: "Filme B", ... }
+    const saveVote = (categoryIndex, vote) => {
+        setVotes((prevVotes) => {
+            const newVotes = { ...prevVotes };
             
-            if (response.data.token) {
-                localStorage.setItem("token", response.data.token);
-                localStorage.setItem("user", JSON.stringify(response.data.user)); 
-                setUser(response.data.user);
-                return { success: true };
+            if (vote === undefined) {
+              delete newVotes[categoryIndex];
+            } else {
+              newVotes[categoryIndex] = vote;
             }
-            return { success: false, msg: response.data.msg };
-        } catch (error) {
-            return { success: false, msg: "Erro de conexão" };
-        }
+            //console.log("Novo estado de votos:", newVotes);
+            return newVotes;
+          });
     };
-    
-    const logout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setUser(null);
-        window.location.href = "/";
-    };
-
 
     const shortlisted  = [ // Aqueles que não estão concorrendo
         { id: 0, name: "GUERRA SEM REGRAS", description: "MELHOR FILME LANÇADO NO ANO", img: "https://resizing.flixster.com/XOofxyC1iBne3Da7spP3GsfVtXQ=/206x305/v2/https://resizing.flixster.com/1eHwSs4Hsk8dmj_7g_HOVkw8x6U=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzRiZTU3MTJhLTA4NjgtNDViYS05YTRlLWUzODcwMGExZWNlZC5qcGc=" },
@@ -129,21 +107,22 @@ function Provider({ children }) {
             ]  
         },
     ];
+    
+
 
     const value = {
+        votes,
+        saveVote,
+        indicados,
+        shortlisted,
         menuOpen, 
         setMenuOpen,
-        user,
-        login,
-        logout,
-        isLoading,
-        indicados,
-        shortlisted
+        targetDate,
     };
 
     return (
         <AppContext.Provider value={value}>
-            {!isLoading && children}
+            {children}
         </AppContext.Provider>
     );
 }
