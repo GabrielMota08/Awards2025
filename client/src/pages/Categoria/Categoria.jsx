@@ -1,18 +1,43 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import api from "../../services/api"; 
 import AppContext from "../../context/AppContext";
 import "./Categoria.modules.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Categoria = () => {
-    const { indicados } = useContext(AppContext);
+    const { token } = useParams()
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/vote-data/${token}`);
+                setCategories(response.data.categories);
+                console.log(response.data.categories)
+            } catch (error) {
+                console.error("Erro ao buscar dados", error);
+            } finally {
+                // setLoading(false);
+            }
+        };
+        fetchData();
+    }, [token]);
 
     return (   
         <>
         <section className="categories">
             <h1>TODAS AS CATEGORIAS</h1>
             <div>
-            <h2><span>INDICADOS</span> 2024</h2>
-                <p>{indicados.map((indicado) => (<Link to={`/nominees/${indicado.id}`} key={indicado.id}>{indicado.categoria}</Link>))}</p>
+            <h2><span>INDICADOS</span></h2>
+            {categories.length > 0 &&
+                <p>
+                    {categories.map(({ id, name }, index) => (
+                        <Link to={`/nominees/${token}/${index}`} key={id}>
+                        {name}
+                        </Link>
+                    ))}
+                </p>
+                }
             </div>
         </section>
         </>

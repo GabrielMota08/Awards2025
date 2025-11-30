@@ -76,28 +76,33 @@ const Home = () => {
                 </section>
                 <div id="scrollTarget" className="arrowDown"><p onClick={handleScroll}><GoChevronDown /></p></div>
             </section>
-            <section className="honors">
-            <p className="honorsTitle">MENÇÕES</p>
-            <div>
-                {shortlisted.map((indicado) => (
-                    <li className="honorsCard" key={indicado.id}>
-                        <img src={indicado.img}
-                        alt={indicado.name}
-                        onLoad={(e) => {
-                            const img = e.target;
-                            const parent = img.parentNode;
-                            parent.classList.remove("honorsCardA", "honorsCardB");
-                            if (img.naturalWidth > img.naturalHeight) {
-                                parent.classList.add("honorsCardB");
-                            } else {
-                                parent.classList.add("honorsCardA");
-                            }
-                        }}></img>
-                        <h2>{indicado.name}</h2>
-                        <p>{indicado.description}</p>
-                    </li>
-                ))}
-            </div>
+            {shortlisted > 0 &&
+                <section className="honors">
+                    <p className="honorsTitle">MENÇÕES</p>
+                    <div>
+                        {shortlisted.map((indicado) => (
+                            <li className="honorsCard" key={indicado.id}>
+                                <img src={indicado.img}
+                                alt={indicado.name}
+                                onLoad={(e) => {
+                                    const img = e.target;
+                                    const parent = img.parentNode;
+                                    parent.classList.remove("honorsCardA", "honorsCardB");
+                                    if (img.naturalWidth > img.naturalHeight) {
+                                        parent.classList.add("honorsCardB");
+                                    } else {
+                                        parent.classList.add("honorsCardA");
+                                    }
+                                }}></img>
+                                <h2>{indicado.name}</h2>
+                                <p>{indicado.description}</p>
+                            </li>
+                        ))}
+                    </div>
+                </section>
+            }
+            <section className="create">
+                <p className="honorsTitle">CRIE SUA PRÓPRIA VOTAÇÃO OU ACESSE DE UM AMIGO</p>
             </section>
             <section className="footer">
                 <div className="footerLogo">

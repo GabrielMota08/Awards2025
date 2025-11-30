@@ -49,7 +49,7 @@ const Winners = () => {
                         Anterior
                     </p>
                 </div>
-                <Link to="/categories">VER CATEGORIAS</Link>
+                <Link to={`/categories/${token}`}>VER CATEGORIAS</Link>
                 <div className={` ${lowOpacity === 2 ? "lowOpacity" : "setaProximo"}`} onClick={() => navigateTo("next")}>
                     <p>
                         Próximo

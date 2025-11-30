@@ -9,10 +9,11 @@ import Auth from './pages/Auth/Auth.jsx';
 import Indicados from './pages/Indicados/Indicados.jsx';
 import Categoria from './pages/Categoria/Categoria.jsx';
 import AppContext from './context/AppContext.js';
-
-import './index.css';
 import Winners from './pages/Winners/Winners.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
+
+import './index.css';
+import ProtectedWinnerRoute from './router/ProtectWinnerRoute.jsx';
 
 const AppRoutes = () => {
   const { targetDate } = useContext(AppContext);
@@ -22,10 +23,15 @@ const AppRoutes = () => {
       <Route element={<App />}>
         <Route path="/" element={<Home />} />
         <Route path="auth" element={<Auth />} />
-        <Route path="/nominees/:id" element={<Indicados />} />
+        <Route path="/nominees/:token/:id" element={<Indicados />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        {new Date() > targetDate && <Route path="/winners/:id" element={<Winners />} />}
-        <Route path="/categories" element={<Categoria />} />
+        <Route path="/winners/:id" element={
+            <ProtectedWinnerRoute targetDate={targetDate}>
+              <Winners />
+            </ProtectedWinnerRoute>
+          }
+        />
+        <Route path="/categories/:token" element={<Categoria />} />
       </Route>
     </Routes>
   );

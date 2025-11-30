@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import awards from "../assets/awards.png";
 import { BsPerson } from "react-icons/bs";
 import { IoMdMenu } from "react-icons/io";
@@ -8,7 +8,7 @@ import AppContext from "../context/AppContext";
 
 const Navbar = () => {
     const { menuOpen, setMenuOpen, targetDate } = useContext(AppContext);
-
+    const { token } = useParams();
     // Estado local para controlar o comportamento do menu no tamanho da tela
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
 
@@ -65,8 +65,8 @@ const Navbar = () => {
                         ) : (
                             <p className="winnerNavbarButton">VENCEDORES</p>
                         )}
-                        <Link to="/nominees/0"><p>VOTAÇÃO</p></Link>
-                        <Link to="/categories"><p>CATEGORIAS</p></Link>
+                        <Link to={`/nominees/${token || 1}/0`}><p>VOTAÇÃO</p></Link>
+                        <Link to={`/categories/${token || 1}`}><p>CATEGORIAS</p></Link>
                     </>
                 )}
             </div>

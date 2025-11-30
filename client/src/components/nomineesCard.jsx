@@ -6,22 +6,32 @@ import { MdSwapHoriz } from "react-icons/md";
 import "./nomineesCard.modules.css";
 import AppContext from "../context/AppContext";
 
-const NomineesCard = ({content, numericId, winner}) => {
-    const { saveVote, votes } = useContext(AppContext);
+// Adicionada a prop 'onVote' para receber a função da API
+const NomineesCard = ({content, numericId, winner, onVote}) => {
+    // Removemos 'saveVote' daqui, pois quem salva agora é a API no pai
+    const { votes } = useContext(AppContext); 
     const [ winnerBackgroundLarger, setWinnerBackgroundLarger ]  = useState(false);
-     const handleVote = (voteId) => {
-        saveVote(numericId, voteId);
-        //console.log(`Voto salvo para o indicado ${numericId}:`, voteId);
+
+    // Função simplificada para acionar o voto vindo do pai
+    const handleVote = () => {
+        if (onVote) {
+            onVote(); 
+        }
     };
     
+    // Lógica para verificar se este card específico é o que foi votado
+    // (Isso mantém o visual de "selecionado" funcionando se o votes estiver atualizado)
+    const isSelected = votes[numericId] === content.name;
+    const hasVotedInCategory = votes[numericId] !== undefined;
+
     return (
-        <div className={`nomineesCardDiv ${votes[numericId] === undefined ? "" : votes[numericId] !== content.name ? "unVoteDiv" : "marginBottom5em"}`}>
+        <div className={`nomineesCardDiv ${!hasVotedInCategory ? "" : !isSelected ? "unVoteDiv" : "marginBottom5em"}`}>
         <li
             className={"nomineesCard" }
             key={content.name}
         >
             <img
-                src={content.img}
+                src={content.img} // Certifique-se que o backend manda 'img' ou 'image_url' e ajuste se necessário
                 alt={content.name}
                 className="imgNomineesCard"
                 onLoad={(e) => {
@@ -37,23 +47,23 @@ const NomineesCard = ({content, numericId, winner}) => {
                     }
                 }}
             />
-            {winner && (winnerBackgroundLarger ? <img className="winner_background" src={winner_background_larger} alt="Background" /> : <img className="winner_background" src={winner_background} alt="Background" />)}
             
             <button 
-                onClick={() => handleVote(content.name)}
+                onClick={handleVote}
                 className={`voteButton ${
-                    votes[numericId] === undefined
+                    !hasVotedInCategory
                     ? "vote"
-                    : votes[numericId] !== content.name
+                    : !isSelected
                     ? "unVote"
                     : "votado"}`
                 }
-                disabled={votes[numericId] !== undefined}
+                // Se já votou (em qualquer um), desabilita os outros botões, exceto se quiser lógica de troca
+                disabled={hasVotedInCategory && !isSelected} 
             >
                 <span>
-                {votes[numericId] === undefined
+                {!hasVotedInCategory
                     ? "VOTE"
-                    : votes[numericId] !== content.name
+                    : !isSelected
                     ? "VOTE" 
                     : "VOTADO"
                 }
@@ -61,10 +71,16 @@ const NomineesCard = ({content, numericId, winner}) => {
             </button>
             <h2>{content.name}</h2>
             <p>{content.description}</p>
-            {/* <svg width="100" height="100">
-                <circle cx="50" cy="50" r="40" stroke="#8F9BFF" strokeWidth="2" strokeDasharray="10,5" fill="transparent" />
-            </svg> */}
-            <button onClick={() => handleVote(undefined)} className={`exchangeButton ${votes[numericId] === content.name && "exchangeButtonVisible"}`}>TROCAR VOTO <MdSwapHoriz /></button>
+            
+            {/* Botão de Trocar Voto: Só aparece se este for o card selecionado */}
+            {/* Nota: A lógica de trocar voto no backend exigiria um DELETE ou UPDATE. 
+                Por enquanto, isso apenas re-habilita visualmente se o contexto for limpo. */}
+            <button 
+                onClick={() => console.log("Lógica de trocar voto deve ser implementada no backend/pai")} 
+                className={`exchangeButton ${isSelected && "exchangeButtonVisible"}`}
+            >
+                TROCAR VOTO <MdSwapHoriz />
+            </button>
         </li>
         </div>
     );
@@ -72,14 +88,14 @@ const NomineesCard = ({content, numericId, winner}) => {
 
 NomineesCard.propTypes = {
     content: PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        img: PropTypes.string.isRequired,
+        id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        img: PropTypes.string, // Ajuste conforme seu backend (image_url ou img)
         name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
+        description: PropTypes.string,
     }).isRequired,
     numericId: PropTypes.number.isRequired,
     showLink: PropTypes.bool,
-    winner: PropTypes.bool
+    onVote: PropTypes.func.isRequired // Nova validação
 };
 
 export default NomineesCard;

@@ -138,10 +138,10 @@ app.get("/api/vote-data/:token", (req, res) => {
         if (err || groups.length === 0) return res.status(404).send({ msg: "Votação não encontrada" });
         
         const group = groups[0];
-        const now = new Date();
+        // const now = new Date();
 
-        if (now < new Date(group.start_date)) return res.status(400).send({ msg: "Votação ainda não iniciou" });
-        if (now > new Date(group.end_date)) return res.status(400).send({ msg: "Votação encerrada" });
+        // if (now < new Date(group.start_date)) return res.status(400).send({ msg: "Votação ainda não iniciou" });
+        // if (now > new Date(group.end_date)) return res.status(400).send({ msg: "Votação encerrada" });
 
         // SQL atualizado para buscar n.description
         const sqlData = `
@@ -178,7 +178,7 @@ app.get("/api/vote-data/:token", (req, res) => {
             });
 
             res.send({
-                group: { id: group.id, title: group.title, description: group.description },
+                group: { id: group.id, title: group.title, description: group.description, start_date: group.start_date, end_date: group.end_date },
                 categories: Object.values(categoriesMap)
             });
         });
