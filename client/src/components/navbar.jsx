@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import awards from "../assets/awards.png";
 import { BsPerson } from "react-icons/bs";
 import { IoMdMenu } from "react-icons/io";
-import "./navbar.modules.css";
+import styles from "./navbar.module.css";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
@@ -44,16 +44,16 @@ const Navbar = () => {
     }, [isMobile, setMenuOpen]);
 
     return (
-        <nav id="navbar">
+        <nav id={styles.navbar}>
             <h2>
                 <Link to="/">
-                    <img src={awards} alt="logo" className="logoImg" />
+                    <img src={awards} alt="logo" className={styles.logoImg} />
                 </Link>
             </h2>
-            <div className="optionsNavbar">
+            <div className={styles.optionsNavbar}>
                 {menuOpen ? (
                     <button
-                        className="menuOpenButton"
+                        className={styles.menuOpenButton}
                         onClick={() => setMenuOpen(false)}
                     >
                         <IoMdMenu />
@@ -63,15 +63,15 @@ const Navbar = () => {
                         {new Date() > targetDate ? (
                             <Link to="/winners/0"><p>VENCEDORES</p></Link>
                         ) : (
-                            <p className="winnerNavbarButton">VENCEDORES</p>
+                            <p className={styles.winnerNavbarButton}>VENCEDORES</p>
                         )}
                         <Link to={`/nominees/${token || 1}/0`}><p>VOTAÇÃO</p></Link>
                         <Link to={`/categories/${token || 1}`}><p>CATEGORIAS</p></Link>
                     </>
                 )}
             </div>
-            <div className={menuOpen ? "marginTop0em" : ""}>
-                <Link to="/">
+            <div className={menuOpen ? styles.marginTop0em : ""}>
+                <Link to="/auth">
                     <BsPerson />
                 </Link>
             </div>

@@ -83,6 +83,14 @@ app.post("/login", (req, res) => {
 });
 
 // ==========================================
+// VALIDAR LOGIN
+// ==========================================
+
+app.get("/validate-token", authenticateToken, (req, res) => {
+    res.send({ valid: true, userId: req.userId });
+});
+
+// ==========================================
 // 2. GESTÃO DE GRUPOS E CATEGORIAS
 // ==========================================
 
@@ -95,6 +103,25 @@ app.post("/api/groups", authenticateToken, (req, res) => {
     db.query(sql, [req.userId, title, description, start_date, end_date, token], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send({ msg: "Grupo criado!", groupId: result.insertId, linkToken: token });
+    });
+});
+
+app.put("/api/groups/:id", authenticateToken, (req, res) => {
+    const { title, description, start_date, end_date } = req.body;
+    const groupId = req.params.id;
+    const userId = req.userId;
+
+    // Verifica se o grupo pertence ao usuário antes de editar
+    const checkSql = "SELECT * FROM award_groups WHERE id = ? AND creator_id = ?";
+    db.query(checkSql, [groupId, userId], (err, result) => {
+        if (err) return res.status(500).send(err);
+        if (result.length === 0) return res.status(403).send({ msg: "Permissão negada ou grupo não encontrado" });
+
+        const updateSql = "UPDATE award_groups SET title = ?, description = ?, start_date = ?, end_date = ? WHERE id = ?";
+        db.query(updateSql, [title, description, start_date, end_date, groupId], (err, result) => {
+            if (err) return res.status(500).send(err);
+            res.send({ msg: "Grupo atualizado com sucesso!" });
+        });
     });
 });
 
@@ -115,14 +142,45 @@ app.post("/api/categories", authenticateToken, (req, res) => {
     });
 });
 
-// --- ROTA ATUALIZADA: AGORA ACEITA DESCRIÇÃO ---
+app.put("/api/categories/:id", authenticateToken, (req, res) => {
+    const { groupId, name, description } = req.body;
+    const sql = "UPDATE categories SET group_id = ?, name = ?, description = ? WHERE id = ?";
+    db.query(sql, [groupId, name, description, req.params.id], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({msg: "Categoria atualizada!"})
+    })
+})
+
 app.post("/api/nominees", authenticateToken, (req, res) => {
-    const { categoryId, name, description, imageUrl } = req.body; // Recebe description
+    const { categoryId, name, description, imageUrl } = req.body;
     
     const sql = "INSERT INTO nominees (category_id, name, description, image_url) VALUES (?, ?, ?, ?)";
     db.query(sql, [categoryId, name, description, imageUrl], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send({ msg: "Indicado adicionado!" });
+    });
+});
+
+app.put("/api/nominees/:id", authenticateToken, (req, res) => {
+    const { name, description, image_url } = req.body;
+    const sql = "UPDATE nominees SET name = ?, description = ?, image_url = ? WHERE id = ?";
+    db.query(sql, [name, description, image_url, req.params.id], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Indicado atualizado!" });
+    });
+});
+
+app.delete("/api/nominees/:id", authenticateToken, (req, res) => {
+    db.query("DELETE FROM nominees WHERE id = ?", [req.params.id], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Indicado removido!" });
+    });
+});
+
+app.delete("/api/categories/:id", authenticateToken, (req, res) => {
+    db.query("DELETE FROM categories WHERE id = ?", [req.params.id], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Categoria removida!" });
     });
 });
 
@@ -201,6 +259,14 @@ app.post("/api/vote", authenticateToken, (req, res) => {
         res.send({ msg: "Voto confirmado!" });
     });
 });
+
+app.get("/api/my-votes/:token", authenticateToken, (req, res) => {
+    const sql = "SELECT * FROM votes WHERE user_id = ?, SELECT * FROM award_groups WHERE access_token = ?";
+    db.query(sql, [req.userId, req.params.token], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send(result);
+    })
+})
 
 app.get("/api/results/:groupId", authenticateToken, (req, res) => {
     const groupId = req.params.groupId;

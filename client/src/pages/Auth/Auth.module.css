@@ -11,17 +11,17 @@ h1{
     text-align: left;
     margin-bottom: 10px;
 }
-.login-form{
+.loginForm{
     padding: 5px;
 }
 
-.form-field{
+.formField{
     display: inline-block;
     padding: 5px;
     margin-top: 20px;
 }
 
-.form-error{
+.formError{
     display: block;
     color: red;
     font-size: 0.9em;

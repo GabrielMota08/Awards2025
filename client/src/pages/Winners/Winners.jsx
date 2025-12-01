@@ -1,90 +1,91 @@
-import React, { useContext, useEffect, useState } from "react";
-import AppContext from "../../context/AppContext";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import "./Winners.modules.css";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import ResultsCard from "../../components/resultsCard";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import api from "../../services/api";
+import AppContext from "../../context/AppContext";
+import ResultsCard from "../../components/resultsCard";
+import styles from "./Winners.module.css";
+import CategoryNavigator from "../../components/categoryNavigator";
 
 const Winners = () => {
-    const { id } = useParams();
+    const { token, id } = useParams(); // token da URL
     const navigate = useNavigate();
-    const { indicados, votes } = useContext(AppContext);
+    const { votes } = useContext(AppContext);
+
+    const [groupData, setGroupData] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [lowOpacity, setLowOpacity] = useState(0);
-    const numericId = Number(id); // Converte id para número
-    const indicado = indicados.find((item) => item.id === numericId);
-    if (!indicado) {
-        return <div>Indicado não encontrado!</div>;
-    }
+    const categoryIndex = Number(id);
 
-    const nomeados = indicado.nomeados;
-
+    // BUSCAR DADOS DA API
     useEffect(() => {
-        if (numericId === 0) {
-            setLowOpacity(1);
-        } else if (numericId === indicados.length - 1) {
-            setLowOpacity(2);
-        } else {
-            setLowOpacity(0);
-        }
-    }, [numericId, indicados.length]);
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/vote-data/${token}`);
+                setGroupData(response.data);
+            } catch (err) {
+                console.error("Erro ao buscar dados", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [token]);
 
+    // CONTROLAR OPACIDADE DAS SETAS
+    useEffect(() => {
+        if (!groupData) return;
+        const total = groupData.categories.length;
+        if (categoryIndex === 0) setLowOpacity(1);
+        else if (categoryIndex === total - 1) setLowOpacity(2);
+        else setLowOpacity(0);
+    }, [categoryIndex, groupData]);
 
     const navigateTo = (direction) => {
-        const nextId = direction === "prev" ? numericId - 1 : numericId + 1;
-        if (nextId >= 0 && nextId < indicados.length) {
-            navigate(`/winners/${nextId}`);
+        if (!groupData) return;
+        const next = direction === "prev" ? categoryIndex - 1 : categoryIndex + 1;
+        if (next >= 0 && next < groupData.categories.length) {
+            navigate(`/winners/${token}/${next}`);
         }
-        //console.log("mudou")
     };
 
-    return (
-        <div className="indicados-container">
-            <div className="categoriesNominees">
-                <Link to="/" className="backToHome"><FaArrowLeftLong /> PÁGINA INICIAL</Link>
-                <section className="categoriesNomineesSection">
-                <div className={` ${lowOpacity === 1 ? "lowOpacity " : "setaAnterior"}`} onClick={() => navigateTo("prev")}>
-                    <MdArrowBackIosNew />
-                    <p>
-                        Anterior
-                    </p>
-                </div>
-                <Link to={`/categories/${token}`}>VER CATEGORIAS</Link>
-                <div className={` ${lowOpacity === 2 ? "lowOpacity" : "setaProximo"}`} onClick={() => navigateTo("next")}>
-                    <p>
-                        Próximo
-                    </p>
-                    <MdArrowForwardIos />
-                </div>
-                </section>
-                <div className="votesCast"> {Object.values(votes).filter(vote => vote !== undefined && vote !== null).length}/{indicados.length}</div>
+    if (loading) return <div style={{ color: "white", padding: "20px" }}>Carregando...</div>;
+    if (!groupData || !groupData.categories[categoryIndex]) {
+        return <div style={{ color: "white", padding: "20px" }}>Categoria inválida.</div>;
+    }
 
-                
-            </div>
-            
-            <section className="indicadosSection">   
-                <div className="categorieTitle">
-                    <h1>{indicado.categoria}</h1>
-                    {/* <button className="finishButton">Finalizar votação</button> */}
+    const currentCategory = groupData.categories[categoryIndex];
+    const nomeados = currentCategory.nominees;
+
+    return (
+        <div className={styles.indicadosContainer}>
+            <CategoryNavigator
+                lowOpacity={lowOpacity}
+                navigateTo={navigateTo}
+                token={token}
+                categoryProgress={`${categoryIndex + 1}/${groupData.categories.length}`}
+            />
+
+            <section className={styles.indicadosSection}>
+                <div className={styles.categorieTitle}>
+                    <h1>{currentCategory.name}</h1>
                 </div>
-            <h2>{indicado.description}</h2>
-            <ul>
-                {nomeados.map((indicados, index) => (
-                    <li
-                        key={indicados.id}
-                        style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                        <ResultsCard
-                            key={indicados.id}
-                            content={indicados}
-                            numericId={numericId}
-                            winner={indicados.winner}
-                        />
-                    </li>
-                ))}
-            </ul>
+
+                <h2>{currentCategory.description}</h2>
+
+                <ul>
+                    {nomeados.map((item, index) => (
+                        <li key={item.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                            <ResultsCard
+                                content={item}
+                                numericId={categoryIndex}
+                                winner={item.winner}
+                            />
+                        </li>
+                    ))}
+                </ul>
             </section>
-            
         </div>
     );
 };

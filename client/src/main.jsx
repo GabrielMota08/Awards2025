@@ -14,6 +14,7 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 
 import './index.css';
 import ProtectedWinnerRoute from './router/ProtectWinnerRoute.jsx';
+import ManageGroup from './pages/ManageGroup/ManageGroup.jsx';
 
 const AppRoutes = () => {
   const { targetDate } = useContext(AppContext);
@@ -25,11 +26,12 @@ const AppRoutes = () => {
         <Route path="auth" element={<Auth />} />
         <Route path="/nominees/:token/:id" element={<Indicados />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/winners/:id" element={
-            <ProtectedWinnerRoute targetDate={targetDate}>
+        <Route path="/dashboard/manage/:groupId" element={<ManageGroup />}/>
+        <Route path="/winners/:token/:id" element={
+          <ProtectedWinnerRoute targetDate={targetDate}>
               <Winners />
-            </ProtectedWinnerRoute>
-          }
+          </ProtectedWinnerRoute>
+        }
         />
         <Route path="/categories/:token" element={<Categoria />} />
       </Route>

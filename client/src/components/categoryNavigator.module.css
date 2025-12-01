@@ -1,0 +1,134 @@
+
+.categoriesNominees a{
+    width: auto;
+    white-space: nowrap;
+}
+
+.categoriesNominees{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    line-height: 3.3em;
+    font-size: 15px;
+    height: 3.3em;
+    position: fixed;
+    background-color: rgb(39, 4, 68);
+    box-sizing: border-box;
+    z-index: 100;
+    left: 0;
+}
+
+.categoriesNominees svg{
+    width: 1.7em;
+    transition: transform 0.3s;
+}
+
+.categoriesNominees .backToHome{
+    display: flex;
+    align-items: center;
+    transition-duration: 0.3s;
+    cursor: pointer;
+    justify-content: center;
+    width: 10em;
+}
+
+.categoriesNominees .backToHome:hover{
+    display: flex;
+    align-items: center;
+    color: rgb(168, 185, 255);
+    transform: translateX(-6px);   
+}
+
+.categoriesNominees .backToHome svg{
+    transform: translateX(-6px);   
+}
+
+.categoriesNominees .backToHome:hover svg{
+    transform: translateX(-8px);
+}
+
+.categoriesNomineesSection{
+    display: flex;
+}
+
+.categoriesNomineesSection a{
+    transition-duration: 0.3s;
+}
+
+.categoriesNomineesSection a:hover{
+    transform: translateY(-2px);
+    color: rgb(168, 185, 255);
+}
+
+.categoriesNomineesSection div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.categoriesNomineesSection div:first-child{
+    margin-right: 4em;
+    margin-left: 1em;
+}
+
+.categoriesNomineesSection div:last-child{
+    margin-left: 4em;
+    margin-right: 1em;
+}
+
+.setaAnterior:hover{
+    transform: translateX(-6px);
+    transition-duration: 0.3s;
+    color: rgb(168, 185, 255);
+}
+
+.setaAnterior:hover svg{
+    transform: translateX(-4px);
+}
+
+.setaProximo:hover{
+    transform: translateX(6px);
+    transition-duration: 0.3s;
+    color: rgb(168, 185, 255);
+}
+
+.setaProximo:hover svg{
+    transform: translateX(4px);
+}
+
+.lowOpacity{
+    opacity: 0.3 !important;
+}
+
+.votesCast{
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    font-size: 19px;
+}
+
+@media (max-width: 700px){
+    .backToHome{
+        display: none !important;
+    }
+
+    .categoriesNomineesSection a{
+        margin-inline: 1.6em;
+    }
+
+    .categoriesNomineesSection div:first-child, .categoriesNomineesSection div:last-child{
+        margin-left: 0em;
+        margin-right: 0em;
+    }
+    
+    .votesCast{
+        display: none !important;
+    }
+    
+    .categoriesNominees{
+        justify-content: space-around;
+    }
+}

@@ -2,51 +2,62 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import winner_background from "../assets/winner_background.svg"
 import winner_background_larger from "../assets/winner_background_larger.svg"
-import "./resultsCard.modules.css";
+import styles from "./resultsCard.module.css";
 import AppContext from "../context/AppContext";
 
-const ResultsCard = ({content, numericId, winner}) => {
+const ResultsCard = ({ content, numericId, winner }) => {
     const { votes } = useContext(AppContext);
-    const [ winnerBackgroundLarger, setWinnerBackgroundLarger ]  = useState(false);
-    
+    const [winnerBackgroundLarger, setWinnerBackgroundLarger] = useState(false);
     return (
-        <div className={`resultsCardDiv ${winner ? "winnerCard" : "voteExpiredDiv"}`}> 
-        <li
-            className={"nomineesCard" }
-            key={content.name}
+        <div 
+            className={`${styles.resultsCardDiv} ${
+                winner ? styles.winnerCard : styles.voteExpiredDiv
+            }`}
         >
-            <img
-                src={content.img}
-                alt={content.name}
-                className="imgNomineesCard"
-                onLoad={(e) => {
-                    const img = e.target;
-                    const parent = img.parentNode;
-                    parent.classList.remove("nomineesCardA", "nomineesCardB");
-                    if (img.naturalWidth > img.naturalHeight) {
-                        parent.classList.add("nomineesCardB");
-                        setWinnerBackgroundLarger(true)
-                    } else {
-                        parent.classList.add("nomineesCardA");
-                        setWinnerBackgroundLarger(false)
-                    }
-                }}
-            />
-            {winner && (winnerBackgroundLarger ? <img className="winner_background" src={winner_background_larger} alt="Background" /> : <img className="winner_background" src={winner_background} alt="Background" />)}
-            
-            <button 
-                className={`voteButton ${
-                    winner ? "vencedor" : "voteExpired"}`
-                }
-                disabled={votes[numericId] !== undefined}
+            <li
+                className={styles.nomineesCard}
+                key={content.name}
             >
-                <span>
-                {winner ? "VENCEDOR" : "VOTAÇÃO ENCERRADA"}
-                </span>
-            </button>
-            <h2>{content.name}</h2>
-            <p>{content.description}</p>
-        </li>
+                <img
+                    src={content.image}
+                    alt={content.name}
+                    className={styles.imgNomineesCard}
+                    onLoad={(e) => {
+                        const img = e.target;
+                        const parent = img.parentNode;
+                        
+                        parent.classList.remove(styles.nomineesCardA, styles.nomineesCardB);
+
+                        if (img.naturalWidth > img.naturalHeight) {
+                            parent.classList.add(styles.nomineesCardB);
+                            setWinnerBackgroundLarger(true);
+                        } else {
+                            parent.classList.add(styles.nomineesCardA);
+                            setWinnerBackgroundLarger(false);
+                        }
+                    }}
+                />
+
+                {winner && (
+                    winnerBackgroundLarger 
+                        ? <img className={styles.winner_background} src={winner_background_larger} alt="Background" /> 
+                        : <img className={styles.winner_background} src={winner_background} alt="Background" />
+                )}
+                
+                <button 
+                    className={`${styles.voteButton} ${
+                        winner ? styles.vencedor : styles.voteExpired
+                    }`}
+                    disabled={votes[numericId] !== undefined}
+                >
+                    <span>
+                        {winner ? "VENCEDOR" : "VOTAÇÃO ENCERRADA"}
+                    </span>
+                </button>
+
+                <h2>{content.name}</h2>
+                <p>{content.description}</p>
+            </li>
         </div>
     );
 };

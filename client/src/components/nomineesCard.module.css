@@ -53,7 +53,7 @@
     max-height: 319px;
 }
 
-.nomineesCard .winner_background {
+.nomineesCard .winnerBackground {
     scale: 1.1;
     position: absolute;
     top: 4px; 
@@ -63,7 +63,7 @@
     z-index: 20;
 }
 
-.nomineesCardB .winner_background {
+.nomineesCardB .winnerBackground {
     scale: 1.27;
     top: 17px !important; 
     left:-8px;
@@ -165,7 +165,7 @@
 }
 
 @media (max-width: 800px){
-    .indicados-container .indicadosSection ul > *{
+    .indicadosContainer .indicadosSection ul > *{
         margin-inline: 1.4em !important;
     }
 
@@ -181,7 +181,7 @@
         top: 11.6em !important;
     }
 
-    .nomineesCardB .winner_background {
+    .nomineesCardB .winnerBackground {
         scale: 1.16;
         top: 7px !important; 
         left: -4px;

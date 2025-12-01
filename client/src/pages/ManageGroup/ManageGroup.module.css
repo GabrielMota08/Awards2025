@@ -1,0 +1,298 @@
+/* client/src/pages/Dashboard/ManageGroup.module.css */
+
+.manageContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    padding-bottom: 50px;
+}
+
+.header {
+    margin-top: 2em;
+    text-align: center;
+    width: 85%;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+}
+
+.header h1 {
+    color: #A7AAFF;
+    font-size: 44px;
+    text-transform: uppercase;
+}
+
+/* TEMA ROXO: Mudei de 'gold' para um roxo vibrante (#A7AAFF ou um tom mais forte) */
+.purpleThemeBtn {
+    background: #7c4dff !important; /* Roxo principal */
+    color: white !important;
+}
+
+/* Seção de cada categoria */
+.categorySection {
+    margin-top: 3em;
+    width: 85%;
+    position: relative;
+    /* TEMA ROXO: Borda lateral */
+    border-left: 4px solid #7c4dff; 
+    padding-left: 20px;
+    margin-bottom: 4em;
+}
+
+.categoryTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.categoryTitle h2 {
+    font-size: 32px;
+    color: white;
+    margin: 0;
+}
+
+.categoryDesc {
+    font-size: 16px;
+    color: #ccc;
+    margin-bottom: 1.5em;
+    margin-top: 0.5em;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4em;
+    list-style: none;
+    padding: 0;
+}
+
+/* --- ALTERAÇÃO DOS CARDS (Mais horizontais) --- */
+
+.manageCard {
+    /* ALTERAÇÃO: Aumentei a largura para ficar "esticado" horizontalmente */
+    width: 350px; /* Antes era 206px. Ajuste conforme preferir */
+    display: flex;
+    /* ALTERAÇÃO: Mudei para 'row' para layout horizontal */
+    flex-direction: row; 
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05); /* Fundo sutil para delimitar */
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #333;
+}
+
+/* Layout Horizontal: Coluna da Esquerda (Imagem) */
+.cardLeftColumn {
+    flex: 0 0 120px; /* Largura fixa para a área da imagem */
+}
+
+/* Layout Horizontal: Coluna da Direita (Inputs e Botões) */
+.cardRightColumn {
+    flex: 1; /* Ocupa o resto do espaço */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espalha o conteúdo verticalmente */
+    gap: 10px;
+}
+
+/* Inputs que imitam o layout */
+.imageInputArea {
+    /* ALTERAÇÃO: Ajustei tamanho para o layout horizontal */
+    width: 120px; 
+    height: 120px; /* Quadrado */
+    background-color: #1a1a1a;
+    border: 2px dashed #444;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.imageInputArea input {
+    background: transparent;
+    border: none;
+    color: white;
+    text-align: center;
+    width: 90%;
+    font-size: 0.7em; /* Fonte menor para caber */
+    outline: none;
+    z-index: 2;
+}
+
+.imageInputArea img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.nameInput {
+    background: transparent;
+    border: none;
+    /* TEMA ROXO: Linha inferior */
+    border-bottom: 1px solid #7c4dff; 
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+    width: 100%;
+    padding: 5px 0;
+    outline: none;
+}
+
+.descInput {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 0.6em;
+    width: 100%;
+    resize: none;
+    outline: none;
+    /* ALTERAÇÃO: Garante que ocupe espaço no layout horizontal */
+    flex-grow: 1; 
+}
+
+/* Botões de Ação */
+.cardActions {
+    display: flex;
+    gap: 5px;
+    margin-top: auto; /* Empurra para o final da coluna */
+}
+
+.saveButton {
+    flex: 1;
+    /* TEMA ROXO: Botão de salvar */
+    background: #7c4dff; 
+    border: none;
+    color: white;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.saveButton:hover {
+    background: #6839d9;
+}
+
+.deleteButton {
+    background: #f44336;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Botão de Adicionar Novo (Horizontal) */
+.addCard {
+    /* ALTERAÇÃO: Mesma largura horizontal dos outros cards */
+    width: 350px;
+    /* ALTERAÇÃO: Altura fixa para alinhar */
+    height: 150px; 
+    /* TEMA ROXO: Borda dashed */
+    font-size: 0.8em;
+    border: 2px dashed #7c4dff; 
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* TEMA ROXO: Cor do ícone e texto */
+    color: #7c4dff; 
+    transition: 0.2s;
+}
+
+.addCard:hover {
+    background: rgba(124, 77, 255, 0.1);
+}
+
+/* ... (estilos anteriores permanecem) */
+
+/* Inputs do Cabeçalho da Categoria */
+.catHeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.catInputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.catNameInput {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #7c4dff; /* Roxo */
+    color: white;
+    font-size: 32px; /* Tamanho de título H2 */
+    font-weight: bold;
+    width: 100%;
+    padding: 5px 0;
+    outline: none;
+    transition: 0.2s;
+}
+
+.catNameInput:focus {
+    border-bottom-color: white;
+}
+
+.catDescInput {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    color: #ccc;
+    font-size: 16px;
+    width: 100%;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+}
+
+.catDescInput:focus {
+    border-bottom-color: #7c4dff;
+}
+
+.catActions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Reutilizando botões existentes, mas garantindo alinhamento */
+.catActions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    font-size: 18px;
+}
+
+@media (max-width: 700px) {
+    .manageContainer .categorySection {
+        width: 92%;
+    }
+    .grid {
+        justify-content: center;
+    }
+    /* Em telas pequenas, volta para vertical se necessário */
+    .manageCard, .addCard {
+        width: 100%;
+        max-width: 400px;
+    }
+}

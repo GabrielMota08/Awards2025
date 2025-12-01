@@ -1,10 +1,10 @@
-.indicados-container{
+.indicadosContainer{
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.indicados-container .categoriesNominees{
+.indicadosContainer .categoriesNominees{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -78,7 +78,7 @@
 }
 
 
-.indicados-container .categoriesNominees svg{
+.indicadosContainer .categoriesNominees svg{
     width: 1.7em;
     transition: transform 0.3s;
 }
@@ -104,7 +104,7 @@
 }
 
 
-.indicados-container .categoriesNominees a{
+.indicadosContainer .categoriesNominees a{
     width: auto;
     white-space: nowrap;
 }
@@ -120,12 +120,12 @@
     font-size: 19px;
 }
 
-.indicados-container .indicadosSection{
+.indicadosContainer .indicadosSection{
     margin-top: 3em;
     width: 85%;
 }
 
-.indicados-container .indicadosSection div{
+.indicadosContainer .indicadosSection div{
     display: flex;
     justify-content: space-between;
 }
@@ -138,20 +138,20 @@
     padding-inline: 1em;
 }
 
-.indicados-container h1{
+.indicadosContainer h1{
     color: #A7AAFF;
     font-size: 44px;
     margin-bottom: 0em;
     text-transform: uppercase;
 }
 
-.indicados-container h2{
+.indicadosContainer h2{
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 1.3em;
 }
 
-.indicados-container .indicadosSection ul{
+.indicadosContainer .indicadosSection ul{
     display: flex;
     justify-content: start;
     flex-direction: row;
@@ -160,30 +160,30 @@
     text-align: start;
 }
 
-.indicados-container .indicadosSection ul li:first-child{
+.indicadosContainer .indicadosSection ul li:first-child{
     margin-left: 0em;
 }
 
-.indicados-container .indicadosSection ul li {
+.indicadosContainer .indicadosSection ul li {
     opacity: 0;
     margin-bottom: 0;
     transform: translateX(-100%);
     animation: slideIn 1s ease-out forwards;
 }
 
-.indicados-container .indicadosSection ul > *{
+.indicadosContainer .indicadosSection ul > *{
     margin-right: 1.4em;
 }
 
 @media (max-width: 700px){
-    .indicados-container{
+    .indicadosContainer{
         /* margin-top: 4.8em; */
     }
-    .indicados-container .indicadosSection{
+    .indicadosContainer .indicadosSection{
         width: 92%;
     }
 
-    .indicados-container .indicadosSection ul{
+    .indicadosContainer .indicadosSection ul{
         justify-content: center;
     }
 
@@ -195,11 +195,11 @@
         display: none !important;
     }
 
-    .indicados-container .indicadosSection div{
+    .indicadosContainer .indicadosSection div{
         justify-content: center;
     }
 
-    .indicados-container .indicadosSection .categorieTitle{
+    .indicadosContainer .indicadosSection .categorieTitle{
         justify-content: start !important;
     }
     

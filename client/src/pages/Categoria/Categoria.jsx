@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import api from "../../services/api"; 
 import AppContext from "../../context/AppContext";
-import "./Categoria.modules.css";
+import styles from "./Categoria.module.css";
 import { Link, useParams } from "react-router-dom";
 
 const Categoria = () => {
@@ -25,7 +25,7 @@ const Categoria = () => {
 
     return (   
         <>
-        <section className="categories">
+        <section className={styles.categories}>
             <h1>TODAS AS CATEGORIAS</h1>
             <div>
             <h2><span>INDICADOS</span></h2>
