@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../../services/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AppContext from "../../context/AppContext";
 // Instale date-fns se quiser formatar datas bonitas, ou use string nativa
 // npm install date-fns
 
 const Dashboard = () => {
     const [groups, setGroups] = useState([]);
-    
+    const { isLoading, isAuthenticated } = useContext(AppContext);
+    const navigate = useNavigate();
     // Estado do formulário
     const initialFormState = { title: "", description: "", start_date: "", end_date: "" };
     const [formData, setFormData] = useState(initialFormState);
@@ -15,6 +17,12 @@ const Dashboard = () => {
     useEffect(() => {
         fetchGroups();
     }, []);
+
+    useEffect(() => {
+        if (!isLoading && !isAuthenticated) {
+            navigate("/auth");
+        }
+    }, [isLoading, isAuthenticated, navigate]);
 
     const fetchGroups = async () => {
         try {

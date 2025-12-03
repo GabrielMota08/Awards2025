@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; 
 import api from "../../services/api";
 import { FaArrowLeftLong, FaPlus, FaTrash, FaCheck } from "react-icons/fa6";
 import styles from "./ManageGroup.module.css";
+import AppContext from "../../context/AppContext";
 
 // --- COMPONENTE 1: HEADER DA CATEGORIA (NOVO) ---
 // Funciona igual ao card: inputs abertos, salva apenas se houver mudança
@@ -14,7 +15,6 @@ const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange }) => {
     const [changed, setChanged] = useState(false);
     const uniqueId = `cat-${category.id}`;
 
-    // Monitora mudanças para avisar o pai (bloqueio de saída)
     useEffect(() => {
         if (onDirtyChange) onDirtyChange(uniqueId, changed);
         return () => { if (onDirtyChange && changed) onDirtyChange(uniqueId, false); };
@@ -28,47 +28,55 @@ const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange }) => {
     const handleSave = () => {
         if (!data.name) return alert("O nome da categoria é obrigatório");
         onSave(category.id, data);
-        setChanged(false); // Reseta o estado visual para "salvo"
+        setChanged(false); 
     };
 
     return (
         <div className={styles.catHeaderContainer}>
             <div className={styles.catInputs}>
-                {/* Input gigante que parece um Título */}
+                {/* Título com Width Dinâmico */}
                 <input 
                     className={styles.catNameInput}
                     value={data.name}
                     placeholder="Nome da Categoria"
                     onChange={e => handleChange("name", e.target.value)}
+                    // Lógica de Width Dinâmico: 
+                    // Calcula caracteres (ch) + um pouco de sobra. Mínimo 200px via CSS.
+                    style={{ width: `${Math.max(data.name.length, 10) + 2}ch` }}
                 />
                 
-                {/* Textarea que parece um parágrafo */}
-                <textarea 
+                {/* Descrição com Width Dinâmico */}
+                <input 
                     className={styles.catDescInput}
                     value={data.description}
                     placeholder="Descrição da categoria"
-                    rows={2}
                     onChange={e => handleChange("description", e.target.value)}
+                    // Mesma lógica de width
+                    style={{ width: `${Math.max(data.description.length, 15) + 2}ch` }}
                 />
             </div>
 
             <div className={styles.catActions}>
-                {/* Botão Salvar (Fica opaco se não tiver mudanças) */}
+                {/* Botão Salvar: VISIBILITY HIDDEN se não houver mudança */}
                 <button 
                     onClick={handleSave} 
-                    style={{ background: '#4caf50', color: 'white', opacity: changed ? 1 : 0.3, pointerEvents: changed ? 'all' : 'none' }}
-                    title="Salvar alterações da categoria"
+                    className={styles.saveCatBtn}
+                    style={{ 
+                        visibility: changed ? 'visible' : 'hidden', 
+                        opacity: changed ? 1 : 0 
+                    }}
+                    title="Salvar alterações"
                 >
                     <FaCheck />
                 </button>
 
-                {/* Botão Deletar */}
+                {/* Botão Deletar: Texto + Ícone */}
                 <button 
                     onClick={() => onDelete(category.id)} 
-                    style={{ background: '#222', color: '#f44336', border: '1px solid #333' }}
-                    title="Excluir categoria inteira"
+                    className={styles.deleteCatBtn}
+                    title="Excluir categoria"
                 >
-                    <FaTrash />
+                    <FaTrash /> Excluir Categoria
                 </button>
             </div>
         </div>
@@ -165,12 +173,19 @@ const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, u
 // --- PÁGINA PRINCIPAL ---
 const ManageGroup = () => {
     const { groupId } = useParams();
+    const { isLoading, isAuthenticated } = useContext(AppContext);
     const navigate = useNavigate();
     const [groupData, setGroupData] = useState(null);
     const [newCategoryName, setNewCategoryName] = useState("");
     
     // Controle de alterações não salvas (Dirty State)
     const [dirtyItems, setDirtyItems] = useState(new Set());
+
+    useEffect(() => {
+        if (!isLoading && !isAuthenticated) {
+            navigate("/auth");
+        }
+    }, [isLoading, isAuthenticated, navigate]);
 
     const handleDirtyChange = (id, isDirty) => {
         setDirtyItems(prev => {

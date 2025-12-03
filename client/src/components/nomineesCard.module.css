@@ -1,36 +1,39 @@
- .nomineesCardDiv li{
-    /* height: 15em; */
-    transition: transform 0.5s ease, filter 0.5s ease;  
-} 
+/* client/src/components/nomineesCard.modules.css */
 
-.nomineesCardDiv li:hover{
+.nomineesCardDiv li {
+    transition: transform 0.5s ease, filter 0.5s ease;
+    list-style: none;
+}
+
+.nomineesCardDiv li:hover {
     transform: translateY(5px);
-} 
+}
 
-.marginBottom5em{
+.marginBottom5em {
     padding-bottom: 1.6em;
 }
 
+/* --- ESTILO PARA IMAGEM HORIZONTAL (TIPO B) --- */
 .nomineesCardB {
     width: 16em !important;
 }
 
-.nomineesCardB img{
+.nomineesCardB img {
     height: 216px !important;
     width: 100% !important;
     max-height: 216px !important;
+    object-fit: cover; /* Garante preenchimento sem distorção */
 }
-
 
 .nomineesCardB .voteButton {
     top: 13em !important;
 }
 
-.nomineesCardB h2{
+.nomineesCardB h2 {
     margin-top: 3.2em !important;
 }
 
-
+/* --- CARD PADRÃO / VERTICAL --- */
 .nomineesCard {
     display: flex;
     width: 9em;
@@ -42,21 +45,32 @@
     transform: scale(1.2);
 }
 
-.nomineesCardA{
+/* --- ESTILO PARA IMAGEM VERTICAL (TIPO A) --- */
+.nomineesCardA {
     height: 19em !important;
 }
 
+/* CORREÇÃO AQUI: Força a altura exata de 319px para verticais */
+.nomineesCardA img {
+    height: 319px !important; /* Altura fixa solicitada */
+    width: 100%;
+    object-fit: cover; /* Corta as bordas se necessário para não esticar */
+    z-index: 30;
+    position: relative;
+}
+
+/* Regra geral de img (fallback) */
 .nomineesCard img {
     z-index: 30;
     width: 100%;
     position: relative;
-    max-height: 319px;
+    /* max-height removido na específica acima para garantir os 319px */
 }
 
 .nomineesCard .winnerBackground {
     scale: 1.1;
     position: absolute;
-    top: 4px; 
+    top: 4px;
     left: -2px;
     width: 96%;
     height: auto;
@@ -65,11 +79,10 @@
 
 .nomineesCardB .winnerBackground {
     scale: 1.27;
-    top: 17px !important; 
-    left:-8px;
+    top: 17px !important;
+    left: -8px;
     width: 96%;
 }
-
 
 .nomineesCard .voteButton {
     z-index: 50;
@@ -91,7 +104,7 @@
     background-color: #4455aa;
 }
 
-.nomineesCard h2{
+.nomineesCard h2 {
     z-index: 50;
     margin: 0.5em;
     margin-top: 1.4em;
@@ -100,31 +113,31 @@
     font-size: 18.5px;
 }
 
-.nomineesCard p{
+.nomineesCard p {
     z-index: 50;
     width: 100%;
     font-weight: 300;
     font-size: 13px;
 }
 
-.votado{
-    border: #8F9BFF, solid 2px !important;
+.votado {
+    border: 2px solid #8F9BFF !important;
 }
 
-.unVote{
+.unVote {
     cursor: default !important;
 }
 
-.unVote:hover{
+.unVote:hover {
     background-color: #2C3B88 !important;
 }
 
-.unVote span{
+.unVote span {
     transition-duration: 0.5s;
     color: rgba(255, 255, 255, 0.6);
 }
 
-.unVoteDiv{
+.unVoteDiv {
     transition-duration: 0.5s;
     filter: grayscale(100%);
 }
@@ -133,7 +146,7 @@
     z-index: 50;
     width: 100%;
     padding: 0.5em 1em;
-    height: 3.6em;  
+    height: 3.6em;
     min-height: 3.6em;
     font-weight: bold;
     color: white;
@@ -146,34 +159,34 @@
     box-shadow: 0px 0px 2px rgb(147, 176, 255);
     background-color: rgba(44, 59, 136, 0.2);
     display: none;
-    margin-top: 1em; /* Distância do conteúdo acima */
+    margin-top: 1em;
 }
 
-.exchangeButton svg{
+.exchangeButton svg {
     font-size: 23px;
     margin-left: 5%;
 }
 
-.exchangeButton:hover{
+.exchangeButton:hover {
     background-color: rgba(44, 59, 136, 0.9);
 }
 
-.exchangeButtonVisible{
+.exchangeButtonVisible {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-@media (max-width: 800px){
-    .indicadosContainer .indicadosSection ul > *{
+@media (max-width: 800px) {
+    .indicadosContainer .indicadosSection ul > * {
         margin-inline: 1.4em !important;
     }
 
-    .nomineesCardB{
+    .nomineesCardB {
         max-width: 90%;
     }
 
-    .nomineesCardB .imgNomineesCard{
+    .nomineesCardB .imgNomineesCard {
         height: 194.4px !important;
     }
 
@@ -183,7 +196,7 @@
 
     .nomineesCardB .winnerBackground {
         scale: 1.16;
-        top: 7px !important; 
+        top: 7px !important;
         left: -4px;
         width: 100%;
     }

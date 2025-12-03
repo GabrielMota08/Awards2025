@@ -38,7 +38,7 @@ const Auth = () => {
 
     const validationLogin = yup.object().shape({
         email: yup.string().email("Este email não é valido").required(),
-        password: yup.string().min(6, "A senha deve ter pelo menos 6 caracteres").required(),
+        password: yup.string().min(2, "A senha deve ter pelo menos 6 caracteres").required(),
     });
 
     const validationRegister = yup.object().shape({

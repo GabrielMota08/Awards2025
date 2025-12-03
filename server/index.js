@@ -143,9 +143,9 @@ app.post("/api/categories", authenticateToken, (req, res) => {
 });
 
 app.put("/api/categories/:id", authenticateToken, (req, res) => {
-    const { groupId, name, description } = req.body;
-    const sql = "UPDATE categories SET group_id = ?, name = ?, description = ? WHERE id = ?";
-    db.query(sql, [groupId, name, description, req.params.id], (err, result) => {
+    const { name, description } = req.body;
+    const sql = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
+    db.query(sql, [name, description, req.params.id], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send({msg: "Categoria atualizada!"})
     })
@@ -260,13 +260,47 @@ app.post("/api/vote", authenticateToken, (req, res) => {
     });
 });
 
-app.get("/api/my-votes/:token", authenticateToken, (req, res) => {
-    const sql = "SELECT * FROM votes WHERE user_id = ?, SELECT * FROM award_groups WHERE access_token = ?";
-    db.query(sql, [req.userId, req.params.token], (err, result) => {
+app.delete("/api/vote", authenticateToken, (req, res) => {
+    const { groupId, categoryId } = req.body;
+    const userId = req.userId;
+
+    const sql = "DELETE FROM votes WHERE user_id = ? AND group_id = ? AND category_id = ?";
+    
+    db.query(sql, [userId, groupId, categoryId], (err, result) => {
+        if (err) {
+            return res.status(500).send({ msg: "Erro ao deletar o voto" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).send({ msg: "Voto não encontrado" });
+        }
+
+        res.send({ msg: "Voto deletado!" });
+    });
+});
+
+app.get("/api/my-votes/:groupId", authenticateToken, (req, res) => {
+    const { groupId } = req.params;
+    const userId = req.userId;
+
+    const sql = `
+        SELECT v.category_id, n.name as nominee_name
+        FROM votes v
+        JOIN nominees n ON v.nominee_id = n.id
+        WHERE v.user_id = ? AND v.group_id = ?
+    `;
+
+    db.query(sql, [userId, groupId], (err, rows) => {
         if (err) return res.status(500).send(err);
-        res.send(result);
-    })
-})
+
+        const votesMap = {};
+        rows.forEach(row => {
+            votesMap[row.category_id] = row.nominee_name;
+        });
+
+        res.send(votesMap);
+    });
+});
 
 app.get("/api/results/:groupId", authenticateToken, (req, res) => {
     const groupId = req.params.groupId;

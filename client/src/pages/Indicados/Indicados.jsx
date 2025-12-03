@@ -15,7 +15,7 @@ const Indicados = () => {
     const [groupData, setGroupData] = useState(null);
     const [loading, setLoading] = useState(true);
     
-    const { user, targetDate, saveVote } = useContext(AppContext); 
+    const { user, targetDate, saveVote, setTargetDate, fetchUserVotes } = useContext(AppContext); 
     
     const [lowOpacity, setLowOpacity] = useState(0);
     const categoryIndex = Number(id); 
@@ -25,6 +25,16 @@ const Indicados = () => {
             try {
                 const response = await api.get(`/vote-data/${token}`);
                 setGroupData(response.data);
+
+                if (response.data.group) {
+                    if (response.data.group.end_date) {
+                        setTargetDate(new Date(response.data.group.end_date));
+                    }
+                
+                    if (user) {
+                        fetchUserVotes(response.data.group.id);
+                    }
+                }
             } catch (error) {
                 console.error("Erro ao buscar dados", error);
             } finally {
@@ -32,7 +42,7 @@ const Indicados = () => {
             }
         };
         fetchData();
-    }, [token]);
+    }, [token, user]);
 
     useEffect(() => {
         if (!groupData) return;
@@ -68,12 +78,37 @@ const Indicados = () => {
             });
 
             saveVote(realCategoryId, nomineeName);
-            alert("Voto computado! ✅");
 
         } catch (err) {
             alert(err.response?.data?.msg || "Erro ao votar.");
         }
+    
     };
+    
+    const handleDeleteVote = async (categoryId) => {
+        if (!user) {
+            alert("Faça login para remover o voto.");
+            navigate('/auth');
+            return;
+        }
+
+        const realGroupId = groupData.group.id;
+
+        try {
+            await api.delete("/vote", {
+                data: { 
+                    groupId: realGroupId, 
+                    categoryId 
+                }
+            });
+
+            saveVote(categoryId, undefined);
+
+        } catch (err) {
+            alert(err.response?.data?.msg || "Erro ao remover voto.");
+        }
+    };
+
 
     if (loading) return <div style={{color:'white', padding:'20px'}}>Carregando...</div>;
     if (!groupData || !groupData.categories[categoryIndex]) {
@@ -106,6 +141,7 @@ const Indicados = () => {
                                         img: nominee.image
                                     }}
                                     numericId={currentCategory.id}
+                                    onDeleteVote={() => handleDeleteVote(currentCategory.id)}
                                     onVote={() => handleVote(nominee.id, nominee.name)}
                                 />
                             </li>

@@ -84,7 +84,7 @@ const Home = () => {
                             <p>{seconds}</p>
                         </div>
 
-                        <Link to="/nominees/0">VOTE AGORA</Link>
+                        <Link to="/nominees/1/0">VOTE AGORA</Link>
                     </div>
                 </section>
 

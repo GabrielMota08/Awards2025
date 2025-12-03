@@ -6,7 +6,7 @@ import { MdSwapHoriz } from "react-icons/md";
 import styles from "./nomineesCard.module.css";
 import AppContext from "../context/AppContext";
 
-const NomineesCard = ({ content, numericId, onVote }) => {
+const NomineesCard = ({ content, numericId, onVote, onDeleteVote }) => {
     const { votes } = useContext(AppContext); 
     const [winnerBackgroundLarger, setWinnerBackgroundLarger]  = useState(false);
 
@@ -75,7 +75,7 @@ const NomineesCard = ({ content, numericId, onVote }) => {
                 <p>{content.description}</p>
 
                 <button 
-                    onClick={() => console.log("Lógica de trocar voto deve ser implementada no backend/pai")} 
+                    onClick={onDeleteVote} 
                     className={`${styles.exchangeButton} ${isSelected ? styles.exchangeButtonVisible : ""}`}
                 >
                     TROCAR VOTO <MdSwapHoriz />
@@ -94,7 +94,8 @@ NomineesCard.propTypes = {
     }).isRequired,
     numericId: PropTypes.number.isRequired,
     showLink: PropTypes.bool,
-    onVote: PropTypes.func.isRequired
+    onVote: PropTypes.func.isRequired,
+    onDeleteVote: PropTypes.func.isRequired
 };
 
 export default NomineesCard;

@@ -222,65 +222,93 @@
     align-items: flex-start;
     gap: 20px;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Garante que não quebre em telas pequenas */
 }
 
 .catInputs {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px; /* Espaçamento menor entre título e descrição */
 }
 
 .catNameInput {
     background: transparent;
-    border: none;
-    border-bottom: 2px solid #7c4dff; /* Roxo */
+    border: none; /* SEM LINHA EMBAIXO */
     color: white;
-    font-size: 32px; /* Tamanho de título H2 */
+    font-size: 32px;
     font-weight: bold;
-    width: 100%;
     padding: 5px 0;
     outline: none;
+    min-width: 200px; /* Requisito do usuário */
     transition: 0.2s;
+    border-radius: 4px;
 }
 
-.catNameInput:focus {
-    border-bottom-color: white;
+.catNameInput:hover, .catNameInput:focus {
+    background: rgba(255, 255, 255, 0.05); /* Feedback visual sutil ao focar */
 }
 
 .catDescInput {
     background: transparent;
-    border: none;
-    border-bottom: 1px solid #444;
+    border: none; /* SEM LINHA EMBAIXO */
     color: #ccc;
     font-size: 16px;
-    width: 100%;
+    min-width: 200px; /* Requisito do usuário */
     resize: none;
     outline: none;
     font-family: inherit;
+    overflow: hidden; /* Esconde barra de rolagem */
+    border-radius: 4px;
 }
 
-.catDescInput:focus {
-    border-bottom-color: #7c4dff;
+.catDescInput:hover, .catDescInput:focus {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .catActions {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    align-items: center;
     margin-top: 10px;
 }
 
-/* Reutilizando botões existentes, mas garantindo alinhamento */
-.catActions button {
+/* Botão de Salvar (Só o ícone) */
+.saveCatBtn {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     border: none;
+    background: #4caf50;
+    color: white;
     font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Botão de Excluir (Texto + Ícone) */
+.deleteCatBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #333;
+    background: transparent;
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.deleteCatBtn:hover {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    border-color: #f44336;
 }
 
 @media (max-width: 700px) {
