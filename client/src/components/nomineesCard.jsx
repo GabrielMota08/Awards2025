@@ -24,7 +24,8 @@ const NomineesCard = ({ content, numericId, onVote, onDeleteVote }) => {
                 `${!hasVotedInCategory ? "" : !isSelected ? styles.unVoteDiv : styles.marginBottom5em}`
             }
         >
-            <li
+            {/* Alterado de li para div */}
+            <div
                 className={styles.nomineesCard}
                 key={content.name}
             >
@@ -48,7 +49,7 @@ const NomineesCard = ({ content, numericId, onVote, onDeleteVote }) => {
                 />
                 
                 <button 
-                    onClick={handleVote}
+                    onClick={!isSelected ? handleVote : undefined} // Evita clique se já selecionado
                     className={
                         `${styles.voteButton} ` + 
                         `${
@@ -80,7 +81,7 @@ const NomineesCard = ({ content, numericId, onVote, onDeleteVote }) => {
                 >
                     TROCAR VOTO <MdSwapHoriz />
                 </button>
-            </li>
+            </div>
         </div>
     );
 };

@@ -82,6 +82,38 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.get("/api/user", authenticateToken, (req, res) => {
+    const userId = req.userId;
+    db.query("SELECT id, name, email, role FROM users WHERE id = ?", [userId], (err, result) => {
+        if (err) res.status(500).send(err);
+        if (result.length === 0) return res.status(404).send({ msg: "Usuário não encontrado" });
+        res.send(result[0]);
+    })
+})
+
+app.put("/api/user", authenticateToken, (req, res) => {
+    const { name, email, password } = req.body;
+    const userId = req.userId;
+
+    if (password) {
+        bcrypt.hash(password, saltRounds, (error, hash) => {
+            if (error) return res.status(500).send(err);
+            
+            const sql = "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?";
+            db.query(sql, [name, email, hash, userId], (err, result) => {
+                if (err) return res.status(500).send(err);
+                res.send({ msg: "Dados atualizados com sucesso!" });
+            });
+        });
+    } else {
+        const sql = "UPDATE users SET name = ?, email = ? WHERE id = ?";
+        db.query(sql, [name, email, userId], (err, result) => {
+            if (err) return res.status(500).send(err);
+            res.send({ msg: "Dados atualizados com sucesso!" });
+        });
+    }
+});
+
 // ==========================================
 // VALIDAR LOGIN
 // ==========================================
@@ -321,4 +353,56 @@ app.get("/api/results/:groupId", authenticateToken, (req, res) => {
 
 app.listen(3001, () => {
     console.log("Servidor rodando na porta 3001");
+});
+
+app.get("/api/winners/:token", (req, res) => {
+    const { token } = req.params;
+
+    // 1. Validar Grupo e Data
+    db.query("SELECT * FROM award_groups WHERE access_token = ?", [token], (err, groups) => {
+        if (err || groups.length === 0) return res.status(404).send({ msg: "Votação não encontrada" });
+
+        const group = groups[0];
+        const now = new Date();
+        const endDate = new Date(group.end_date);
+
+        // Se a votação ainda não acabou, bloqueia
+        if (now <= endDate) {
+            return res.status(403).send({ msg: "A votação ainda está em andamento." });
+        }
+
+        // 2. Query para descobrir quem ganhou em cada categoria
+        // Retorna: category_id e o nominee_id do vencedor (quem tem mais votos)
+        const sql = `
+            SELECT 
+                c.id as category_id,
+                n.id as winner_id,
+                COUNT(v.id) as vote_count
+            FROM categories c
+            JOIN nominees n ON c.id = n.category_id
+            LEFT JOIN votes v ON n.id = v.nominee_id
+            WHERE c.group_id = ?
+            GROUP BY n.id
+            ORDER BY c.id, vote_count DESC
+        `;
+
+        db.query(sql, [group.id], (err, rows) => {
+            if (err) return res.status(500).send(err);
+
+            // 3. Processamento: Cria um mapa { categoryId: winnerNomineeId }
+            const winnersMap = {};
+            const seenCategories = new Set();
+
+            rows.forEach(row => {
+                // Como ordenamos por votos DESC, o primeiro registro de cada categoria é o vencedor
+                if (!seenCategories.has(row.category_id)) {
+                    winnersMap[row.category_id] = row.winner_id;
+                    seenCategories.add(row.category_id);
+                }
+            });
+
+            // Retorna apenas o mapa de IDs
+            res.send(winnersMap);
+        });
+    });
 });

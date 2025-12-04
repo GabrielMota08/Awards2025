@@ -61,7 +61,7 @@ const Navbar = () => {
                 ) : (
                     <>
                         {new Date() > targetDate ? (
-                            <Link to="/winners/0"><p>VENCEDORES</p></Link>
+                            <Link to={`/winners/${token || 1}/0`}><p>VENCEDORES</p></Link>
                         ) : (
                             <p className={styles.winnerNavbarButton}>VENCEDORES</p>
                         )}

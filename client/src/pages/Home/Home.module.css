@@ -172,7 +172,7 @@
     padding-top: 1em;
 }
 
-.honors div{
+/* .honors div{
     width: 82%;
     display: flex;
     flex-wrap: wrap;
@@ -241,7 +241,7 @@
     width: 100%;
     font-weight: 300;
     font-size: 13px;
-}
+} */
 
 .footer{
     background-color: #000000;

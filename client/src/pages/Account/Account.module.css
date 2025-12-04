@@ -1,0 +1,399 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    color: white;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 10%;
+    padding-top: 120px;
+    margin-bottom: 1em;
+}
+
+/* --- SIDEBAR (Esquerda) --- */
+.sidebar {
+    width: 250px;
+    background-color: transparent;
+    border-right: 1px solid #333;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.sidebarTitle {
+    color: rgb(255, 255, 255);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    padding-left: 10px;
+}
+
+.menuItem {
+    background: transparent;
+    border: none;
+    color: #888;
+    text-align: left;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.menuItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.activeMenu {
+    background: rgba(124, 77, 255, 0.15) !important;
+    color: #A7AAFF !important;
+    font-weight: bold;
+    border-left: 3px solid #7c4dff;
+}
+
+/* --- CONTEÚDO (Direita) --- */
+.content {
+    flex: 1;
+    padding-left: 50px;
+}
+
+/* Formulário Minha Conta */
+.accountForm {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-size: 0.9rem;
+    color: #ccc;
+    font-weight: 600;
+}
+
+.input {
+    padding: 12px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.input:focus {
+    outline: none;
+    border-bottom-color: #7c4dff;
+}
+
+.saveBtn {
+    margin-top: 20px;
+    padding: 12px;
+    background: #7c4dff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.2s;
+    width: fit-content;
+}
+
+.saveBtn:hover {
+    background: #6839d9;
+}
+
+/* --- CRIAÇÃO DE GRUPO --- */
+
+.showCreateBtn {
+    background: #78b6fd;
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.showCreateBtn:hover {
+    color: rgb(228, 228, 228);
+    background: rgb(20, 57, 180);
+}
+
+.cancelCreateBtn {
+    background: transparent;
+    color: #f44336;
+    border: 1px solid #f44336;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.cancelCreateBtn:hover {
+    background: rgba(244, 67, 54, 0.1);
+}
+
+.createCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgb(101, 102, 105);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.createRow {
+    display: flex;
+    gap: 20px;
+}
+
+.createBtn {
+    background: #4caf50;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    align-self: flex-start;
+}
+
+/* --- LISTA DE PREMIAÇÕES --- */
+.groupsList {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.groupCard {
+    background: transparent;
+    border: 1px solid #333; /* Borda ao redor da premiação inteira */
+    border-radius: 12px;
+    padding: 30px;
+    position: relative;
+}
+
+.groupHeader {
+    margin-bottom: 30px;
+}
+
+.groupTitleInput {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent; /* Invisível até focar ou hover */
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    width: 100%;
+    outline: none;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.groupTitleInput:hover {
+    border-bottom: 2px solid #444; /* Dica visual que é editável */
+    cursor: pointer;
+}
+
+.groupTitleInput:focus {
+    border-bottom: 2px solid #7c4dff;
+    cursor: text;
+}
+
+/* NOVA CLASSE PARA A DESCRIÇÃO */
+.groupDescInput {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: #aaa;
+    font-size: 1.1rem;
+    width: 100%;
+    outline: none;
+    resize: none; /* Remove o ícone de puxar do textarea */
+    font-family: inherit;
+    padding: 5px 0;
+    transition: 0.2s;
+    overflow: hidden; /* Opcional, se quiser esconder scrollbar */
+}
+
+.groupDescInput:hover {
+    color: #ccc;
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+}
+
+.groupDescInput:focus {
+    color: white;
+    border-bottom: 1px solid #7c4dff;
+    background: rgba(255,255,255,0.02);
+    cursor: text;
+}
+
+.groupDesc {
+    color: #aaa;
+    font-size: 1.1rem;
+}
+
+/* --- CATEGORIAS E INDICADOS --- */
+.categoriesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+/* Região delimitada da Categoria */
+.categoryPreviewBox {
+    padding: 25px;
+}
+
+.catPreviewTitle {
+    margin: 0 0 15px 0;
+    color: #A7AAFF; /* Roxo claro */
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Scroll Horizontal dos Indicados */
+.nomineesPreviewScroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scrollbar-color: #555 transparent;
+    scrollbar-width: thin;
+}
+
+.miniNomineeCard {
+    min-width: 100px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* IMAGEM RETANGULAR (Tipo Poster) */
+.miniNomineeImg {
+    width: 100%;
+    height: 225px; /* Altura maior para formato retrato */
+    object-fit: cover;
+    border-radius: 4px; /* Cantos levemente arredondados, não bola */
+    border: 1px solid #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+
+.miniNomineeName {
+    font-size: 0.85rem;
+    color: #ccc;
+    text-align: center;
+    line-height: 1.2;
+    width: 100%;
+    word-wrap: break-word; 
+}
+
+/* Ações do Grupo */
+.groupActions {
+    display: flex;
+    gap: 15px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+.actionBtn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.editBtn {
+    background: transparent;
+    border: 1px solid #7c4dff;
+    color: #A7AAFF;
+}
+
+.editBtn:hover {
+    background: #7c4dff;
+    color: white;
+}
+
+.copyLinkMessage {
+    background: #30439b !important;
+    color: #fff !important;
+}
+
+.shareBtn {
+    background: #222;
+    color: #ccc;
+}
+
+.shareBtn:hover {
+    background: #333;
+    color: white;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+    .container { 
+        flex-direction: column; 
+        width: 95%;
+        padding-top: 100px;
+    }
+    .sidebar { 
+        width: 100%; 
+        flex-direction: row; 
+        overflow-x: auto; 
+        border-right: none;
+        border-bottom: 1px solid #333;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        padding-right: 0;
+    }
+    .content {
+        padding-left: 0;
+    }
+    .createRow { flex-direction: column; }
+}
+
+@media (max-width: 1200px){
+    .container {
+        margin: 0 10%;
+    }
+}

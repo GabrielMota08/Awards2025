@@ -1,81 +1,93 @@
-.resultsCardDiv li{
-    /* height: 15em; */
-    transition: transform 0.5s ease, filter 0.5s ease;  
-} 
+/* client/src/components/resultsCard.modules.css */
 
-.resultsCardDiv li:hover{
+.resultsCardDiv li {
+    transition: transform 0.5s ease, filter 0.5s ease;
+    list-style: none;
+}
+
+.resultsCardDiv li:hover {
     transform: translateY(0px);
-} 
+}
 
 .winnerCard {
-    transform: translateY(0%); /* Começa à esquerda */
-    animation: slideUP 1s ease-out forwards; /* Animação para a direita */
+    transform: translateY(0%);
+    animation: slideUP 1s ease-out forwards;
     animation-delay: 0.5s;
 }
 
+/* --- CLASSE B (Imagens Horizontais) --- */
 .nomineesCardB {
     width: 16em !important;
 }
 
-.nomineesCardB img{
+.nomineesCardB img {
     height: 216px !important;
     width: 100% !important;
     max-height: 216px !important;
+    object-fit: cover;
 }
 
+/* REMOVIDO: .nomineesCardB .voteButton { top: ... } */
+/* REMOVIDO: .nomineesCardB h2 { margin-top: ... } */
 
-.nomineesCardB .voteButton {
-    top: 13em !important;
+.nomineesCardB .winnerBackground {
+    scale: 1.27;
+    top: 17px !important;
+    left: -8px;
+    width: 96%;
 }
 
-.nomineesCardB h2{
-    margin-top: 3.2em !important;
-}
-
-
+/* --- CARD GERAL --- */
 .nomineesCard {
     display: flex;
     width: 9em;
-    justify-content: start;
+    justify-content: flex-start; /* Mudado para flex-start */
     align-items: center;
     flex-direction: column;
     position: relative;
-    height: 17em;
-    transform: scale(1.2);
+    /* height: 17em; <-- REMOVIDO altura fixa */
+    height: auto;
+    padding-bottom: 1em;
 }
 
-.nomineesCardA{
-    height: 19em !important;
+/* --- CLASSE A (Imagens Verticais) --- */
+.nomineesCardA {
+    /* height: 19em !important; <-- Removido ou transformado em min-height */
+    min-height: 19em;
 }
 
+.nomineesCardA img {
+    height: 319px !important; /* Altura fixa para manter alinhamento */
+    width: 100%;
+    object-fit: cover;
+    z-index: 30;
+    position: relative;
+}
+
+/* Regra geral de img */
 .nomineesCard img {
     z-index: 30;
     width: 100%;
     position: relative;
-    max-height: 319px;
+    /* max-height removido na específica acima */
 }
 
 .nomineesCard .winnerBackground {
     scale: 1.1;
     position: absolute;
-    top: 4px; 
+    top: 4px;
     left: -2px;
     width: 96%;
     height: auto;
     z-index: 20;
 }
 
-.nomineesCardB .winnerBackground {
-    scale: 1.27;
-    top: 17px !important; 
-    left:-8px;
-    width: 96%;
-}
-
+/* --- BOTÃO (Texto de Vencedor/Encerrado) --- */
 .nomineesCard .voteButton {
     z-index: 50;
-    position: absolute;
-    top: 17.5em;
+    /* position: absolute; <-- MUDADO para relative */
+    position: relative;
+    
     width: 100%;
     padding: 0.5em 1em;
     font-size: 16px;
@@ -86,70 +98,74 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    
+    margin-top: -10px; /* Ajuste visual opcional */
 }
 
-.nomineesCard h2{
+/* --- NOME --- */
+.nomineesCard h2 {
     z-index: 50;
     margin: 0.5em;
-    margin-top: 1.4em;
+    
+    /* Margem fixa em relação ao botão acima */
+    margin-top: 1em;
+    
     width: 100%;
     font-weight: 700;
     font-size: 18.5px;
+    text-align: start;
 }
 
-.nomineesCard p{
+.nomineesCard p {
     z-index: 50;
     width: 100%;
     font-weight: 300;
     font-size: 13px;
+    text-align: start;
+    padding: 0 0.5em;
 }
 
-.vencedor{
-    border: #8F9BFF, solid 2px !important;
+/* Estados Específicos de Resultado */
+.vencedor {
+    border: 2px solid #8F9BFF !important;
     cursor: default !important;
+    background-color: #2C3B88; /* Opcional: cor mais forte para vencedor */
 }
 
-.voteExpired{
+.voteExpired {
     cursor: default !important;
+    background-color: #333; /* Opcional: cor cinza para perdedores */
 }
 
-.voteExpired span{
+.voteExpired span {
     color: rgba(255, 255, 255, 0.6);
 }
 
-.voteExpiredDiv{
+.voteExpiredDiv {
     filter: grayscale(100%);
 }
 
 @keyframes slideUP {
-    0% {
-        transform: translateY(0%);
-    }
-    100% {
-        transform: translateY(-1.5%);
-    }
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-1.5%); }
 }
 
-@media (max-width: 800px){
-    .indicadosContainer .indicadosSection ul > *{
+@media (max-width: 800px) {
+    .indicadosContainer .indicadosSection ul > * {
         margin-inline: 1.4em !important;
     }
 
-    .nomineesCardB{
+    .nomineesCardB {
         max-width: 90%;
     }
 
-    .nomineesCardB .imgNomineesCard{
+    .nomineesCardB .imgNomineesCard {
         height: 194.4px !important;
-    }
-
-    .nomineesCardB .voteButton {
-        top: 11.6em !important;
     }
 
     .nomineesCardB .winnerBackground {
         scale: 1.16;
-        top: 7px !important; 
+        top: 7px !important;
         left: -4px;
         width: 96%;
     }

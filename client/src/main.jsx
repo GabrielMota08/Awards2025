@@ -10,7 +10,7 @@ import Indicados from './pages/Indicados/Indicados.jsx';
 import Categoria from './pages/Categoria/Categoria.jsx';
 import AppContext from './context/AppContext.js';
 import Winners from './pages/Winners/Winners.jsx';
-import Dashboard from './pages/Dashboard/Dashboard.jsx';
+import Account from './pages/Account/Account.jsx';
 
 import './index.css';
 import ProtectedWinnerRoute from './router/ProtectWinnerRoute.jsx';
@@ -22,11 +22,11 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<App />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/:token?" element={<Home />} />
         <Route path="auth" element={<Auth />} />
         <Route path="/nominees/:token/:id" element={<Indicados />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/manage/:groupId" element={<ManageGroup />}/>
+        <Route path="/account" element={<Account />} />
+        <Route path="/account/manage/:groupId" element={<ManageGroup />}/>
         <Route path="/winners/:token/:id" element={
           <ProtectedWinnerRoute targetDate={targetDate}>
               <Winners />

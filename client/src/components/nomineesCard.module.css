@@ -1,19 +1,22 @@
 /* client/src/components/nomineesCard.modules.css */
 
 .nomineesCardDiv li {
+    /* Mudei para display block para garantir que o li se comporte como container */
+    display: block; 
     transition: transform 0.5s ease, filter 0.5s ease;
-    list-style: none;
+    list-style: none; /* Remove bolinhas caso apareçam */
 }
 
 .nomineesCardDiv li:hover {
     transform: translateY(5px);
+    z-index: 10; /* Garante que o card fique por cima ao dar zoom */
 }
 
 .marginBottom5em {
     padding-bottom: 1.6em;
 }
 
-/* --- ESTILO PARA IMAGEM HORIZONTAL (TIPO B) --- */
+/* --- TIPO B (Horizontal) --- */
 .nomineesCardB {
     width: 16em !important;
 }
@@ -22,49 +25,52 @@
     height: 216px !important;
     width: 100% !important;
     max-height: 216px !important;
-    object-fit: cover; /* Garante preenchimento sem distorção */
+    object-fit: cover;
 }
 
-.nomineesCardB .voteButton {
-    top: 13em !important;
+/* Removido overrides de top/margin que não são mais necessários com position:relative */
+
+.nomineesCardB .winnerBackground {
+    scale: 1.27;
+    top: 17px !important;
+    left: -8px;
+    width: 96%;
 }
 
-.nomineesCardB h2 {
-    margin-top: 3.2em !important;
-}
-
-/* --- CARD PADRÃO / VERTICAL --- */
+/* --- CARD GERAL (Container) --- */
 .nomineesCard {
     display: flex;
     width: 9em;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     position: relative;
-    height: 17em;
-    transform: scale(1.2);
+    height: auto; 
+    min-height: 17em; /* Mantém um tamanho mínimo base */
+    padding-bottom: 15px; /* Espaço extra no final para a descrição não colar na borda */
+    margin-bottom: 10px;
 }
 
-/* --- ESTILO PARA IMAGEM VERTICAL (TIPO A) --- */
+/* --- TIPO A (Vertical) --- */
 .nomineesCardA {
-    height: 19em !important;
+    /* ALTERAÇÃO: De height fixa para min-height */
+    min-height: 19em !important; 
+    height: auto !important;
 }
 
-/* CORREÇÃO AQUI: Força a altura exata de 319px para verticais */
 .nomineesCardA img {
-    height: 319px !important; /* Altura fixa solicitada */
+    height: 319px !important; 
     width: 100%;
-    object-fit: cover; /* Corta as bordas se necessário para não esticar */
+    object-fit: cover;
     z-index: 30;
     position: relative;
 }
 
-/* Regra geral de img (fallback) */
+/* Fallback img */
 .nomineesCard img {
     z-index: 30;
     width: 100%;
     position: relative;
-    /* max-height removido na específica acima para garantir os 319px */
 }
 
 .nomineesCard .winnerBackground {
@@ -77,17 +83,14 @@
     z-index: 20;
 }
 
-.nomineesCardB .winnerBackground {
-    scale: 1.27;
-    top: 17px !important;
-    left: -8px;
-    width: 96%;
-}
-
+/* --- BOTÃO DE VOTO --- */
 .nomineesCard .voteButton {
     z-index: 50;
-    position: absolute;
-    top: 17.5em;
+    
+    /* ALTERAÇÃO: Relative faz o botão ocupar espaço real no card, 
+       empurrando o card para baixo e abrangendo o conteúdo */
+    position: relative; 
+    
     width: 100%;
     padding: 0.5em 1em;
     font-size: 16px;
@@ -98,19 +101,27 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    
+    /* Puxa um pouco para cima para colar na imagem (ajuste visual) */
+    margin-top: -10px; 
+    border-radius: 0;
 }
 
 .nomineesCard .voteButton:hover {
     background-color: #4455aa;
 }
 
+/* --- NOME E DESCRIÇÃO --- */
 .nomineesCard h2 {
     z-index: 50;
-    margin: 0.5em;
-    margin-top: 1.4em;
     width: 100%;
     font-weight: 700;
     font-size: 18.5px;
+    text-align: start;
+    margin: 0;
+    
+    /* Espaço entre o botão e o título */
+    margin-top: 7px; 
 }
 
 .nomineesCard p {
@@ -118,8 +129,11 @@
     width: 100%;
     font-weight: 300;
     font-size: 13px;
+    text-align: start;
+    margin-top: 5px;
 }
 
+/* --- ESTADOS --- */
 .votado {
     border: 2px solid #8F9BFF !important;
 }
@@ -160,6 +174,7 @@
     background-color: rgba(44, 59, 136, 0.2);
     display: none;
     margin-top: 1em;
+    position: relative; /* Garante que o botão de troca também ocupe espaço */
 }
 
 .exchangeButton svg {
@@ -188,10 +203,6 @@
 
     .nomineesCardB .imgNomineesCard {
         height: 194.4px !important;
-    }
-
-    .nomineesCardB .voteButton {
-        top: 11.6em !important;
     }
 
     .nomineesCardB .winnerBackground {

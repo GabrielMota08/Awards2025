@@ -1,4 +1,4 @@
-/* client/src/pages/Dashboard/ManageGroup.module.css */
+/* client/src/pages/Account/ManageGroup.module.css */
 
 .manageContainer {
     width: 100%;
@@ -20,6 +20,13 @@
 .header h1 {
     color: #A7AAFF;
     font-size: 44px;
+    text-transform: uppercase;
+}
+
+.header h4 {
+    color: #ffffff;
+    font-size: 20px;
+    text-align: start;
     text-transform: uppercase;
 }
 

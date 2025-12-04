@@ -212,7 +212,7 @@ const ManageGroup = () => {
         if (dirtyItems.size > 0) {
             if (!window.confirm("Há alterações não salvas. Deseja sair e perder o progresso?")) return;
         }
-        navigate("/dashboard");
+        navigate("/account");
     };
 
     useEffect(() => {
@@ -281,10 +281,11 @@ const ManageGroup = () => {
     return (
         <div className={styles.manageContainer}>
             <div className={styles.header}>
-                <button onClick={handleGoBack} style={{ background: 'transparent', border: 'none', color: "white", display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, marginBottom: 10, cursor: 'pointer' }}>
+                <button onClick={handleGoBack} style={{ background: 'transparent', border: 'none', color: "white", display: 'flex', alignItems: 'center', gap: 10, fontSize: 17, marginBottom: 10, cursor: 'pointer' }}>
                     <FaArrowLeftLong /> Voltar
                 </button>
                 <h1>{groupData.group.title}</h1>
+                <h4>{groupData.group.description}</h4>
                 <div style={{marginTop: 20, display:'flex', justifyContent:'center', gap: 10}}>
                     <input 
                         style={{padding: 10, borderRadius: 5, border:'none', width: 300}} 

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import api from "../../services/api"; 
 import AppContext from "../../context/AppContext";
 import NomineesCard from "../../components/nomineesCard";
@@ -12,7 +10,9 @@ import CategoryNavigator from "../../components/categoryNavigator";
 const Indicados = () => {
     const { token, id } = useParams(); 
     const navigate = useNavigate();
-    const [groupData, setGroupData] = useState(null);
+    
+    const [groupData, setGroupData] = useState(null); // Dados da votação (Categorias + Indicados)
+    const [winnersMap, setWinnersMap] = useState({}); // Mapa de vencedores { catId: winnerId }
     const [loading, setLoading] = useState(true);
     
     const { user, targetDate, saveVote, setTargetDate, fetchUserVotes } = useContext(AppContext); 
@@ -20,19 +20,33 @@ const Indicados = () => {
     const [lowOpacity, setLowOpacity] = useState(0);
     const categoryIndex = Number(id); 
 
+    // --- CARREGAMENTO DE DADOS ---
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // 1. Carrega dados da votação (Sempre necessário para montar a tela)
                 const response = await api.get(`/vote-data/${token}`);
-                setGroupData(response.data);
+                const data = response.data;
+                setGroupData(data);
 
-                if (response.data.group) {
-                    if (response.data.group.end_date) {
-                        setTargetDate(new Date(response.data.group.end_date));
-                    }
-                
-                    if (user) {
-                        fetchUserVotes(response.data.group.id);
+                if (data.group && data.group.end_date) {
+                    const endDate = new Date(data.group.end_date);
+                    setTargetDate(endDate);
+
+                    // 2. Lógica Condicional baseada na Data
+                    if (new Date() > endDate) {
+                        // A) VOTAÇÃO ENCERRADA: Busca os IDs dos vencedores
+                        try {
+                            const winnersRes = await api.get(`/winners/${token}`);
+                            setWinnersMap(winnersRes.data); // Guarda { 1: 5, 2: 12 } (CatID: WinnerID)
+                        } catch (err) {
+                            console.error("Ainda não foi possível carregar os vencedores.");
+                        }
+                    } else {
+                        // B) VOTAÇÃO ABERTA: Carrega votos do usuário
+                        if (user) {
+                            fetchUserVotes(data.group.id);
+                        }
                     }
                 }
             } catch (error) {
@@ -42,8 +56,9 @@ const Indicados = () => {
             }
         };
         fetchData();
-    }, [token, user]);
+    }, [token, user]); 
 
+    // --- CONTROLES VISUAIS (Navegação) ---
     useEffect(() => {
         if (!groupData) return;
         const total = groupData.categories.length;
@@ -60,6 +75,7 @@ const Indicados = () => {
         }
     };
 
+    // --- AÇÕES DO USUÁRIO ---
     const handleVote = async (nomineeId, nomineeName) => {
         if (!user) {
             alert("Faça login para votar.");
@@ -76,13 +92,10 @@ const Indicados = () => {
                 categoryId: realCategoryId,
                 nomineeId: nomineeId
             });
-
             saveVote(realCategoryId, nomineeName);
-
         } catch (err) {
             alert(err.response?.data?.msg || "Erro ao votar.");
         }
-    
     };
     
     const handleDeleteVote = async (categoryId) => {
@@ -91,24 +104,14 @@ const Indicados = () => {
             navigate('/auth');
             return;
         }
-
         const realGroupId = groupData.group.id;
-
         try {
-            await api.delete("/vote", {
-                data: { 
-                    groupId: realGroupId, 
-                    categoryId 
-                }
-            });
-
+            await api.delete("/vote", { data: { groupId: realGroupId, categoryId } });
             saveVote(categoryId, undefined);
-
         } catch (err) {
             alert(err.response?.data?.msg || "Erro ao remover voto.");
         }
     };
-
 
     if (loading) return <div style={{color:'white', padding:'20px'}}>Carregando...</div>;
     if (!groupData || !groupData.categories[categoryIndex]) {
@@ -117,6 +120,9 @@ const Indicados = () => {
 
     const currentCategory = groupData.categories[categoryIndex];
     const nomeados = currentCategory.nominees; 
+    
+    // Verifica se a votação acabou para decidir qual card mostrar
+    const isVotingEnded = new Date() > new Date(targetDate);
 
     return (
         <div className={styles.indicadosContainer}>
@@ -131,7 +137,8 @@ const Indicados = () => {
                 <h2>{currentCategory.description}</h2>
 
                 <ul>
-                    {new Date() < new Date(targetDate) ? (
+                    {/* SE VOTAÇÃO ESTÁ ABERTA: Usa NomineesCard (com botões de voto) */}
+                    {!isVotingEnded ? (
                         nomeados.map((nominee, index) => (
                             <li key={nominee.id} style={{ animationDelay: `${index * 0.1}s` }}>
                                 <NomineesCard 
@@ -147,11 +154,24 @@ const Indicados = () => {
                             </li>
                         ))
                     ) : (
-                        nomeados.map((nominee, index) => (
-                            <li key={nominee.id} style={{ animationDelay: `${index * 0.1}s` }}>
-                                <ResultsCard content={nominee} winner={nominee.winner} />
-                            </li>
-                        ))
+                        // SE VOTAÇÃO ACABOU: Usa ResultsCard
+                        nomeados.map((nominee, index) => {
+                            // Verifica se este indicado é o vencedor comparando IDs
+                            const isWinner = winnersMap[currentCategory.id] === nominee.id;
+                            
+                            return (
+                                <li key={nominee.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                                    <ResultsCard 
+                                        content={{
+                                            ...nominee,
+                                            img: nominee.image // Garante compatibilidade de nome de props
+                                        }} 
+                                        winner={isWinner} 
+                                        numericId={currentCategory.id}
+                                    />
+                                </li>
+                            );
+                        })
                     )}
                 </ul>   
             </section>

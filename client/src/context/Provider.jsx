@@ -110,7 +110,7 @@ function Provider({ children }) {
                 setUser(response.data.user);
                 setIsAuthenticated(true);
                 
-                window.location.href = "/dashboard"; 
+                window.location.href = "/account"; 
                 return { success: true };
             }
             return { success: false, msg: response.data.msg };

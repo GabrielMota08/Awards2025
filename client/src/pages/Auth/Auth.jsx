@@ -14,7 +14,7 @@ const Auth = () => {
     const handleClickLogin = async (values) => {
         const result = await login(values.email, values.password);
         if (result.success) {
-            navigate("/dashboard");
+            navigate("/account");
         } else {
             setErrorMsg(result.msg || "Erro ao fazer o login");
         }
@@ -22,7 +22,7 @@ const Auth = () => {
 
     useEffect(() => {
         if (!isLoading && isAuthenticated) {
-            navigate("/dashboard");
+            navigate("/account");
         }
     }, [isLoading, isAuthenticated, navigate]);
 

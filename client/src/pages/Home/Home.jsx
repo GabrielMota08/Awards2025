@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import logo2 from "../../assets/logo_reduzido.png";
 import logoFooter from "../../assets/awards.png";
 import styles from "./Home.module.css";       //  ✅ CSS MODULES
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import { GoChevronDown } from "react-icons/go";
 
 const Home = () => {
     const { shortlisted, targetDate } = useContext(AppContext);
-
+    const { token } = useParams;
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -66,12 +66,12 @@ const Home = () => {
                                     ? styles.disableWinners
                                     : ""
                             }
-                            to="/winners/0"
+                            to={`/winners/${token ? token : "1"}/0`}
                         >
                             CONFIRA OS VENCEDORES
                         </Link>
 
-                        <Link to="/categories">VEJA OS INDICADOS</Link>
+                        <Link to={`/categories/${token ? token : "1"}`}>VEJA OS INDICADOS</Link>
                     </div>
 
                     <div className={styles.timer}>
@@ -84,7 +84,7 @@ const Home = () => {
                             <p>{seconds}</p>
                         </div>
 
-                        <Link to="/nominees/1/0">VOTE AGORA</Link>
+                        <Link to={`/nominees/${token ? token : "1"}/0`}>VOTE AGORA</Link>
                     </div>
                 </section>
 
