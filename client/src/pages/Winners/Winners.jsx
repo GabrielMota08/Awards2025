@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import api from "../../services/api";
 import AppContext from "../../context/AppContext";
 import ResultsCard from "../../components/resultsCard";
@@ -9,23 +7,32 @@ import styles from "./Winners.module.css";
 import CategoryNavigator from "../../components/categoryNavigator";
 
 const Winners = () => {
-    const { token, id } = useParams(); // token da URL
+    const { token, id } = useParams(); 
     const navigate = useNavigate();
-    const { votes } = useContext(AppContext);
 
     const [groupData, setGroupData] = useState(null);
+    const [winnersMap, setWinnersMap] = useState({});
     const [loading, setLoading] = useState(true);
+    
     const [lowOpacity, setLowOpacity] = useState(0);
     const categoryIndex = Number(id);
 
-    // BUSCAR DADOS DA API
-    useEffect(() => {
+useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await api.get(`/vote-data/${token}`);
+                const response = await api.get(`/vote-data/${token}`, { skipAuthRedirect: true });
                 setGroupData(response.data);
+
+                try {
+                    const winnersRes = await api.get(`/winners/${token}`, { skipAuthRedirect: true });
+                    setWinnersMap(winnersRes.data);
+                } catch (err) {
+                    console.error("Erro ao carregar os vencedores.", err);
+                }
+
             } catch (err) {
                 console.error("Erro ao buscar dados", err);
+
             } finally {
                 setLoading(false);
             }
@@ -33,7 +40,6 @@ const Winners = () => {
         fetchData();
     }, [token]);
 
-    // CONTROLAR OPACIDADE DAS SETAS
     useEffect(() => {
         if (!groupData) return;
         const total = groupData.categories.length;
@@ -75,15 +81,19 @@ const Winners = () => {
                 <h2>{currentCategory.description}</h2>
 
                 <ul>
-                    {nomeados.map((item, index) => (
-                        <li key={item.id} style={{ animationDelay: `${index * 0.1}s` }}>
-                            <ResultsCard
-                                content={item}
-                                numericId={categoryIndex}
-                                winner={item.winner}
-                            />
-                        </li>
-                    ))}
+                    {nomeados.map((item, index) => {
+                        const isWinner = winnersMap[currentCategory.id] === item.id;
+
+                        return (
+                            <li key={item.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                                <ResultsCard
+                                    content={item}
+                                    numericId={categoryIndex}
+                                    winner={isWinner}
+                                />
+                            </li>
+                        );
+                    })}
                 </ul>
             </section>
         </div>

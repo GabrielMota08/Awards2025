@@ -1,10 +1,10 @@
 import { Navigate, useParams } from "react-router-dom";
 
-export default function ProtectedWinnerRoute({ targetDate, children }) {
-  const { id } = useParams();
+export default function ProtectedWinnerRoute({ isVotingEnded, children }) {
+  const { token, id } = useParams();
 
-  if (new Date() < targetDate) {
-    return <Navigate to={`/nominees/${id}`} replace />;
+  if (!isVotingEnded) {
+    return <Navigate to={`/nominees/${token || 1}/${id || 0}`} replace />;
   }
 
   return children;

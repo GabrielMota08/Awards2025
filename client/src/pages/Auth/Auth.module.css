@@ -1,35 +1,159 @@
-.containerLogin{
-    height: max-content;
-    margin: auto;
-    padding: 20px 15px;
-    border-radius: 7px;
-    font-family: sans-serif;
+/* Container principal - Fundo bem escuro (quase preto) */
+.pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: -4em auto;
+    width: 100%;
+    background-color: #080808; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e0e0e0; /* Cor de texto padrão clara */
 }
 
-h1{
+/* O "Cartão" agora é cinza escuro */
+.card {
+    background-color: #181818; /* Cinza escuro para diferenciar do fundo */
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: 12px;
+    
+    /* Sombra mais suave para dark mode e borda sutil */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+    border: 1px solid #333; 
+
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
     margin: 0;
+    text-align: center;
+    color: #ffffff; /* Branco puro para título */
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #a0a0a0; /* Cinza médio para subtítulo */
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
     text-align: left;
-    margin-bottom: 10px;
-}
-.loginForm{
-    padding: 5px;
 }
 
-.formField{
-    display: inline-block;
-    padding: 5px;
-    margin-top: 20px;
-}
-
-.formError{
-    display: block;
-    color: red;
-    font-size: 0.9em;
+.formGroup label {
+    font-size: 0.85rem;
+    color: #cccccc; /* Cinza claro para labels */
+    margin-bottom: 0.3rem;
     font-weight: 600;
 }
 
-.button{
-    margin: top 20px;
-    margin-bottom: 20px;
-    padding: 5px;
+/* Inputs adaptados para o escuro */
+.inputField {
+    padding: 12px;
+    background-color: #252525; /* Um pouco mais claro que o card */
+    color: #ffffff; /* Texto digitado branco */
+    border: 1px solid #444; /* Borda escura discreta */
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    outline: none;
+}
+
+.inputField:focus {
+    border-color: #4a90e2; 
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    background-color: #2a2a2a;
+}
+
+.formError {
+    color: #ff6b6b; /* Vermelho mais claro para ler melhor no fundo escuro */
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* Erro do servidor (Alert) */
+.serverError {
+    background-color: #3c1f1f; /* Fundo vermelho escuro */
+    color: #ffb3b3; /* Texto vermelho claro */
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #5c2b2b;
+}
+
+/* Botão Principal */
+.submitButton {
+    background-color: #4a90e2; /* Azul mantém bom contraste */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #357abd;
+}
+
+/* Área de troca (Toggle) */
+.toggleContainer {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    border-top: 1px solid #333; /* Divisória escura */
+    padding-top: 1.5rem;
+}
+
+.toggleButton {
+    background: none;
+    border: none;
+    color: #6eb1ff; /* Azul um pouco mais claro para links */
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+    padding: 0;
+}
+
+.toggleButton:hover {
+    text-decoration: underline;
+    color: #9ecbff;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 480px) {
+    .card {
+        box-shadow: none;
+        background-color: transparent;
+        border: none; /* Remove borda no mobile */
+        padding: 1.5rem;
+    }
+    
+    .pageContainer {
+        /* No mobile, mantém o fundo escuro (não muda pra branco) */
+        background-color: #080808; 
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
 }

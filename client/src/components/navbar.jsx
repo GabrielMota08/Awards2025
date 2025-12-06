@@ -7,9 +7,10 @@ import styles from "./navbar.module.css";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
-    const { menuOpen, setMenuOpen, targetDate } = useContext(AppContext);
-    const { token } = useParams();
-    // Estado local para controlar o comportamento do menu no tamanho da tela
+    // Pegamos isVotingEnded em vez de targetDate
+    const { menuOpen, setMenuOpen, isVotingEnded } = useContext(AppContext);
+    const { token, id } = useParams();
+    
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
 
     useEffect(() => {
@@ -18,23 +19,21 @@ const Navbar = () => {
         const handleResize = (e) => {
             setIsMobile(e.matches);
             if (!e.matches) {
-                // Se for maior que 700px, garantir que o menu permaneça aberto
                 setMenuOpen(false);
             }
         };
 
-        handleResize(mediaQuery); // Inicializa com o estado atual da tela
+        handleResize(mediaQuery); 
 
         mediaQuery.addEventListener("change", handleResize);
 
         return () => mediaQuery.removeEventListener("change", handleResize);
     }, [setMenuOpen]);
 
-    // Controla o comportamento do menu ao rolar a tela
     useEffect(() => {
         const handleScroll = () => {
             if (isMobile) {
-                setMenuOpen(true); // Abre o menu se estiver em uma tela pequena e rolar a página
+                setMenuOpen(true); 
             }
         };
 
@@ -46,7 +45,7 @@ const Navbar = () => {
     return (
         <nav id={styles.navbar}>
             <h2>
-                <Link to="/">
+                <Link to={`/${token}`}>
                     <img src={awards} alt="logo" className={styles.logoImg} />
                 </Link>
             </h2>
@@ -60,12 +59,13 @@ const Navbar = () => {
                     </button>
                 ) : (
                     <>
-                        {new Date() > targetDate ? (
-                            <Link to={`/winners/${token || 1}/0`}><p>VENCEDORES</p></Link>
+                        {isVotingEnded ? (
+                            <Link to={`/winners/${token || 1}/${id || 0}`}><p>VENCEDORES</p></Link>
                         ) : (
                             <p className={styles.winnerNavbarButton}>VENCEDORES</p>
                         )}
-                        <Link to={`/nominees/${token || 1}/0`}><p>VOTAÇÃO</p></Link>
+                        
+                        <Link to={`/nominees/${token || 1}/${id || 0}`}><p>VOTAÇÃO</p></Link>
                         <Link to={`/categories/${token || 1}`}><p>CATEGORIAS</p></Link>
                     </>
                 )}

@@ -8,7 +8,7 @@ import { GoChevronDown } from "react-icons/go";
 
 const Home = () => {
     const { shortlisted, targetDate } = useContext(AppContext);
-    const { token } = useParams;
+    const { token, id } = useParams();
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -66,7 +66,7 @@ const Home = () => {
                                     ? styles.disableWinners
                                     : ""
                             }
-                            to={`/winners/${token ? token : "1"}/0`}
+                            to={`/winners/${token ? token : "1"}/${id || 0}`}
                         >
                             CONFIRA OS VENCEDORES
                         </Link>
@@ -84,7 +84,7 @@ const Home = () => {
                             <p>{seconds}</p>
                         </div>
 
-                        <Link to={`/nominees/${token ? token : "1"}/0`}>VOTE AGORA</Link>
+                        <Link to={`/nominees/${token ? token : "1"}/${id || 0}`}>VOTE AGORA</Link>
                     </div>
                 </section>
 

@@ -40,7 +40,7 @@
 }
 
 .description a:first-child{
-    background-color: rgb(18, 32, 142); 
+    background-color: rgb(55, 24, 80); 
     color: white;
     font-weight: bold;
     margin-bottom: 2em;
@@ -51,7 +51,7 @@
 }
 
 .description a:first-child:hover{
-    background-color: #184ccf;
+    background-color: rgb(105, 49, 151);
     color: white
 }
 

@@ -11,11 +11,12 @@ const Indicados = () => {
     const { token, id } = useParams(); 
     const navigate = useNavigate();
     
-    const [groupData, setGroupData] = useState(null); // Dados da votação (Categorias + Indicados)
-    const [winnersMap, setWinnersMap] = useState({}); // Mapa de vencedores { catId: winnerId }
+    const [groupData, setGroupData] = useState(null); 
+    const [winnersMap, setWinnersMap] = useState({}); 
     const [loading, setLoading] = useState(true);
     
-    const { user, targetDate, saveVote, setTargetDate, fetchUserVotes } = useContext(AppContext); 
+    // ALTERAÇÃO 1: Pegamos isVotingEnded do contexto
+    const { user, saveVote, setTargetDate, fetchUserVotes, isVotingEnded } = useContext(AppContext); 
     
     const [lowOpacity, setLowOpacity] = useState(0);
     const categoryIndex = Number(id); 
@@ -24,26 +25,28 @@ const Indicados = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // 1. Carrega dados da votação (Sempre necessário para montar a tela)
-                const response = await api.get(`/vote-data/${token}`);
+                // ALTERAÇÃO 2: Adicionado { skipAuthRedirect: true } para não bloquear visitantes
+                const response = await api.get(`/vote-data/${token}`, { skipAuthRedirect: true });
                 const data = response.data;
                 setGroupData(data);
 
                 if (data.group && data.group.end_date) {
                     const endDate = new Date(data.group.end_date);
+                    
+                    // Atualiza a data no contexto (isso fará o isVotingEnded do AppContext atualizar)
                     setTargetDate(endDate);
 
-                    // 2. Lógica Condicional baseada na Data
+                    // NOTA: Aqui mantemos a comparação com 'endDate' local apenas para decidir 
+                    // qual requisição secundária fazer AGORA (vencedores ou votos), 
+                    // sem ter que esperar o ciclo de renderização do React atualizar o contexto.
                     if (new Date() > endDate) {
-                        // A) VOTAÇÃO ENCERRADA: Busca os IDs dos vencedores
                         try {
-                            const winnersRes = await api.get(`/winners/${token}`);
-                            setWinnersMap(winnersRes.data); // Guarda { 1: 5, 2: 12 } (CatID: WinnerID)
+                            const winnersRes = await api.get(`/winners/${token}`, { skipAuthRedirect: true });
+                            setWinnersMap(winnersRes.data); 
                         } catch (err) {
                             console.error("Ainda não foi possível carregar os vencedores.");
                         }
                     } else {
-                        // B) VOTAÇÃO ABERTA: Carrega votos do usuário
                         if (user) {
                             fetchUserVotes(data.group.id);
                         }
@@ -56,7 +59,7 @@ const Indicados = () => {
             }
         };
         fetchData();
-    }, [token, user]); 
+    }, [token, user, setTargetDate, fetchUserVotes]); 
 
     // --- CONTROLES VISUAIS (Navegação) ---
     useEffect(() => {
@@ -78,7 +81,6 @@ const Indicados = () => {
     // --- AÇÕES DO USUÁRIO ---
     const handleVote = async (nomineeId, nomineeName) => {
         if (!user) {
-            alert("Faça login para votar.");
             navigate('/auth');
             return;
         }
@@ -121,8 +123,7 @@ const Indicados = () => {
     const currentCategory = groupData.categories[categoryIndex];
     const nomeados = currentCategory.nominees; 
     
-    // Verifica se a votação acabou para decidir qual card mostrar
-    const isVotingEnded = new Date() > new Date(targetDate);
+    // ALTERAÇÃO 3: Removemos a const local. Usamos 'isVotingEnded' direto do contexto no return.
 
     return (
         <div className={styles.indicadosContainer}>
@@ -137,8 +138,9 @@ const Indicados = () => {
                 <h2>{currentCategory.description}</h2>
 
                 <ul>
-                    {/* SE VOTAÇÃO ESTÁ ABERTA: Usa NomineesCard (com botões de voto) */}
+                    {/* ALTERAÇÃO 4: Usando a variável do Contexto */}
                     {!isVotingEnded ? (
+                        // MODO VOTAÇÃO
                         nomeados.map((nominee, index) => (
                             <li key={nominee.id} style={{ animationDelay: `${index * 0.1}s` }}>
                                 <NomineesCard 
@@ -154,9 +156,8 @@ const Indicados = () => {
                             </li>
                         ))
                     ) : (
-                        // SE VOTAÇÃO ACABOU: Usa ResultsCard
+                        // MODO RESULTADOS (VOTAÇÃO ENCERRADA)
                         nomeados.map((nominee, index) => {
-                            // Verifica se este indicado é o vencedor comparando IDs
                             const isWinner = winnersMap[currentCategory.id] === nominee.id;
                             
                             return (
@@ -164,7 +165,7 @@ const Indicados = () => {
                                     <ResultsCard 
                                         content={{
                                             ...nominee,
-                                            img: nominee.image // Garante compatibilidade de nome de props
+                                            img: nominee.image 
                                         }} 
                                         winner={isWinner} 
                                         numericId={currentCategory.id}

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppContext from './AppContext';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import api from '../services/api'; // Importe a instância configurada do Axios
-// import { DEFAULT_TOKEN } from '../constants'; // O token da votação principal
+import api from '../services/api'; 
 
 function Provider({ children }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,15 +10,14 @@ function Provider({ children }) {
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const DEFAULT_TOKEN = 1;
-    // --- 1. DATA DINÂMICA (Inicia com data futura até carregar do banco) ---
-    const [targetDate, setTargetDate] = useState(new Date("2030-01-01"));
-    
-    const shortlisted = []; // Seus dados estáticos (se houver)
 
-    // --- 2. ESTADO DOS VOTOS ---
+    const [targetDate, setTargetDate] = useState(new Date("2030-01-01"));
+    const [isVotingEnded, setIsVotingEnded] = useState(false);
+    
+    const shortlisted = []; 
+
     const [votes, setVotes] = useState({}); 
     
-    // Atualiza o estado visual localmente
     const saveVote = (categoryId, nomineeName) => {
         setVotes((prev) => ({
             ...prev,
@@ -27,19 +25,29 @@ function Provider({ children }) {
         }));
     };
 
-    // Busca votos do banco (Chamada pelo useEffect ou páginas internas)
     const fetchUserVotes = async (groupId) => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
         try {
             const response = await api.get(`/my-votes/${groupId}`);
-            // O backend retorna: { "1": "Nome do Indicado", "2": "Outro" }
             setVotes(prev => ({ ...prev, ...response.data }));
         } catch (error) {
             console.error("Erro ao buscar votos anteriores:", error);
         }
     };
+
+    useEffect(() => {
+        const checkTime = () => {
+            const now = new Date();
+            setIsVotingEnded(now > targetDate);
+        };
+        
+        checkTime();
+        
+        const timer = setInterval(checkTime, 60000);
+        return () => clearInterval(timer);
+    }, [targetDate]);
 
     // --- 3. INICIALIZAÇÃO DO APP ---
     useEffect(() => {
@@ -51,21 +59,15 @@ function Provider({ children }) {
             // A. Validação de Login
             if (token && storedUser) {
                 try {
-                    // Se você tiver a rota /validate-token, use-a. 
-                    // Caso contrário, confiamos no localStorage até a primeira requisição falhar (401).
-                    // Aqui mantive sua lógica original:
                     const response = await axios.get("http://localhost:3001/validate-token", {
                         headers: { Authorization: `Bearer ${token}` }
-                    }).catch(() => null); // Se der erro, ignora e segue
+                    }).catch(() => null); 
 
                     if (response && response.data.valid) {
                         currentUser = JSON.parse(storedUser);
                         setUser(currentUser);
                         setIsAuthenticated(true);
                     } else {
-                        // Se a validação falhar (ou não existir rota), podemos tentar manter o user
-                        // ou forçar logout. Aqui estou assumindo sucesso se o token existir para simplificar,
-                        // a menos que o backend rejeite explicitamente.
                         currentUser = JSON.parse(storedUser);
                         setUser(currentUser);
                         setIsAuthenticated(true);
@@ -141,6 +143,7 @@ function Provider({ children }) {
         fetchUserVotes,
         targetDate,
         setTargetDate,
+        isVotingEnded,
         shortlisted
     };
 

@@ -15,8 +15,12 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
+        const shouldRedirect = !error.config.skipAuthRedirect;
 
-        if (error.response?.status === 401 || error.response?.status === 403) {
+        if (
+            shouldRedirect && 
+            (error.response?.status === 401 || error.response?.status === 403)
+        ) {
             localStorage.removeItem('token');
             window.location.href = '/auth';
         }

@@ -10,6 +10,9 @@ const Auth = () => {
     const { login, isAuthenticated, isLoading } = useContext(AppContext);
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState("");
+    
+    // Estado para controlar qual formulário aparece (Login ou Registro)
+    const [isLoginView, setIsLoginView] = useState(true);
 
     const handleClickLogin = async (values) => {
         const result = await login(values.email, values.password);
@@ -20,80 +23,129 @@ const Auth = () => {
         }
     };
 
+    const handleClickRegister = (values) => {
+        Axios.post("http://localhost:3001/register", {
+            email: values.email,
+            password: values.password,
+        }).then(async (response) => {
+            // Após registrar com sucesso, faz o login automaticamente
+            const loginResult = await login(values.email, values.password);
+            if (loginResult.success) {
+                navigate("/account");
+            } else {
+                // Se falhar o login automático, muda para a tela de login
+                alert("Conta criada! Faça login.");
+                setIsLoginView(true);
+            }
+        }).catch((error) => {
+            alert("Erro ao registrar: " + error.response?.data?.msg || "Tente novamente");
+        });
+    };
+
     useEffect(() => {
         if (!isLoading && isAuthenticated) {
             navigate("/account");
         }
     }, [isLoading, isAuthenticated, navigate]);
 
-    const handleClickRegister = (values) => {
-        Axios.post("http://localhost:3001/register", {
-            email: values.email,
-            password: values.password,
-        }).then((response) => {
-            console.log(response);
-            alert(response.data.msg);
-        });
-    };
-
     const validationLogin = yup.object().shape({
-        email: yup.string().email("Este email não é valido").required(),
-        password: yup.string().min(2, "A senha deve ter pelo menos 6 caracteres").required(),
+        email: yup.string().email("Este email não é valido").required("O email é obrigatório"),
+        password: yup.string().required("A senha é obrigatória"),
     });
 
     const validationRegister = yup.object().shape({
-        email: yup.string().email("Este email não é valido").required(),
-        password: yup.string().min(6, "A senha deve ter pelo menos 6 caracteres").required(),
+        email: yup.string().email("Este email não é valido").required("O email é obrigatório"),
+        password: yup.string().min(6, "A senha deve ter pelo menos 6 caracteres").required("A senha é obrigatória"),
         confirmPassword: yup
             .string()
-            .oneOf([yup.ref("password"), null], "As senhas não coincidem"),
+            .oneOf([yup.ref("password"), null], "As senhas não coincidem")
+            .required("Confirme sua senha"),
     });
 
     return (
-        <div>
-            <div className={styles.containerLogin}>
-                <h1>Login</h1>
+        <div className={styles.pageContainer}>
+            <div className={styles.card}>
+                <h1 className={styles.title}>
+                    {isLoginView ? "Entrar" : "Criar Conta"}
+                </h1>
+                
+                <p className={styles.subtitle}>
+                    {isLoginView ? "Bem-vindo de volta!" : "Preencha os dados abaixo"}
+                </p>
 
-                {/* LOGIN */}
-                <Formik initialValues={{}} onSubmit={handleClickLogin} validationSchema={validationLogin}>
-                    <Form className={styles.loginForm}>
-                        <div className={styles.loginFormGroup}>
-                            <Field name="email" className={styles.formField} placeholder="Email" />
-                            <ErrorMessage component="span" name="email" className={styles.formError} />
-                        </div>
+                {errorMsg && <div className={styles.serverError}>{errorMsg}</div>}
 
-                        <div className={styles.loginFormGroup}>
-                            <Field name="password" className={styles.formField} placeholder="Senha" />
-                            <ErrorMessage component="span" name="password" className={styles.formError} />
-                        </div>
+                {/* Renderização Condicional */}
+                {isLoginView ? (
+                    <Formik 
+                        initialValues={{ email: "", password: "" }} 
+                        onSubmit={handleClickLogin} 
+                        validationSchema={validationLogin}
+                    >
+                        <Form className={styles.form}>
+                            <div className={styles.formGroup}>
+                                <label>Email</label>
+                                <Field name="email" className={styles.inputField} placeholder="exemplo@email.com" />
+                                <ErrorMessage component="span" name="email" className={styles.formError} />
+                            </div>
 
-                        <button className={styles.buttonLogin} type="submit">Login</button>
-                    </Form>
-                </Formik>
+                            <div className={styles.formGroup}>
+                                <label>Senha</label>
+                                <Field type="password" name="password" className={styles.inputField} placeholder="********" />
+                                <ErrorMessage component="span" name="password" className={styles.formError} />
+                            </div>
 
-                <h1>Cadastro</h1>
+                            <button className={styles.submitButton} type="submit">
+                                Entrar
+                            </button>
+                        </Form>
+                    </Formik>
+                ) : (
+                    <Formik 
+                        initialValues={{ email: "", password: "", confirmPassword: "" }} 
+                        onSubmit={handleClickRegister} 
+                        validationSchema={validationRegister}
+                    >
+                        <Form className={styles.form}>
+                            <div className={styles.formGroup}>
+                                <label>Email</label>
+                                <Field name="email" className={styles.inputField} placeholder="exemplo@email.com" />
+                                <ErrorMessage component="span" name="email" className={styles.formError} />
+                            </div>
 
-                {/* REGISTER */}
-                <Formik initialValues={{}} onSubmit={handleClickRegister} validationSchema={validationRegister}>
-                    <Form className={styles.registerForm}>
-                        <div className={styles.registerFormGroup}>
-                            <Field name="email" className={styles.formField} placeholder="Email" />
-                            <ErrorMessage component="span" name="email" className={styles.formError} />
-                        </div>
+                            <div className={styles.formGroup}>
+                                <label>Senha</label>
+                                <Field type="password" name="password" className={styles.inputField} placeholder="********" />
+                                <ErrorMessage component="span" name="password" className={styles.formError} />
+                            </div>
 
-                        <div className={styles.registerFormGroup}>
-                            <Field name="password" className={styles.formField} placeholder="Senha" />
-                            <ErrorMessage component="span" name="password" className={styles.formError} />
-                        </div>
+                            <div className={styles.formGroup}>
+                                <label>Confirmar Senha</label>
+                                <Field type="password" name="confirmPassword" className={styles.inputField} placeholder="********" />
+                                <ErrorMessage component="span" name="confirmPassword" className={styles.formError} />
+                            </div>
 
-                        <div className={styles.registerFormGroup}>
-                            <Field name="confirmPassword" className={styles.formField} placeholder="Confirme sua senha" />
-                            <ErrorMessage component="span" name="confirmPassword" className={styles.formError} />
-                        </div>
+                            <button className={styles.submitButton} type="submit">
+                                Registrar
+                            </button>
+                        </Form>
+                    </Formik>
+                )}
 
-                        <button className={styles.buttonRegister} type="submit">Registrar</button>
-                    </Form>
-                </Formik>
+                <div className={styles.toggleContainer}>
+                    <span>
+                        {isLoginView ? "Não tem uma conta?" : "Já tem uma conta?"}
+                    </span>
+                    <button 
+                        className={styles.toggleButton} 
+                        onClick={() => {
+                            setIsLoginView(!isLoginView);
+                            setErrorMsg(""); // Limpa erros ao trocar de tela
+                        }}
+                    >
+                        {isLoginView ? "Cadastre-se" : "Faça Login"}
+                    </button>
+                </div>
             </div>
         </div>
     );

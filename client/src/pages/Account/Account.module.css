@@ -58,6 +58,7 @@
 .content {
     flex: 1;
     padding-left: 50px;
+    max-width: 100%;
 }
 
 /* Formulário Minha Conta */
@@ -65,6 +66,7 @@
     max-width: 500px;
     display: flex;
     flex-direction: column;
+    margin-top: 0.5em;
     gap: 20px;
     background: transparent;
     padding: 0;
@@ -107,7 +109,7 @@
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.8rem;
     transition: 0.2s;
     width: fit-content;
 }
@@ -119,14 +121,14 @@
 /* --- CRIAÇÃO DE GRUPO --- */
 
 .showCreateBtn {
-    background: #78b6fd;
+    background: #5f9de4;
     color: black;
     border: none;
     padding: 12px 24px;
     font-weight: bold;
     cursor: pointer;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     display: flex;
     align-items: center;
     transition: 0.2s;
@@ -134,7 +136,7 @@
 
 .showCreateBtn:hover {
     color: rgb(228, 228, 228);
-    background: rgb(20, 57, 180);
+    background: rgb(33, 75, 214);
 }
 
 .cancelCreateBtn {
@@ -172,7 +174,7 @@
 }
 
 .createBtn {
-    background: #4caf50;
+    background: #338f36;
     border: none;
     padding: 12px 30px;
     border-radius: 6px;
@@ -180,6 +182,11 @@
     cursor: pointer;
     color: white;
     align-self: flex-start;
+    transition-duration: 0.4s;
+}
+
+.createBtn:hover {
+    background: #56b45b
 }
 
 /* --- LISTA DE PREMIAÇÕES --- */
@@ -194,7 +201,7 @@
     border: 1px solid #333; /* Borda ao redor da premiação inteira */
     border-radius: 12px;
     padding: 30px;
-    position: relative;
+    position: relative; /* Necessário para o botão flutuante */
 }
 
 .groupHeader {
@@ -287,6 +294,7 @@
     padding-bottom: 10px;
     scrollbar-color: #555 transparent;
     scrollbar-width: thin;
+    flex-wrap: wrap;
 }
 
 .miniNomineeCard {
@@ -396,4 +404,81 @@
     .container {
         margin: 0 10%;
     }
+}
+
+/* --- NOVAS ADIÇÕES (DATA E TEMA) --- */
+
+.dateEditContainer {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.dateInput {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: #888;
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dateInput:hover, .dateInput:focus {
+    color: white;
+    border-bottom: 1px solid #7c4dff;
+    outline: none;
+}
+
+/* Botão Flutuante de Tema */
+.themeBtn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: 0.2s;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.themeBtn:hover {
+    transform: scale(1.1);
+    border-color: white;
+}
+
+/* Caixa do Color Picker */
+.colorPickerBox {
+    position: absolute;
+    bottom: 70px; /* Acima do botão */
+    right: 20px;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 30px; /* Borda arredondada como um "pill" */
+    display: flex;
+    gap: 10px;
+    z-index: 11;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    animation: fadeIn 0.2s ease;
+}
+
+.colorCircle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s;
+}
+
+.colorCircle:hover {
+    border-color: white;
+    transform: scale(1.2);
 }

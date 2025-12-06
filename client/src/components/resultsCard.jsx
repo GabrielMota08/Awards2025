@@ -1,25 +1,27 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import winner_background from "../assets/winner_background.svg"
-import winner_background_larger from "../assets/winner_background_larger.svg"
+import winner_background from "../assets/winner_background.svg";
+import winner_background_larger from "../assets/winner_background_larger.svg";
 import styles from "./resultsCard.module.css";
 import AppContext from "../context/AppContext";
 
 const ResultsCard = ({ content, numericId, winner }) => {
     const { votes } = useContext(AppContext);
     const [winnerBackgroundLarger, setWinnerBackgroundLarger] = useState(false);
+
     return (
         <div 
             className={`${styles.resultsCardDiv} ${
                 winner ? styles.winnerCard : styles.voteExpiredDiv
             }`}
         >
-            <li
+            <li // Obs: Certifique-se que o pai deste componente seja um <ul>
                 className={styles.nomineesCard}
                 key={content.name}
             >
+                {/* Imagem Principal */}
                 <img
-                    src={content.image}
+                    src={content.image} // Verifique se o objeto traz 'image' ou 'img'
                     alt={content.name}
                     className={styles.imgNomineesCard}
                     onLoad={(e) => {
@@ -38,11 +40,13 @@ const ResultsCard = ({ content, numericId, winner }) => {
                     }}
                 />
 
+                {/* --- CORREÇÃO AQUI --- */}
                 {winner && (
                     winnerBackgroundLarger 
-                        ? <img className={styles.winner_background} src={winner_background_larger} alt="Background" /> 
-                        : <img className={styles.winner_background} src={winner_background} alt="Background" />
+                        ? <img className={styles.winnerBackground} src={winner_background_larger} alt="Background" /> 
+                        : <img className={styles.winnerBackground} src={winner_background} alt="Background" />
                 )}
+                {/* --------------------- */}
                 
                 <button 
                     className={`${styles.voteButton} ${
@@ -65,7 +69,7 @@ const ResultsCard = ({ content, numericId, winner }) => {
 ResultsCard.propTypes = {
     content: PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        img: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
     }).isRequired,

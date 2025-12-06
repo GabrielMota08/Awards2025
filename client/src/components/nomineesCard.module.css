@@ -51,6 +51,22 @@
     margin-bottom: 10px;
 }
 
+.winnerBackground {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centraliza perfeitamente */
+  z-index: -1; /* Joga para trás do conteúdo */
+  
+  /* Ajuste o tamanho conforme sua necessidade de ser "maior" */
+  width: 130%; 
+  height: auto;
+  pointer-events: none; /* Garante que cliques passem pelo fundo e atinjam os botões */
+  
+  /* Opcional: animação suave ao aparecer */
+  transition: all 0.3s ease-in-out;
+}
+
 /* --- TIPO A (Vertical) --- */
 .nomineesCardA {
     /* ALTERAÇÃO: De height fixa para min-height */

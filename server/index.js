@@ -127,19 +127,19 @@ app.get("/validate-token", authenticateToken, (req, res) => {
 // ==========================================
 
 app.post("/api/groups", authenticateToken, (req, res) => {
-    const { title, description, start_date, end_date } = req.body;
+    const { title, description, start_date, end_date, theme } = req.body;
     const token = uuidv4();
 
-    const sql = "INSERT INTO award_groups (creator_id, title, description, start_date, end_date, access_token) VALUES (?, ?, ?, ?, ?, ?)";
+    const sql = "INSERT INTO award_groups (creator_id, title, description, start_date, end_date, access_token, theme) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    db.query(sql, [req.userId, title, description, start_date, end_date, token], (err, result) => {
+    db.query(sql, [req.userId, title, description, start_date, end_date, token, theme], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send({ msg: "Grupo criado!", groupId: result.insertId, linkToken: token });
     });
 });
 
 app.put("/api/groups/:id", authenticateToken, (req, res) => {
-    const { title, description, start_date, end_date } = req.body;
+    const { title, description, start_date, end_date, theme } = req.body;
     const groupId = req.params.id;
     const userId = req.userId;
 
@@ -149,8 +149,8 @@ app.put("/api/groups/:id", authenticateToken, (req, res) => {
         if (err) return res.status(500).send(err);
         if (result.length === 0) return res.status(403).send({ msg: "Permissão negada ou grupo não encontrado" });
 
-        const updateSql = "UPDATE award_groups SET title = ?, description = ?, start_date = ?, end_date = ? WHERE id = ?";
-        db.query(updateSql, [title, description, start_date, end_date, groupId], (err, result) => {
+        const updateSql = "UPDATE award_groups SET title = ?, description = ?, start_date = ?, end_date = ?, theme = ? WHERE id = ?";
+        db.query(updateSql, [title, description, start_date, end_date, theme, groupId], (err, result) => {
             if (err) return res.status(500).send(err);
             res.send({ msg: "Grupo atualizado com sucesso!" });
         });
@@ -261,14 +261,14 @@ app.get("/api/vote-data/:token", (req, res) => {
                     categoriesMap[row.cat_id].nominees.push({
                         id: row.nom_id,
                         name: row.nom_name,
-                        description: row.nom_desc, // Inclui descrição no JSON
+                        description: row.nom_desc,
                         image: row.nom_img
                     });
                 }
             });
 
             res.send({
-                group: { id: group.id, title: group.title, description: group.description, start_date: group.start_date, end_date: group.end_date },
+                group: { id: group.id, title: group.title, description: group.description, start_date: group.start_date, end_date: group.end_date, theme: group.theme },
                 categories: Object.values(categoriesMap)
             });
         });

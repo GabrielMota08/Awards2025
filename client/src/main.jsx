@@ -17,18 +17,18 @@ import ProtectedWinnerRoute from './router/ProtectWinnerRoute.jsx';
 import ManageGroup from './pages/ManageGroup/ManageGroup.jsx';
 
 const AppRoutes = () => {
-  const { targetDate } = useContext(AppContext);
+  const { isVotingEnded } = useContext(AppContext);
 
   return (
     <Routes>
       <Route element={<App />}>
         <Route path="/:token?" element={<Home />} />
         <Route path="auth" element={<Auth />} />
-        <Route path="/nominees/:token/:id" element={<Indicados />} />
+        <Route path="/nominees/:token/:id?" element={<Indicados />} />
         <Route path="/account" element={<Account />} />
         <Route path="/account/manage/:groupId" element={<ManageGroup />}/>
-        <Route path="/winners/:token/:id" element={
-          <ProtectedWinnerRoute targetDate={targetDate}>
+        <Route path="/winners/:token/:id?" element={
+          <ProtectedWinnerRoute isVotingEnded={isVotingEnded}>
               <Winners />
           </ProtectedWinnerRoute>
         }
