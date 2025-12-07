@@ -6,7 +6,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 const CategoryNavigator = ({ lowOpacity, navigateTo, token, categoryProgress }) => {
     return (
         <div className={styles.categoriesNominees}>
-            <Link to="/" className={styles.backToHome}>
+            <Link to={`/${token}`} className={styles.backToHome}>
                 <FaArrowLeftLong /> PÁGINA INICIAL
             </Link>
             <section className={styles.categoriesNomineesSection}>

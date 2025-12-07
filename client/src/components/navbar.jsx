@@ -45,7 +45,7 @@ const Navbar = () => {
     return (
         <nav id={styles.navbar}>
             <h2>
-                <Link to={`/${token}`}>
+                <Link to={`/${token || "1"}`}>
                     <img src={awards} alt="logo" className={styles.logoImg} />
                 </Link>
             </h2>

@@ -357,6 +357,17 @@
     color: white;
 }
 
+.openLinkBtn {
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+}
+
+.openLinkBtn:hover {
+    border: 1px solid #adadad;
+    color: #adadad;
+}
+
 .copyLinkMessage {
     background: #30439b !important;
     color: #fff !important;

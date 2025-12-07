@@ -29,7 +29,7 @@ const Categoria = () => {
             <h1>TODAS AS CATEGORIAS</h1>
             <div>
             <h2><span>INDICADOS</span></h2>
-            {categories.length > 0 &&
+            {categories.length > 0 ?
                 <p>
                     {categories.map(({ id, name }, index) => (
                         <Link to={`/nominees/${token}/${index}`} key={id}>
@@ -37,7 +37,7 @@ const Categoria = () => {
                         </Link>
                     ))}
                 </p>
-                }
+            : <h4 style={{marginLeft: "20px"}}>Carregando...</h4>}
             </div>
         </section>
         </>

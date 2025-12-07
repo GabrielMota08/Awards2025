@@ -1,24 +1,23 @@
 /* client/src/components/nomineesCard.modules.css */
 
 .nomineesCardDiv li {
-    /* Mudei para display block para garantir que o li se comporte como container */
     display: block; 
     transition: transform 0.5s ease, filter 0.5s ease;
-    list-style: none; /* Remove bolinhas caso apareçam */
+    list-style: none;
 }
 
 .nomineesCardDiv li:hover {
     transform: translateY(5px);
-    z-index: 10; /* Garante que o card fique por cima ao dar zoom */
+    z-index: 10;
 }
 
 .marginBottom5em {
     padding-bottom: 1.6em;
 }
 
-/* --- TIPO B (Horizontal) --- */
 .nomineesCardB {
     width: 16em !important;
+    min-height: 0 !important;
 }
 
 .nomineesCardB img {
@@ -28,7 +27,6 @@
     object-fit: cover;
 }
 
-/* Removido overrides de top/margin que não são mais necessários com position:relative */
 
 .nomineesCardB .winnerBackground {
     scale: 1.27;
@@ -37,7 +35,6 @@
     width: 96%;
 }
 
-/* --- CARD GERAL (Container) --- */
 .nomineesCard {
     display: flex;
     width: 9em;
@@ -46,8 +43,8 @@
     flex-direction: column;
     position: relative;
     height: auto; 
-    min-height: 17em; /* Mantém um tamanho mínimo base */
-    padding-bottom: 15px; /* Espaço extra no final para a descrição não colar na borda */
+    min-height: 17em;
+    padding-bottom: 15px;
     margin-bottom: 10px;
 }
 
@@ -55,21 +52,15 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Centraliza perfeitamente */
-  z-index: -1; /* Joga para trás do conteúdo */
-  
-  /* Ajuste o tamanho conforme sua necessidade de ser "maior" */
+  transform: translate(-50%, -50%);
+  z-index: -1;
   width: 130%; 
   height: auto;
-  pointer-events: none; /* Garante que cliques passem pelo fundo e atinjam os botões */
-  
-  /* Opcional: animação suave ao aparecer */
+  pointer-events: none;
   transition: all 0.3s ease-in-out;
 }
 
-/* --- TIPO A (Vertical) --- */
 .nomineesCardA {
-    /* ALTERAÇÃO: De height fixa para min-height */
     min-height: 19em !important; 
     height: auto !important;
 }

@@ -212,7 +212,7 @@ const ManageGroup = () => {
         if (dirtyItems.size > 0) {
             if (!window.confirm("Há alterações não salvas. Deseja sair e perder o progresso?")) return;
         }
-        navigate("/account");
+        navigate("/account/#my-awards");
     };
 
     useEffect(() => {

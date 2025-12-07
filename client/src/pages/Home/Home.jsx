@@ -1,14 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import logo2 from "../../assets/logo_reduzido.png";
 import logoFooter from "../../assets/awards.png";
-import styles from "./Home.module.css";       //  ✅ CSS MODULES
-import { Link, useParams } from "react-router-dom";
+import styles from "./Home.module.css";
+import { Link, useParams, useNavigate } from "react-router-dom"; // Adicionado useNavigate
 import AppContext from "../../context/AppContext";
 import { GoChevronDown } from "react-icons/go";
+import { FaPlusCircle } from "react-icons/fa"; // Ícones opcionais para ilustrar
+import { LuTrophy } from "react-icons/lu";
 
 const Home = () => {
     const { shortlisted, targetDate } = useContext(AppContext);
     const { token, id } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const [accessLink, setAccessLink] = useState("");
+
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -49,8 +59,17 @@ const Home = () => {
 
     const { days, hours, minutes, seconds } = timeLeft;
 
+    const handleAccess = () => {
+        if (!accessLink) return;
+        if (accessLink.includes("http")) {
+            window.location.href = accessLink;
+        } else {
+            navigate(`/nominees/${accessLink}/0`);
+        }
+    };
+
     return (
-        <div className={styles.home}>
+        <div id="home" className={styles.home}>
             
             <section className={styles.pageElements}>
                 <div className={styles.title}>
@@ -108,12 +127,7 @@ const Home = () => {
                                     onLoad={(e) => {
                                         const img = e.target;
                                         const parent = img.parentNode;
-
-                                        parent.classList.remove(
-                                            styles.honorsCardA,
-                                            styles.honorsCardB
-                                        );
-
+                                        parent.classList.remove(styles.honorsCardA, styles.honorsCardB);
                                         if (img.naturalWidth > img.naturalHeight) {
                                             parent.classList.add(styles.honorsCardB);
                                         } else {
@@ -131,8 +145,36 @@ const Home = () => {
 
             <section className={styles.create}>
                 <p className={styles.honorsTitle}>
-                    CRIE SUA PRÓPRIA VOTAÇÃO OU ACESSE DE UM AMIGO
+                    PARTICIPE AGORA
                 </p>
+                
+                <div className={styles.createOptionsContainer}>
+
+                    <Link to="/account" className={styles.createBoxLink}>
+                        <div className={styles.createBoxContent}>
+                            <LuTrophy  className={styles.createIcon} />
+                            <h3>Crie sua Votação</h3>
+                            <p className={styles.boxDesc}>Comece do zero e compartilhe com seus amigos.</p>
+                        </div>
+                    </Link>
+                    
+                    <div className={styles.createBox}>
+                        <h3>Já tem um link?</h3>
+                        <p className={styles.boxDesc}>Cole o link da votação abaixo para acessar.</p>
+                        <div className={styles.inputGroup}>
+                            <input 
+                                type="text" 
+                                placeholder={token ? token : "Cole o link ou token aqui..." }
+                                value={accessLink}
+                                onChange={(e) => setAccessLink(e.target.value)}
+                            />
+                            <button onClick={handleAccess}>
+                                ACESSAR
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
             </section>
 
             <section className={styles.footer}>

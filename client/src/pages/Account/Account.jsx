@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import api from "../../services/api";
 import AppContext from "../../context/AppContext";
 import styles from "./Account.module.css";
 import { FaRegCopy, FaEdit, FaUser, FaTrophy, FaPlus, FaTimes } from "react-icons/fa";
+import { FiExternalLink } from "react-icons/fi";
 
 // Componente do Card de Premiação Individual
 const GroupCard = ({ group, onUpdate }) => {
@@ -184,6 +185,12 @@ const GroupCard = ({ group, onUpdate }) => {
                         <FaEdit /> GERENCIAR CATEGORIAS
                     </button>
                 </Link>
+
+                <Link to={`/${group.access_token}`}>
+                    <button className={`${styles.actionBtn} ${styles.openLinkBtn}`}>
+                        <FiExternalLink/> Acessar página
+                    </button>
+                </Link>
             </div>
 
             {showColorPicker && (
@@ -217,12 +224,20 @@ const Account = () => {
     const { user, isLoading, isAuthenticated } = useContext(AppContext);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("account");
-    
+    const location = useLocation();
     const [groups, setGroups] = useState([]);
     const [newGroup, setNewGroup] = useState({ title: "", description: "", start_date: "", end_date: "" });
     const [showCreateForm, setShowCreateForm] = useState(false); // Controla a visibilidade do form
 
     const [userData, setUserData] = useState({ name: "", email: "", password: "" });
+
+    useEffect(() => {
+        if (location.hash === "#my-account") {
+            setActiveTab("account");
+        } else if (location.hash === "#my-awards") {
+            setActiveTab("groups");
+        }
+    }, [location.hash]);
 
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
@@ -285,18 +300,25 @@ const Account = () => {
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <h2 className={styles.sidebarTitle}>Painel</h2>
-                <button 
-                    className={`${styles.menuItem} ${activeTab === 'account' ? styles.activeMenu : ''}`}
-                    onClick={() => setActiveTab('account')}
-                >
-                    <FaUser style={{marginRight: 8}}/> Minha Conta
-                </button>
-                <button 
-                    className={`${styles.menuItem} ${activeTab === 'groups' ? styles.activeMenu : ''}`}
-                    onClick={() => setActiveTab('groups')}
-                >
-                    <FaTrophy style={{marginRight: 8}}/> Grupos de Premiação
-                </button>
+                <a href="#my-account">
+                    <button
+                    className={`${styles.menuItem} ${
+                        activeTab === "account" ? styles.activeMenu : ""
+                    }`}
+                    >
+                    <FaUser style={{ marginRight: 8 }} /> Minha Conta
+                    </button>
+                </a>
+
+                <a href="#my-awards">
+                    <button
+                    className={`${styles.menuItem} ${
+                        activeTab === "groups" ? styles.activeMenu : ""
+                    }`}
+                    >
+                    <FaTrophy style={{ marginRight: 8 }} /> Grupos de Premiação
+                    </button>
+                </a>
             </div>
 
             <div className={styles.content}>

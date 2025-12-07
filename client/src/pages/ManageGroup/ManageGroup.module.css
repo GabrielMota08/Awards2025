@@ -20,6 +20,7 @@
 .header h1 {
     color: #A7AAFF;
     font-size: 44px;
+    text-align: start;
     text-transform: uppercase;
 }
 
