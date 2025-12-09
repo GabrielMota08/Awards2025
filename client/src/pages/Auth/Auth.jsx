@@ -11,7 +11,6 @@ const Auth = () => {
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState("");
     
-    // Estado para controlar qual formulário aparece (Login ou Registro)
     const [isLoginView, setIsLoginView] = useState(true);
 
     const handleClickLogin = async (values) => {

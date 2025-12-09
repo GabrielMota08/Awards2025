@@ -2,29 +2,47 @@ import React, { useState, useEffect, useContext } from "react";
 import logo2 from "../../assets/logo_reduzido.png";
 import logoFooter from "../../assets/awards.png";
 import styles from "./Home.module.css";
-import { Link, useParams, useNavigate } from "react-router-dom"; // Adicionado useNavigate
+import { Link, useParams, useNavigate } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import { GoChevronDown } from "react-icons/go";
-import { FaPlusCircle } from "react-icons/fa"; // Ícones opcionais para ilustrar
-import { LuTrophy } from "react-icons/lu";
+import { FaPlusCircle } from "react-icons/fa";
+import api from "../../services/api";
 
 const Home = () => {
-    const { shortlisted, targetDate } = useContext(AppContext);
+    const { shortlisted, targetDate, setTargetDate, themeBg } = useContext(AppContext);
     const { token, id } = useParams();
     const navigate = useNavigate();
+
+    const activeToken = token || "1";
+
+    const [accessLink, setAccessLink] = useState("");
+    
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0, hours: 0, minutes: 0, seconds: 0,
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    const [accessLink, setAccessLink] = useState("");
+    // useEffect(() => {
+    //     const fetchHomeData = async () => {
+    //         try {
+    //             const response = await api.get(`/vote-data/${activeToken}`, { skipAuthRedirect: true });
+    //             const data = response.data;
 
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
+    //             if (data.group && data.group.end_date) {
+    //                 setTargetDate(new Date(data.group.end_date));
+    //             }
+            
+
+    //         } catch (err) {
+    //             console.error("Erro ao carregar dados da Home:", err);
+    //         }
+    //     };
+
+    //     fetchHomeData();
+    // }, [activeToken, setTargetDate]);
 
     const handleScroll = () => {
         const target = document.getElementById("scrollTarget");
@@ -50,6 +68,7 @@ const Home = () => {
 
                 setTimeLeft({ days, hours, minutes, seconds });
             } else {
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
                 clearInterval(interval);
             }
         }, 1000);
@@ -69,28 +88,23 @@ const Home = () => {
     };
 
     return (
-        <div id="home" className={styles.home}>
-            
-            <section className={styles.pageElements}>
+        <div className={styles.home}>
+            <section className={`${styles.pageElements} ${styles[`pageElements${themeBg || "Purple"}`]}`}>
                 <div className={styles.title}>
                     <img src={logo2} alt="Logo2" />
                     <h1 className={styles.titleAwards}>AWARDS MELHORES DO ANO</h1>
                 </div>
 
                 <section className={styles.subtitle}>
-                    <div className={styles.description}>
+                    <div className={`${styles.description} ${styles[`description${themeBg || "Purple"}`]}`}>
                         <Link
-                            className={
-                                new Date() < targetDate
-                                    ? styles.disableWinners
-                                    : ""
-                            }
-                            to={`/winners/${token ? token : "1"}/${id || 0}`}
+                            className={new Date() < targetDate ? styles.disableWinners : ""}
+                            to={`/winners/${activeToken}/${id || 0}`}
                         >
                             CONFIRA OS VENCEDORES
                         </Link>
 
-                        <Link to={`/categories/${token ? token : "1"}`}>VEJA OS INDICADOS</Link>
+                        <Link to={`/categories/${activeToken}`}>VEJA OS INDICADOS</Link>
                     </div>
 
                     <div className={styles.timer}>
@@ -103,7 +117,7 @@ const Home = () => {
                             <p>{seconds}</p>
                         </div>
 
-                        <Link to={`/nominees/${token ? token : "1"}/${id || 0}`}>VOTE AGORA</Link>
+                        <Link to={`/nominees/${activeToken}/${id || 0}`}>VOTE AGORA</Link>
                     </div>
                 </section>
 
@@ -114,10 +128,9 @@ const Home = () => {
                 </div>
             </section>
 
-            {shortlisted > 0 && (
+            {shortlisted && shortlisted.length > 0 && (
                 <section className={styles.honors}>
                     <p className={styles.honorsTitle}>MENÇÕES</p>
-
                     <div>
                         {shortlisted.map((indicado) => (
                             <li className={styles.honorsCard} key={indicado.id}>
@@ -149,15 +162,6 @@ const Home = () => {
                 </p>
                 
                 <div className={styles.createOptionsContainer}>
-
-                    <Link to="/account" className={styles.createBoxLink}>
-                        <div className={styles.createBoxContent}>
-                            <LuTrophy  className={styles.createIcon} />
-                            <h3>Crie sua Votação</h3>
-                            <p className={styles.boxDesc}>Comece do zero e compartilhe com seus amigos.</p>
-                        </div>
-                    </Link>
-                    
                     <div className={styles.createBox}>
                         <h3>Já tem um link?</h3>
                         <p className={styles.boxDesc}>Cole o link da votação abaixo para acessar.</p>
@@ -174,6 +178,13 @@ const Home = () => {
                         </div>
                     </div>
 
+                    <Link to="/account" className={styles.createBoxLink}>
+                        <div className={styles.createBoxContent}>
+                            <FaPlusCircle className={styles.createIcon} />
+                            <h3>Crie sua Votação</h3>
+                            <p className={styles.boxDesc}>Comece do zero e compartilhe com seus amigos.</p>
+                        </div>
+                    </Link>
                 </div>
             </section>
 

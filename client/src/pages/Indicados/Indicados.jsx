@@ -15,17 +15,15 @@ const Indicados = () => {
     const [winnersMap, setWinnersMap] = useState({}); 
     const [loading, setLoading] = useState(true);
     
-    // ALTERAÇÃO 1: Pegamos isVotingEnded do contexto
     const { user, saveVote, setTargetDate, fetchUserVotes, isVotingEnded } = useContext(AppContext); 
     
     const [lowOpacity, setLowOpacity] = useState(0);
-    const categoryIndex = Number(id); 
+    const categoryIndex = Number(id || 0); 
 
     // --- CARREGAMENTO DE DADOS ---
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // ALTERAÇÃO 2: Adicionado { skipAuthRedirect: true } para não bloquear visitantes
                 const response = await api.get(`/vote-data/${token}`, { skipAuthRedirect: true });
                 const data = response.data;
                 setGroupData(data);
@@ -33,12 +31,8 @@ const Indicados = () => {
                 if (data.group && data.group.end_date) {
                     const endDate = new Date(data.group.end_date);
                     
-                    // Atualiza a data no contexto (isso fará o isVotingEnded do AppContext atualizar)
                     setTargetDate(endDate);
 
-                    // NOTA: Aqui mantemos a comparação com 'endDate' local apenas para decidir 
-                    // qual requisição secundária fazer AGORA (vencedores ou votos), 
-                    // sem ter que esperar o ciclo de renderização do React atualizar o contexto.
                     if (new Date() > endDate) {
                         try {
                             const winnersRes = await api.get(`/winners/${token}`, { skipAuthRedirect: true });
@@ -81,7 +75,7 @@ const Indicados = () => {
     // --- AÇÕES DO USUÁRIO ---
     const handleVote = async (nomineeId, nomineeName) => {
         if (!user) {
-            navigate('/auth');
+            navigate(`/auth${token ? "/" + token : ""}`);
             return;
         }
         
@@ -117,7 +111,7 @@ const Indicados = () => {
 
     if (loading) return <div style={{color:'white', padding:'20px'}}>Carregando...</div>;
     if (!groupData || !groupData.categories[categoryIndex]) {
-        return <div style={{color:'white', padding:'20px'}}>Categoria inválida.</div>;
+        return <div style={{color:'white', padding:'20px'}}>Votação não encontrada.</div>;
     }
 
     const currentCategory = groupData.categories[categoryIndex];
@@ -138,9 +132,7 @@ const Indicados = () => {
                 <h2>{currentCategory.description}</h2>
 
                 <ul>
-                    {/* ALTERAÇÃO 4: Usando a variável do Contexto */}
                     {!isVotingEnded ? (
-                        // MODO VOTAÇÃO
                         nomeados.map((nominee, index) => (
                             <li key={nominee.id} style={{ animationDelay: `${index * 0.1}s` }}>
                                 <NomineesCard 
@@ -156,7 +148,6 @@ const Indicados = () => {
                             </li>
                         ))
                     ) : (
-                        // MODO RESULTADOS (VOTAÇÃO ENCERRADA)
                         nomeados.map((nominee, index) => {
                             const isWinner = winnersMap[currentCategory.id] === nominee.id;
                             

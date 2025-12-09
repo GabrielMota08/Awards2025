@@ -23,7 +23,7 @@ const AppRoutes = () => {
     <Routes>
       <Route element={<App />}>
         <Route path="/:token?" element={<Home />} />
-        <Route path="auth" element={<Auth />} />
+        <Route path="auth/:token?" element={<Auth />} />
         <Route path="/nominees/:token/:id?" element={<Indicados />} />
         <Route path="/account" element={<Account />} />
         <Route path="/account/manage/:groupId" element={<ManageGroup />}/>

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql");
+const mysql = require('mysql2');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
@@ -13,12 +13,39 @@ const SECRET_KEY = process.env.SECRET_KEY || "chave_secreta_dev";
 // --- CONFIGURAÇÃO DO DOCKER ---
 // Se estiver rodando via Docker Compose use: host: "mysql_db"
 // Se estiver rodando o Node localmente e o banco no Docker use: host: "localhost"
+
 const db = mysql.createPool({
-    host: "localhost", 
-    user: "root",
-    password: "root", // Senha definida no docker-compose
-    database: "awards_database",
-    multipleStatements: true
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 4000,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    // CONFIGURAÇÃO IMPORTANTE PARA O TIDB CLOUD (SSL)
+    ssl: {
+        minVersion: 'TLSv1.2',
+        rejectUnauthorized: true 
+        // Se der erro de certificado, troque 'true' por 'false' temporariamente
+    }
+});
+
+// const db = mysql.createPool({
+//     host: "localhost", 
+//     user: "root",
+//     password: "root", // Senha definida no docker-compose
+//     database: "awards_database",
+//     multipleStatements: true
+// });
+
+db.getConnection((err, connection) => {
+    if (err) {
+        console.error('Erro ao conectar no TiDB:', err);
+    } else {
+        console.log('Conectado com sucesso ao TiDB Cloud!');
+        connection.release();
+    }
 });
 
 app.use(express.json());
@@ -382,7 +409,7 @@ app.get("/api/winners/:token", (req, res) => {
             JOIN nominees n ON c.id = n.category_id
             LEFT JOIN votes v ON n.id = v.nominee_id
             WHERE c.group_id = ?
-            GROUP BY n.id
+            GROUP BY c.id, n.id
             ORDER BY c.id, vote_count DESC
         `;
 

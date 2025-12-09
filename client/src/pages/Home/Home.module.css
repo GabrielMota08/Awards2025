@@ -26,12 +26,6 @@
     width: 6em;
 }
 
-.description{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
 .disableWinners{
     cursor: default;
     pointer-events: none;
@@ -39,25 +33,13 @@
     filter: grayscale(100%);
 }
 
-.description a:first-child{
-    background-color: rgb(55, 24, 80); 
-    color: white;
-    font-weight: bold;
-    margin-bottom: 2em;
-    cursor: pointer;
-    text-align: center;
-    transition-duration: 0.3s;
-    box-shadow: none;
-}
-
-.description a:first-child:hover{
-    background-color: rgb(105, 49, 151);
-    color: white
+.description{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .description a{
-    background-color: rgb(82, 31, 124, 0.0);
-    border: 2px solid rgb(82, 31, 124, 0.4);
     font-size: 15px;
     padding: 1.4em 2.6em 1.4em 2.6em;
     color: white;
@@ -70,9 +52,46 @@
     box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.1);
 }
 
-.description a:hover{
+.descriptionPurple a{
+    border: 2px solid rgb(82, 31, 124, 0.4);
+}
+
+.descriptionBlue a{
+    border: 2px solid rgba(28, 26, 150, 0.4);
+}
+
+.descriptionPurple a:hover{
     background-color: rgb(82, 31, 124);
+}
+
+.descriptionBlue a:hover{
+    background-color: rgb(25, 27, 128);
+}
+
+.description a:first-child{
     color: white;
+    font-weight: bold;
+    margin-bottom: 2em;
+    cursor: pointer;
+    text-align: center;
+    transition-duration: 0.3s;
+    box-shadow: none;
+}
+
+.descriptionPurple a:first-child{
+    background-color: rgb(55, 24, 80); 
+}
+
+.descriptionPurple a:first-child:hover{
+    background-color: rgb(105, 49, 151);
+}
+
+.descriptionBlue a:first-child{
+    background-color: rgb(17, 26, 109); 
+}
+
+.descriptionBlue a:first-child:hover{
+    background-color: rgb(25, 47, 173);
 }
 
 .subtitle{
@@ -442,11 +461,40 @@
     }
 }
 
-
-
 .pageElements{
-    background: url('../../assets/background.svg') no-repeat center center;
-            background-size: cover;
+    background-size: cover;
     width: 100%;
     filter: brightness(1.2);
+}
+
+.pageElementsPurple{
+    background: url('../../assets/background_purple.svg') no-repeat center center;
+}
+
+.pageElementsBlue{
+    background: url('../../assets/background_blue.svg') no-repeat center center;
+}
+
+.pageElementsLightBlue{
+    background: url('../../assets/background_light_blue.svg') no-repeat center center;
+}
+
+.pageElementsRed{
+    background: url('../../assets/background_red.svg') no-repeat center center;
+}
+
+.pageElementsGreen{
+    background: url('../../assets/background_green.svg') no-repeat center center;
+}
+
+.pageElementsLightGreen{
+    background: url('../../assets/background_light_green.svg') no-repeat center center;
+}
+
+.pageElementsPink{
+    background: url('../../assets/background_Pink.svg') no-repeat center center;
+}
+
+.pageElementsOrange{
+    background: url('../../assets/background_orange.svg') no-repeat center center;
 }

@@ -49,7 +49,7 @@ const NomineesCard = ({ content, numericId, onVote, onDeleteVote }) => {
                 />
                 
                 <button 
-                    onClick={!isSelected ? handleVote : undefined} // Evita clique se já selecionado
+                    onClick={!isSelected ? handleVote : undefined}
                     className={
                         `${styles.voteButton} ` + 
                         `${

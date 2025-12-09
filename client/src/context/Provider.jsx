@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import AppContext from './AppContext';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -9,23 +9,25 @@ function Provider({ children }) {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const DEFAULT_TOKEN = 1;
+    
+    const DEFAULT_TOKEN = "1";
 
     const [targetDate, setTargetDate] = useState(new Date("2030-01-01"));
     const [isVotingEnded, setIsVotingEnded] = useState(false);
     
-    const shortlisted = []; 
-
-    const [votes, setVotes] = useState({}); 
+    const [themeBg, setThemeBg] = useState("Purple"); 
     
-    const saveVote = (categoryId, nomineeName) => {
+    const shortlisted = []; 
+    const [votes, setVotes] = useState({}); 
+
+    const saveVote = useCallback((categoryId, nomineeName) => {
         setVotes((prev) => ({
             ...prev,
             [categoryId]: nomineeName
         }));
-    };
+    }, []);
 
-    const fetchUserVotes = async (groupId) => {
+    const fetchUserVotes = useCallback(async (groupId) => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
@@ -35,32 +37,28 @@ function Provider({ children }) {
         } catch (error) {
             console.error("Erro ao buscar votos anteriores:", error);
         }
-    };
+    }, []);
 
     useEffect(() => {
         const checkTime = () => {
             const now = new Date();
             setIsVotingEnded(now > targetDate);
         };
-        
         checkTime();
-        
         const timer = setInterval(checkTime, 60000);
         return () => clearInterval(timer);
     }, [targetDate]);
 
-    // --- 3. INICIALIZAÇÃO DO APP ---
     useEffect(() => {
         const initApp = async () => {
-            const token = localStorage.getItem('token');
+            const tokenLS = localStorage.getItem('token');
             const storedUser = localStorage.getItem('user');
             let currentUser = null;
 
-            // A. Validação de Login
-            if (token && storedUser) {
+            if (tokenLS && storedUser) {
                 try {
                     const response = await axios.get("http://localhost:3001/validate-token", {
-                        headers: { Authorization: `Bearer ${token}` }
+                        headers: { Authorization: `Bearer ${tokenLS}` }
                     }).catch(() => null); 
 
                     if (response && response.data.valid) {
@@ -73,35 +71,58 @@ function Provider({ children }) {
                         setIsAuthenticated(true);
                     }
                 } catch (error) {
-                    console.error("Erro na validação de token", error);
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
                 }
             }
 
             try {
-                if (DEFAULT_TOKEN) {
-                    const response = await api.get(`/vote-data/${DEFAULT_TOKEN}`);
+                const path = window.location.pathname;
+                
+                let match = path.match(/\/(?:nominees|winners|categories)\/([^\/]+)/);
+                let tokenToFetch = match ? match[1] : null;
+
+                if (!tokenToFetch) {
+                    const potentialToken = path.split('/')[1];
+                    const systemRoutes = ["", "auth", "account", "login", "register"];
                     
-                    if (response.data.group) {
-                        if (response.data.group.end_date) {
-                            setTargetDate(new Date(response.data.group.end_date));
+                    if (potentialToken && !systemRoutes.includes(potentialToken)) {
+                        tokenToFetch = potentialToken;
+                    }
+                }
+
+                tokenToFetch = tokenToFetch || DEFAULT_TOKEN;
+
+                if (tokenToFetch) {
+                    const response = await api.get(`/vote-data/${tokenToFetch}`, { skipAuthRedirect: true });
+                    const data = response.data;
+                    
+                    if (data.group) {
+                        if (data.group.end_date) {
+                            setTargetDate(new Date(data.group.end_date));
+                        }
+
+                        if (data.group.theme) {
+                            const color = data.group.theme === "#24398e" ? "Blue" : "Purple";
+                            setThemeBg(color);
+                        } else {
+                            setThemeBg("Purple");
                         }
 
                         if (currentUser) {
-                            await fetchUserVotes(response.data.group.id);
+                            await fetchUserVotes(data.group.id);
                         }
                     }
                 }
             } catch (err) {
-                console.error("Erro ao carregar dados da votação padrão:", err);
+                console.error("Erro ao carregar dados da votação:", err);
             } finally {
                 setIsLoading(false);
             }
         };
 
         initApp();
-    }, []);
+    }, [fetchUserVotes]);
 
     const login = async (email, password) => {
         try {
@@ -111,7 +132,6 @@ function Provider({ children }) {
                 localStorage.setItem("user", JSON.stringify(response.data.user)); 
                 setUser(response.data.user);
                 setIsAuthenticated(true);
-                
                 window.location.href = "/account"; 
                 return { success: true };
             }
@@ -130,22 +150,24 @@ function Provider({ children }) {
         window.location.href = "/";
     };
 
-    const value = {
+    const value = useMemo(() => ({
         menuOpen, 
         setMenuOpen,
-        user,
-        login,
+        user, 
+        login, 
         logout,
-        isLoading,
+        isLoading, 
         isAuthenticated,
-        votes,
-        saveVote,
+        votes, 
+        saveVote, 
         fetchUserVotes,
-        targetDate,
-        setTargetDate,
+        targetDate, 
+        setTargetDate, 
         isVotingEnded,
-        shortlisted
-    };
+        shortlisted,
+        themeBg, 
+        setThemeBg
+    }), [menuOpen, user, isLoading, isAuthenticated, votes, saveVote, fetchUserVotes, targetDate, isVotingEnded, shortlisted, themeBg]);
 
     return (
         <AppContext.Provider value={value}>

@@ -7,8 +7,7 @@ import styles from "./navbar.module.css";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
-    // Pegamos isVotingEnded em vez de targetDate
-    const { menuOpen, setMenuOpen, isVotingEnded } = useContext(AppContext);
+    const { menuOpen, setMenuOpen, isVotingEnded, themeBg } = useContext(AppContext);
     const { token, id } = useParams();
     
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
@@ -43,7 +42,7 @@ const Navbar = () => {
     }, [isMobile, setMenuOpen]);
 
     return (
-        <nav id={styles.navbar}>
+        <nav id={styles.navbar} className={styles[`navbar${themeBg || "Purple"}`]}>
             <h2>
                 <Link to={`/${token || "1"}`}>
                     <img src={awards} alt="logo" className={styles.logoImg} />

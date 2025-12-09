@@ -286,17 +286,18 @@ const ManageGroup = () => {
                 </button>
                 <h1>{groupData.group.title}</h1>
                 <h4>{groupData.group.description}</h4>
-                <div style={{marginTop: 20, display:'flex', justifyContent:'center', gap: 10}}>
-                    <input 
-                        style={{padding: 10, borderRadius: 5, border:'none', width: 300}} 
-                        placeholder="Nome da Nova Categoria..."
-                        value={newCategoryName}
-                        onChange={e => setNewCategoryName(e.target.value)}
-                    />
-                    <button onClick={handleAddCategory} className={styles.purpleThemeBtn} style={{padding: '10px 20px', border:'none', fontWeight:'bold', cursor:'pointer', borderRadius: 5}}>
-                        CRIAR CATEGORIA
-                    </button>
-                </div>
+            </div>
+
+            <div style={{marginTop: 20, display:'flex', justifyContent:'center', gap: 10, width: "85%"}}>
+                <input 
+                    style={{padding: 10, borderRadius: 5, border:'none', width: 300}} 
+                    placeholder="Nome da Nova Categoria..."
+                    value={newCategoryName}
+                    onChange={e => setNewCategoryName(e.target.value)}
+                />
+                <button onClick={handleAddCategory} className={styles.purpleThemeBtn} style={{padding: '10px 20px', border:'none', fontWeight:'bold', cursor:'pointer', borderRadius: 5}}>
+                    CRIAR CATEGORIA
+                </button>
             </div>
 
             {/* LISTA DE CATEGORIAS */}

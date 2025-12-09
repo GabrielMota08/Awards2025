@@ -78,13 +78,13 @@
 /* --- ALTERAÇÃO DOS CARDS (Mais horizontais) --- */
 
 .manageCard {
-    /* ALTERAÇÃO: Aumentei a largura para ficar "esticado" horizontalmente */
-    width: 350px; /* Antes era 206px. Ajuste conforme preferir */
+    width: 350px;
+    /* Aumentei a altura fixa para dar mais espaço */
+    height: 190px; 
     display: flex;
-    /* ALTERAÇÃO: Mudei para 'row' para layout horizontal */
     flex-direction: row; 
     gap: 15px;
-    background: rgba(255, 255, 255, 0.05); /* Fundo sutil para delimitar */
+    background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     border-radius: 12px;
     border: 1px solid #333;
@@ -92,7 +92,8 @@
 
 /* Layout Horizontal: Coluna da Esquerda (Imagem) */
 .cardLeftColumn {
-    flex: 0 0 120px; /* Largura fixa para a área da imagem */
+    /* Aumentei a base do flex para acomodar a imagem maior (de 120px para 150px) */
+    flex: 0 0 150px; 
 }
 
 /* Layout Horizontal: Coluna da Direita (Inputs e Botões) */
@@ -104,13 +105,10 @@
     gap: 10px;
 }
 
-/* Inputs que imitam o layout */
 .imageInputArea {
-    /* ALTERAÇÃO: Ajustei tamanho para o layout horizontal */
-    width: 120px; 
-    height: 120px; /* Quadrado */
-    background-color: #1a1a1a;
-    border: 2px dashed #444;
+    /* Aumentei para acompanhar a nova altura do card */
+    width: 150px; 
+    height: 150px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -129,15 +127,24 @@
     font-size: 0.7em; /* Fonte menor para caber */
     outline: none;
     z-index: 2;
+    opacity: 0;
+}
+
+.imageInputArea:hover input{
+    opacity: 1;
 }
 
 .imageInputArea img {
     position: absolute;
-    width: 100%;
+    width: 90%;
+    border-radius: 5px;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
+    opacity: 0.8;
     z-index: 1;
+}
+.imageInputArea:hover img{
+    opacity: 0.4;
 }
 
 .nameInput {
@@ -197,13 +204,10 @@
     border-radius: 4px;
 }
 
-/* Botão de Adicionar Novo (Horizontal) */
 .addCard {
-    /* ALTERAÇÃO: Mesma largura horizontal dos outros cards */
     width: 350px;
-    /* ALTERAÇÃO: Altura fixa para alinhar */
-    height: 150px; 
-    /* TEMA ROXO: Borda dashed */
+    /* Aumentei a altura para igualar ao .manageCard (era 150px) */
+    height: 190px; 
     font-size: 0.8em;
     border: 2px dashed #7c4dff; 
     border-radius: 10px;
@@ -212,7 +216,6 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    /* TEMA ROXO: Cor do ícone e texto */
     color: #7c4dff; 
     transition: 0.2s;
 }

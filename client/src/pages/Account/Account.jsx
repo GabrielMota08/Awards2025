@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import api from "../../services/api";
 import AppContext from "../../context/AppContext";
 import styles from "./Account.module.css";
@@ -10,98 +10,88 @@ import { FiExternalLink } from "react-icons/fi";
 const GroupCard = ({ group, onUpdate }) => {
     const [details, setDetails] = useState({ categories: [] });
     
-    // Estados editáveis
-    const [title, setTitle] = useState(group.title);
-    const [description, setDescription] = useState(group.description);
-    // Convertendo para formato compatível com input datetime-local (yyyy-MM-ddThh:mm)
-    const [startDate, setStartDate] = useState(group.start_date ? group.start_date.replace(' ', 'T').substring(0, 16) : "");
-    const [endDate, setEndDate] = useState(group.end_date ? group.end_date.replace(' ', 'T').substring(0, 16) : "");
+    // Estados locais para edição
+    const [title, setTitle] = useState(group.title || "");
+    const [description, setDescription] = useState(group.description || "");
     
-    // Estado do tema
-    const [themeColor, setThemeColor] = useState('');
+    // Função para formatar data do banco (UTC/ISO) para o input local (YYYY-MM-DDTHH:MM) sem somar horas extras
+    const formatForInput = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        // Ajuste para garantir que o input mostre a hora correta localmente
+        const offset = date.getTimezoneOffset() * 60000;
+        const localDate = new Date(date.getTime() - offset);
+        return localDate.toISOString().slice(0, 16);
+    };
+
+    const [startDate, setStartDate] = useState(formatForInput(group.start_date));
+    const [endDate, setEndDate] = useState(formatForInput(group.end_date));
+    
+    const [themeColor, setThemeColor] = useState(group.theme || '#7c4dff');
     const [showColorPicker, setShowColorPicker] = useState(false);
-    const [copyLinkMessage, setCopyLinkMessage] = useState();
+    const [copyLinkMessage, setCopyLinkMessage] = useState(false);
 
-    const colors = ['#7c4dff', '#E91E63', '#FF9800', '#4CAF50', '#2196F3', '#607D8B'];
+    const colors = ['#7c4dff', '#24398e'];
 
+    // Carrega detalhes (categorias/indicados) apenas se o token mudar
     useEffect(() => {
-        api.get(`/vote-data/${group.access_token}`).then(res => {
-            setDetails(res.data);
-        });
+        if(group.access_token) {
+            api.get(`/vote-data/${group.access_token}`)
+                .then(res => setDetails(res.data))
+                .catch(err => console.error("Erro ao carregar detalhes", err));
+        }
     }, [group.access_token]);
 
+    // Atualiza estados se a prop group mudar (ex: após um refresh do pai)
     useEffect(() => {
         setTitle(group.title);
         setDescription(group.description);
-        setStartDate(group.start_date ? group.start_date.replace(' ', 'T').substring(0, 16) : "");
-        setEndDate(group.end_date ? group.end_date.replace(' ', 'T').substring(0, 16) : "");
+        setStartDate(formatForInput(group.start_date));
+        setEndDate(formatForInput(group.end_date));
         setThemeColor(group.theme || '#7c4dff');
     }, [group]);
 
-    
-    const formatDataMySQL = (dateString) => {
-        if (!dateString) return null;
-        let formatted = dateString.replace('T', ' ');
-        if (formatted.length === 16) formatted += ':00';
-        return formatted.substring(0, 19);
-    };
-
-    const handleSave = async () => {
+    // Função centralizada de salvamento
+    const handleSave = async (fieldOverride = {}) => {
         try {
+            // Se tiver override (ex: mudou só a cor), usa ele. Senão usa o estado atual.
             const payload = {
-                ...group,
-                title: title,
-                description: description,
-                start_date:  startDate,
-                end_date: endDate,
-                theme_color: themeColor
+                title: fieldOverride.title !== undefined ? fieldOverride.title : title,
+                description: fieldOverride.description !== undefined ? fieldOverride.description : description,
+                start_date: fieldOverride.start_date !== undefined ? fieldOverride.start_date : startDate,
+                end_date: fieldOverride.end_date !== undefined ? fieldOverride.end_date : endDate,
+                theme: fieldOverride.theme !== undefined ? fieldOverride.theme : themeColor
             };
+
             await api.put(`/groups/${group.id}`, payload);
-            onUpdate();
+            
+            // Opcional: Avisar o pai para recarregar a lista, 
+            // mas CUIDADO: isso pode causar re-render do card e fechar modais/inputs.
+            // onUpdate(); 
         } catch (err) {
             console.error(err);
             alert("Erro ao salvar alterações");
         }
     };
 
-    useEffect(() => {
-        if (!group?.id) return;
+    // Handler para mudança de cor (Salva imediatamente e evita loop)
+    const handleColorChange = (newColor) => {
+        setThemeColor(newColor);
+        setShowColorPicker(false);
+        handleSave({ theme: newColor }); // Salva especificamente a cor nova
+    };
 
-        const payload = {
-            ...group,
-            title,
-            description,
-            start_date: formatDataMySQL(startDate),
-            end_date: formatDataMySQL(endDate),
-            theme: themeColor
-        };
-
-        api.put(`/groups/${group.id}`, payload)
-            .then(() => onUpdate())
-            .catch(console.error);
-
-    }, [themeColor]);
-
-    const handleBlur = () => {
-        const currentStart = formatDataMySQL(startDate);
-        const originalStart = formatDataMySQL(group.start_date);
-        
-        const currentEnd = formatDataMySQL(endDate);
-        const originalEnd = formatDataMySQL(group.end_date);
-        if (title !== group.title || description !== group.description || 
-            currentStart !== originalStart || 
-            currentEnd !== originalEnd) {
-            handleSave();
-        }
+    const handleBlur = (field) => {
+        // Só salva se houver diferença real para evitar requisições desnecessárias
+        // Aqui simplifiquei chamando o save direto, mas idealmente compararia com props.group
+        handleSave();
     };
 
     const copyLink = () => {
         const link = `${window.location.origin}/nominees/${group.access_token}/0`;
         navigator.clipboard.writeText(link);
-        setCopyLinkMessage(true)
-        setTimeout(() => {
-            setCopyLinkMessage(false)
-        }, 750)
+        setCopyLinkMessage(true);
+        setTimeout(() => setCopyLinkMessage(false), 750);
     };
 
     return (
@@ -111,7 +101,7 @@ const GroupCard = ({ group, onUpdate }) => {
                     className={styles.groupTitleInput}
                     value={title}
                     onChange={e => setTitle(e.target.value)}
-                    onBlur={handleBlur}
+                    onBlur={() => handleBlur('title')}
                     placeholder="Título da Premiação"
                 />
                 
@@ -119,12 +109,11 @@ const GroupCard = ({ group, onUpdate }) => {
                     className={styles.groupDescInput}
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    onBlur={handleBlur}
+                    onBlur={() => handleBlur('description')}
                     placeholder="Clique para adicionar uma descrição..."
                     rows={1}
                 />
 
-                {/* DATA EDITÁVEL ABAIXO DA DESCRIÇÃO */}
                 <div className={styles.dateEditContainer}>
                     <div>
                         <span style={{marginRight:5}}>Início:</span>
@@ -133,7 +122,7 @@ const GroupCard = ({ group, onUpdate }) => {
                             className={styles.dateInput}
                             value={startDate}
                             onChange={e => setStartDate(e.target.value)}
-                            onBlur={handleBlur}
+                            onBlur={() => handleBlur('start_date')}
                         />
                     </div>
                     <div>
@@ -143,19 +132,19 @@ const GroupCard = ({ group, onUpdate }) => {
                             className={styles.dateInput}
                             value={endDate}
                             onChange={e => setEndDate(e.target.value)}
-                            onBlur={handleBlur}
+                            onBlur={() => handleBlur('end_date')}
                         />
                     </div>
                 </div>
             </div>
 
              <div className={styles.categoriesContainer}>
-                {details.categories.length === 0 && (
+                {(!details.categories || details.categories.length === 0) && (
                     <div style={{color:'#666', fontStyle:'italic', padding: 10}}>Nenhuma categoria criada ainda.</div>
                 )}
                 
-                {details.categories.map(cat => (
-                    <div key={cat.id} className={styles.categoryPreviewBox}>
+                {details.categories && details.categories.map(cat => (
+                    <div key={cat.id} className={styles.categoryPreviewBox} style={{borderLeftColor: themeColor}}>
                         <h4 className={styles.catPreviewTitle}>{cat.name}</h4>
                         <div className={styles.nomineesPreviewScroll}>
                             {cat.nominees && cat.nominees.length > 0 ? (
@@ -199,11 +188,8 @@ const GroupCard = ({ group, onUpdate }) => {
                         <div 
                             key={color} 
                             className={styles.colorCircle} 
-                            style={{backgroundColor: color}}
-                            onClick={() => {
-                                setThemeColor(color);
-                                setShowColorPicker(false);
-                            }}
+                            style={{backgroundColor: color, border: themeColor === color ? '2px solid white' : 'none'}}
+                            onClick={() => handleColorChange(color)}
                         />
                     ))}
                 </div>
@@ -213,6 +199,7 @@ const GroupCard = ({ group, onUpdate }) => {
                 className={styles.themeBtn} 
                 style={{backgroundColor: themeColor}}
                 onClick={() => setShowColorPicker(!showColorPicker)}
+                title="Alterar cor do tema"
             />
 
         </div>
@@ -221,31 +208,34 @@ const GroupCard = ({ group, onUpdate }) => {
 
 
 const Account = () => {
-    const { user, isLoading, isAuthenticated } = useContext(AppContext);
+    const { isLoading, isAuthenticated } = useContext(AppContext);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("account");
     const location = useLocation();
+    
     const [groups, setGroups] = useState([]);
     const [newGroup, setNewGroup] = useState({ title: "", description: "", start_date: "", end_date: "" });
-    const [showCreateForm, setShowCreateForm] = useState(false); // Controla a visibilidade do form
+    const [showCreateForm, setShowCreateForm] = useState(false);
 
     const [userData, setUserData] = useState({ name: "", email: "", password: "" });
 
+    // Scroll Reset na montagem
     useEffect(() => {
-        if (location.hash === "#my-account") {
-            setActiveTab("account");
-        } else if (location.hash === "#my-awards") {
-            setActiveTab("groups");
-        }
+        window.scrollTo(0, 0);
+    }, []);
+
+    // Controle de Abas via Hash
+    useEffect(() => {
+        if (location.hash === "#my-account") setActiveTab("account");
+        else if (location.hash === "#my-awards") setActiveTab("groups");
     }, [location.hash]);
 
+    // Auth Check
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
             navigate("/auth");
-            return;
-        }
-
-        if (isAuthenticated) {
+        } else if (isAuthenticated) {
+            // Carrega dados iniciais apenas uma vez ou se o usuário mudar
             fetchUserData();
             fetchGroups();
         }
@@ -254,11 +244,7 @@ const Account = () => {
     const fetchUserData = async () => {
         try {
             const res = await api.get("/user");
-            setUserData({ 
-                name: res.data.name, 
-                email: res.data.email, 
-                password: "" 
-            });
+            setUserData({ name: res.data.name, email: res.data.email, password: "" });
         } catch (err) {
             console.error("Erro ao carregar perfil:", err);
         }
@@ -289,7 +275,7 @@ const Account = () => {
             await api.post("/groups", newGroup);
             alert("Premiação Criada!");
             setNewGroup({ title: "", description: "", start_date: "", end_date: "" });
-            setShowCreateForm(false); // Fecha o form após criar
+            setShowCreateForm(false);
             fetchGroups();
         } catch (err) {
             alert("Erro ao criar");
@@ -300,30 +286,21 @@ const Account = () => {
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <h2 className={styles.sidebarTitle}>Painel</h2>
-                <a href="#my-account">
-                    <button
-                    className={`${styles.menuItem} ${
-                        activeTab === "account" ? styles.activeMenu : ""
-                    }`}
-                    >
-                    <FaUser style={{ marginRight: 8 }} /> Minha Conta
+                <a href="#my-account" style={{textDecoration:'none'}}>
+                    <button className={`${styles.menuItem} ${activeTab === "account" ? styles.activeMenu : ""}`}>
+                        <FaUser style={{ marginRight: 8 }} /> Minha Conta
                     </button>
                 </a>
 
-                <a href="#my-awards">
-                    <button
-                    className={`${styles.menuItem} ${
-                        activeTab === "groups" ? styles.activeMenu : ""
-                    }`}
-                    >
-                    <FaTrophy style={{ marginRight: 8 }} /> Grupos de Premiação
+                <a href="#my-awards" style={{textDecoration:'none'}}>
+                    <button className={`${styles.menuItem} ${activeTab === "groups" ? styles.activeMenu : ""}`}>
+                        <FaTrophy style={{ marginRight: 8 }} /> Grupos de Premiação
                     </button>
                 </a>
             </div>
 
             <div className={styles.content}>
                 
-                {/* ABA: MINHA CONTA */}
                 {activeTab === 'account' && (
                     <div>
                         <h2>Meus Dados</h2>
@@ -359,12 +336,10 @@ const Account = () => {
                     </div>
                 )}
 
-                {/* ABA: GRUPOS DE PREMIAÇÃO */}
                 {activeTab === 'groups' && (
                     <div>
                         <h2>Minhas Premiações</h2>
                         
-                        {/* Botão para abrir o formulário */}
                         <div style={{marginBottom: '30px', marginTop: '0.5em'}}>
                             {!showCreateForm ? (
                                 <button className={styles.showCreateBtn} onClick={() => setShowCreateForm(true)}>
@@ -377,23 +352,20 @@ const Account = () => {
                             )}
                         </div>
 
-                        {/* Card de Criação (Visível apenas quando showCreateForm é true) */}
                         {showCreateForm && (
                             <div className={styles.createCard}>
                                 <h3>Nova Premiação</h3>
                                 <form onSubmit={handleCreateGroup} style={{display:'flex', flexDirection:'column', gap: 10}}>
                                     <div className={styles.createRow}>
                                         <input 
-                                            className={styles.input} 
-                                            style={{flex: 1}} 
+                                            className={styles.input} style={{flex: 1}} 
                                             placeholder="Nome do Evento"
                                             value={newGroup.title}
                                             onChange={e => setNewGroup({...newGroup, title: e.target.value})}
                                             required
                                         />
                                         <input 
-                                            className={styles.input} 
-                                            style={{flex: 2}} 
+                                            className={styles.input} style={{flex: 2}} 
                                             placeholder="Descrição curta"
                                             value={newGroup.description}
                                             onChange={e => setNewGroup({...newGroup, description: e.target.value})}
