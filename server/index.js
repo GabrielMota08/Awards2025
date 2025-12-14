@@ -263,29 +263,38 @@ app.get("/api/vote-data/:token", (req, res) => {
         // SQL atualizado para buscar n.description
         const sqlData = `
             SELECT 
-                c.id as cat_id, c.name as cat_name, c.description as cat_desc,
-                n.id as nom_id, n.name as nom_name, n.description as nom_desc, n.image_url as nom_img
+                c.id as cat_id,
+                c.name as cat_name,
+                c.description as cat_desc,
+                c.order_index as cat_order,
+                n.id as nom_id,
+                n.name as nom_name,
+                n.description as nom_desc,
+                n.image_url as nom_img
             FROM categories c
             LEFT JOIN nominees n ON c.id = n.category_id
             WHERE c.group_id = ?
+            ORDER BY c.order_index ASC, c.id ASC
         `;
 
         db.query(sqlData, [group.id], (err, rows) => {
             if (err) return res.status(500).send(err);
 
-            const categoriesMap = {};
+            const categoriesMap = new Map();
             
             rows.forEach(row => {
-                if (!categoriesMap[row.cat_id]) {
-                    categoriesMap[row.cat_id] = {
+                if (!categoriesMap.has(row.cat_id)) {
+                    categoriesMap.set(row.cat_id, {
                         id: row.cat_id,
                         name: row.cat_name,
                         description: row.cat_desc,
+                        order_index: row.cat_order,
                         nominees: []
-                    };
+                    });
                 }
+
                 if (row.nom_id) {
-                    categoriesMap[row.cat_id].nominees.push({
+                    categoriesMap.get(row.cat_id).nominees.push({
                         id: row.nom_id,
                         name: row.nom_name,
                         description: row.nom_desc,
@@ -296,7 +305,7 @@ app.get("/api/vote-data/:token", (req, res) => {
 
             res.send({
                 group: { id: group.id, title: group.title, description: group.description, start_date: group.start_date, end_date: group.end_date, theme: group.theme },
-                categories: Object.values(categoriesMap)
+                categories: Array.from(categoriesMap.values())
             });
         });
     });
