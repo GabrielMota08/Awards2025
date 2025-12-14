@@ -348,13 +348,28 @@
 
 .editBtn {
     background: transparent;
+}
+
+.editBtnPurple {
     border: 1px solid #7c4dff;
     color: #A7AAFF;
 }
 
+.editBtnBlue {
+    border: 1px solid #24398e;
+    color: #92afff;
+}
+
 .editBtn:hover {
-    background: #7c4dff;
     color: white;
+}
+
+.editBtnPurple:hover{
+    background: #7c4dff;
+}
+
+.editBtnBlue:hover{
+    background: #24398e;
 }
 
 .openLinkBtn {

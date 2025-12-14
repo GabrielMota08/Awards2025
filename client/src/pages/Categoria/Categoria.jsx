@@ -8,6 +8,8 @@ const Categoria = () => {
     const { token } = useParams()
     const [categories, setCategories] = useState([]);
     const [group, setGroup] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const {themeBg} = useContext(AppContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,7 +21,7 @@ const Categoria = () => {
             } catch (error) {
                 console.error("Erro ao buscar dados", error);
             } finally {
-                // setLoading(false);
+                setLoading(false);
             }
         };
         fetchData();
@@ -27,19 +29,21 @@ const Categoria = () => {
 
     return (   
         <>
-        <section className={styles.categories}>
+        <section className={`${styles.categories} ${styles[`categories${themeBg || "Purple"}`]}`}>
             <h1>TODAS AS CATEGORIAS</h1>
             <div>
             <h2><span>INDICADOS</span>{group.title}</h2>
-            {categories.length > 0 ?
-                <p>
+            {loading ? 
+                <h4 style={{marginLeft: "20px"}}>Carregando...</h4>
+            : (categories.length > 0) 
+            ?   <p className={styles[`categoriesCard${themeBg || "Purple"}`]}>
                     {categories.map(({ id, name }, index) => (
                         <Link to={`/nominees/${token}/${index}`} key={id}>
-                        {name}
+                            {name}
                         </Link>
                     ))}
                 </p>
-            : <h4 style={{marginLeft: "20px"}}>Carregando...</h4>}
+            : <h4 style={{marginLeft: "20px"}}>Votação não encontrada</h4>}
             </div>
         </section>
         </>

@@ -2,10 +2,15 @@ import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { Link } from "react-router-dom";
 import styles from "./categoryNavigator.module.css"
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { useContext } from "react";
+import AppContext from "../context/AppContext";
 
 const CategoryNavigator = ({ lowOpacity, navigateTo, token, categoryProgress }) => {
+
+    const {themeBg} = useContext(AppContext);
+
     return (
-        <div className={styles.categoriesNominees}>
+        <div className={`${styles.categoriesNominees} ${styles[`categoriesNominees${themeBg || "Purple"}`]}`}>
             <Link to={`/${token}`} className={styles.backToHome}>
                 <FaArrowLeftLong /> PÁGINA INICIAL
             </Link>

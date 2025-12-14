@@ -111,12 +111,25 @@ app.post("/login", (req, res) => {
 
 app.get("/api/user", authenticateToken, (req, res) => {
     const userId = req.userId;
-    db.query("SELECT id, name, email, role FROM users WHERE id = ?", [userId], (err, result) => {
-        if (err) res.status(500).send(err);
-        if (result.length === 0) return res.status(404).send({ msg: "Usuário não encontrado" });
-        res.send(result[0]);
-    })
-})
+
+    db.query(
+        "SELECT id, name, email, role FROM users WHERE id = ?",
+        [userId],
+        (err, result) => {
+
+            if (err) {
+                console.error(err);
+                return res.status(500).send({ msg: "Erro ao buscar usuário" });
+            }
+
+            if (!result || result.length === 0) {
+                return res.status(404).send({ msg: "Usuário não encontrado" });
+            }
+
+            return res.send(result[0]);
+        }
+    );
+});
 
 app.put("/api/user", authenticateToken, (req, res) => {
     const { name, email, password } = req.body;

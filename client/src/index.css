@@ -7,24 +7,21 @@
 
 body {
   overflow-x: hidden;
-  background: #080808;
-  background-image: url('assets/Frame_16.png');
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% auto; /* Faz a imagem ocupar toda a largura e ajustar a altura automaticamente */
+  background-color: #080808; /* mantém o fundo base */
   width: 100vw;
 }
 
-a{
+a {
   text-decoration: none;
   color: #ffffff;
   transition: 0.5s;
 }
 
-a:hover{
+a:hover {
   color: #b3b3b3;
 }
 
-.titleAwards, .footerLogo h1{
+.titleAwards, 
+.footerLogo h1 {
   font-family: 'Raleway', sans-serif;
 }

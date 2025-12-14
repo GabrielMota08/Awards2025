@@ -51,10 +51,8 @@ const GroupCard = ({ group, onUpdate }) => {
         setThemeColor(group.theme || '#7c4dff');
     }, [group]);
 
-    // Função centralizada de salvamento
     const handleSave = async (fieldOverride = {}) => {
         try {
-            // Se tiver override (ex: mudou só a cor), usa ele. Senão usa o estado atual.
             const payload = {
                 title: fieldOverride.title !== undefined ? fieldOverride.title : title,
                 description: fieldOverride.description !== undefined ? fieldOverride.description : description,
@@ -65,25 +63,19 @@ const GroupCard = ({ group, onUpdate }) => {
 
             await api.put(`/groups/${group.id}`, payload);
             
-            // Opcional: Avisar o pai para recarregar a lista, 
-            // mas CUIDADO: isso pode causar re-render do card e fechar modais/inputs.
-            // onUpdate(); 
         } catch (err) {
             console.error(err);
             alert("Erro ao salvar alterações");
         }
     };
 
-    // Handler para mudança de cor (Salva imediatamente e evita loop)
     const handleColorChange = (newColor) => {
         setThemeColor(newColor);
         setShowColorPicker(false);
-        handleSave({ theme: newColor }); // Salva especificamente a cor nova
+        handleSave({ theme: newColor });
     };
 
     const handleBlur = (field) => {
-        // Só salva se houver diferença real para evitar requisições desnecessárias
-        // Aqui simplifiquei chamando o save direto, mas idealmente compararia com props.group
         handleSave();
     };
 
@@ -168,9 +160,9 @@ const GroupCard = ({ group, onUpdate }) => {
                 <button className={`${copyLinkMessage ? styles.copyLinkMessage : ""} ${styles.actionBtn} ${styles.shareBtn}`} onClick={copyLink}>
                     <FaRegCopy /> {copyLinkMessage ? "Link copiado" : "Copiar Link"}
                 </button>
-                
+
                 <Link to={`/account/manage/${group.id}`}>
-                    <button className={`${styles.actionBtn} ${styles.editBtn}`}>
+                    <button className={`${styles.actionBtn} ${styles.editBtn} ${styles[`editBtn${themeColor == "#24398e" ? "Blue" : (themeColor == "#7c4dff" ? "Purple" : "Purple")}`]}`}>
                         <FaEdit /> GERENCIAR CATEGORIAS
                     </button>
                 </Link>

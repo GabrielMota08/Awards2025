@@ -13,10 +13,17 @@
     font-size: 15px;
     height: 3.3em;
     position: fixed;
-    background-color: rgb(39, 4, 68);
     box-sizing: border-box;
     z-index: 100;
     left: 0;
+}
+
+.categoriesNomineesPurple{
+    background-color: rgb(39, 4, 68);
+}
+
+.categoriesNomineesBlue{
+    background-color: rgb(10, 27, 112)
 }
 
 .categoriesNominees svg{

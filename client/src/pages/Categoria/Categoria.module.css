@@ -5,13 +5,20 @@
 }
 
 .categories h1 {
-    background-color: rgba(39, 4, 68, 1);
     width: 100%;
     text-align: center;
     line-height: 3.3em;
     font-size: 15px;
     height: 3.3em;
     position: fixed;
+}
+
+.categoriesPurple h1{
+    background-color: rgb(39, 4, 68);
+}
+
+.categoriesBlue h1{
+    background-color: rgb(10, 27, 112);
 }
 
 .categories div{
@@ -44,7 +51,6 @@
     font-weight: 500;
     margin: 1em;
     text-align: center;
-    border: solid rgba(125, 182, 255, 0.3) 1px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,7 +59,20 @@
     color: white;
 }
 
-.categories div p a:hover{
+.categoriesCardPurple a{
+    border: solid rgba(192, 125, 255, 0.3) 1px;
+}
+
+.categoriesCardPurple a:hover{
+    background-color: rgb(71, 7, 114);
+    border: solid rgba(125, 182, 255, 0) 1px;
+}
+
+.categoriesCardBlue a{
+    border: solid rgba(125, 182, 255, 0.3) 1px;
+}
+
+.categoriesCardBlue a:hover{
     background-color: rgb(0, 31, 69);
     border: solid rgba(125, 182, 255, 0) 1px;
 }
