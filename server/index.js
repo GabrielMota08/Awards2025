@@ -69,7 +69,7 @@ function authenticateToken(req, res, next) {
 // 1. AUTENTICAÇÃO
 // ==========================================
 
-app.post("/register", (req, res) => {
+app.post("/api/register", (req, res) => {
     const { email, password, name } = req.body;
 
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
@@ -88,7 +88,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
     const { email, password } = req.body;
 
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {

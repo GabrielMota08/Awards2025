@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
-import Axios from "axios";
+import api from '../../services/api'; 
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/AppContext";
 
@@ -23,7 +23,7 @@ const Auth = () => {
     };
 
     const handleClickRegister = (values) => {
-        Axios.post("http://localhost:3001/register", {
+        api.post("/register", {
             email: values.email,
             password: values.password,
         }).then(async (response) => {
