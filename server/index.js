@@ -49,7 +49,15 @@ db.getConnection((err, connection) => {
 });
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",                
+        "http://localhost:3000",                
+        "https://awards2025-kappa.vercel.app/"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // --- MIDDLEWARE DE AUTENTICAÇÃO ---
 function authenticateToken(req, res, next) {
