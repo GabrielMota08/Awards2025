@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import AppContext from './AppContext';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import api from '../services/api'; 
 
 function Provider({ children }) {
@@ -12,7 +11,7 @@ function Provider({ children }) {
     
     const DEFAULT_TOKEN = "1";
 
-    const [targetDate, setTargetDate] = useState(new Date("2030-01-01"));
+    const [targetDate, setTargetDate] = useState(new Date("2026-01-01"));
     const [isVotingEnded, setIsVotingEnded] = useState(false);
     
     const [themeBg, setThemeBg] = useState("Purple"); 
@@ -57,7 +56,7 @@ function Provider({ children }) {
 
             if (tokenLS && storedUser) {
                 try {
-                    const response = await axios.get("http://localhost:3001/validate-token", {
+                    const response = await api.get("/validate-token", {
                         headers: { Authorization: `Bearer ${tokenLS}` }
                     }).catch(() => null); 
 
@@ -126,7 +125,7 @@ function Provider({ children }) {
 
     const login = async (email, password) => {
         try {
-            const response = await axios.post("http://localhost:3001/login", { email, password });
+            const response = await api.post("/login", { email, password });
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user)); 

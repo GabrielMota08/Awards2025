@@ -31,21 +31,30 @@
     text-transform: uppercase;
 }
 
-/* TEMA ROXO: Mudei de 'gold' para um roxo vibrante (#A7AAFF ou um tom mais forte) */
-.purpleThemeBtn {
-    background: #7c4dff !important; /* Roxo principal */
+.themeBtnPurple {
+    background: #7c4dff !important;
     color: white !important;
 }
 
-/* Seção de cada categoria */
+.themeBtnBlue {
+    background: #1a42d2 !important;
+    color: white !important;
+}
+
 .categorySection {
     margin-top: 3em;
     width: 85%;
     position: relative;
-    /* TEMA ROXO: Borda lateral */
-    border-left: 4px solid #7c4dff; 
     padding-left: 20px;
     margin-bottom: 4em;
+}
+
+.categorySectionPurple {
+    border-left: 4px solid #7c4dff;
+}
+
+.categorySectionBlue {
+    border-left: 4px solid #0d50bc;
 }
 
 .categoryTitle {
@@ -75,11 +84,8 @@
     padding: 0;
 }
 
-/* --- ALTERAÇÃO DOS CARDS (Mais horizontais) --- */
-
 .manageCard {
     width: 350px;
-    /* Aumentei a altura fixa para dar mais espaço */
     height: 190px; 
     display: flex;
     flex-direction: row; 
@@ -90,23 +96,19 @@
     border: 1px solid #333;
 }
 
-/* Layout Horizontal: Coluna da Esquerda (Imagem) */
 .cardLeftColumn {
-    /* Aumentei a base do flex para acomodar a imagem maior (de 120px para 150px) */
     flex: 0 0 150px; 
 }
 
-/* Layout Horizontal: Coluna da Direita (Inputs e Botões) */
 .cardRightColumn {
-    flex: 1; /* Ocupa o resto do espaço */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Espalha o conteúdo verticalmente */
+    justify-content: space-between;
     gap: 10px;
 }
 
 .imageInputArea {
-    /* Aumentei para acompanhar a nova altura do card */
     width: 150px; 
     height: 150px;
     border-radius: 8px;
@@ -124,7 +126,7 @@
     color: white;
     text-align: center;
     width: 90%;
-    font-size: 0.7em; /* Fonte menor para caber */
+    font-size: 0.7em;
     outline: none;
     z-index: 2;
     opacity: 0;
@@ -150,14 +152,20 @@
 .nameInput {
     background: transparent;
     border: none;
-    /* TEMA ROXO: Linha inferior */
-    border-bottom: 1px solid #7c4dff; 
     color: white;
     font-size: 0.8em;
     font-weight: bold;
     width: 100%;
     padding: 5px 0;
     outline: none;
+}
+
+.nameInputPurple{
+    border-bottom: 1px solid #7c4dff; 
+}
+
+.nameInputBlue{
+    border-bottom: 1px solid #0d50bc; 
 }
 
 .descInput {
@@ -168,21 +176,17 @@
     width: 100%;
     resize: none;
     outline: none;
-    /* ALTERAÇÃO: Garante que ocupe espaço no layout horizontal */
     flex-grow: 1; 
 }
 
-/* Botões de Ação */
 .cardActions {
     display: flex;
     gap: 5px;
-    margin-top: auto; /* Empurra para o final da coluna */
+    margin-top: auto;
 }
 
 .saveButton {
     flex: 1;
-    /* TEMA ROXO: Botão de salvar */
-    background: #7c4dff; 
     border: none;
     color: white;
     padding: 8px;
@@ -191,8 +195,21 @@
     font-weight: bold;
     transition: 0.2s;
 }
-.saveButton:hover {
+
+.saveButtonPurple{
+    background: #7c4dff; 
+}
+
+.saveButtonPurple:hover {
     background: #6839d9;
+}
+
+.saveButtonBlue{
+    background: #0d30bc; 
+}
+
+.saveButtonBlue:hover {
+    background: #0a1f8a;
 }
 
 .deleteButton {
@@ -204,29 +221,41 @@
     border-radius: 4px;
 }
 
+.deleteButton:hover {
+    background: #d32f2f;
+}
+
 .addCard {
     width: 350px;
-    /* Aumentei a altura para igualar ao .manageCard (era 150px) */
     height: 190px; 
     font-size: 0.8em;
-    border: 2px dashed #7c4dff; 
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: #7c4dff; 
     transition: 0.2s;
 }
 
-.addCard:hover {
+.addCardPurple{
+    border: 2px dashed #7c4dff; 
+    color: #7c4dff; 
+}
+
+.addCardPurple:hover {
     background: rgba(124, 77, 255, 0.1);
 }
 
-/* ... (estilos anteriores permanecem) */
+.addCardBlue{
+    border: 2px dashed #0d30bc; 
+    color: #0d33bc; 
+}
 
-/* Inputs do Cabeçalho da Categoria */
+.addCardBlue:hover {
+    background: rgba(13, 45, 188, 0.1);
+}
+
 .catHeaderContainer {
     display: flex;
     justify-content: space-between;

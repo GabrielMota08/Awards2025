@@ -7,7 +7,7 @@ import AppContext from "../../context/AppContext";
 
 // --- COMPONENTE 1: HEADER DA CATEGORIA (NOVO) ---
 // Funciona igual ao card: inputs abertos, salva apenas se houver mudança
-const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange }) => {
+const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange, themeColor }) => {
     const [data, setData] = useState({
         name: category.name,
         description: category.description
@@ -34,30 +34,24 @@ const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange }) => {
     return (
         <div className={styles.catHeaderContainer}>
             <div className={styles.catInputs}>
-                {/* Título com Width Dinâmico */}
                 <input 
                     className={styles.catNameInput}
                     value={data.name}
                     placeholder="Nome da Categoria"
                     onChange={e => handleChange("name", e.target.value)}
-                    // Lógica de Width Dinâmico: 
-                    // Calcula caracteres (ch) + um pouco de sobra. Mínimo 200px via CSS.
                     style={{ width: `${Math.max(data.name.length, 10) + 2}ch` }}
                 />
                 
-                {/* Descrição com Width Dinâmico */}
                 <input 
                     className={styles.catDescInput}
                     value={data.description}
                     placeholder="Descrição da categoria"
                     onChange={e => handleChange("description", e.target.value)}
-                    // Mesma lógica de width
                     style={{ width: `${Math.max(data.description.length, 15) + 2}ch` }}
                 />
             </div>
 
             <div className={styles.catActions}>
-                {/* Botão Salvar: VISIBILITY HIDDEN se não houver mudança */}
                 <button 
                     onClick={handleSave} 
                     className={styles.saveCatBtn}
@@ -70,7 +64,6 @@ const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange }) => {
                     <FaCheck />
                 </button>
 
-                {/* Botão Deletar: Texto + Ícone */}
                 <button 
                     onClick={() => onDelete(category.id)} 
                     className={styles.deleteCatBtn}
@@ -83,8 +76,7 @@ const CategoryHeader = ({ category, onSave, onDelete, onDirtyChange }) => {
     );
 };
 
-// --- COMPONENTE 2: CARD DE INDICADO (Igual ao anterior) ---
-const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, uniqueId }) => {
+const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, uniqueId, themeColor }) => {
     const [data, setData] = useState({
         name: nominee?.name || "",
         description: nominee?.description || "",
@@ -117,7 +109,7 @@ const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, u
 
     if (isNew && !changed) {
         return (
-            <div className={styles.addCard} onClick={() => setChanged(true)}>
+            <div className={`${styles.addCard} ${styles[`addCard${themeColor == "#24398e" ? "Blue" : (themeColor == "#7c4dff" ? "Purple" : "Purple")}`]}`} onClick={() => setChanged(true)}>
                 <FaPlus size={30} />
                 <h4>Adicionar Indicado</h4>
             </div>
@@ -138,7 +130,7 @@ const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, u
             </div>
             <div className={styles.cardRightColumn}>
                 <input 
-                    className={styles.nameInput} 
+                    className={`${styles.nameInput} ${styles[`nameInput${themeColor == "#24398e" ? "Blue" : (themeColor == "#7c4dff" ? "Purple" : "Purple")}`]}`} 
                     placeholder="Nome"
                     value={data.name}
                     onChange={e => handleChange("name", e.target.value)}
@@ -152,7 +144,7 @@ const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, u
                 />
                 <div className={styles.cardActions}>
                     <button 
-                        className={styles.saveButton} 
+                        className={`${styles.saveButton} ${styles[`saveButton${themeColor == "#24398e" ? "Blue" : (themeColor == "#7c4dff" ? "Purple" : "Purple")}`]}`} 
                         onClick={handleSave} 
                         style={{opacity: changed ? 1 : 0.5}}
                     >
@@ -170,15 +162,14 @@ const ManageCard = ({ nominee, onSave, onDelete, isNew = false, onDirtyChange, u
     );
 };
 
-// --- PÁGINA PRINCIPAL ---
 const ManageGroup = () => {
     const { groupId } = useParams();
     const { isLoading, isAuthenticated } = useContext(AppContext);
     const navigate = useNavigate();
     const [groupData, setGroupData] = useState(null);
+    const [themeColor, setThemeColor] = useState();
     const [newCategoryName, setNewCategoryName] = useState("");
     
-    // Controle de alterações não salvas (Dirty State)
     const [dirtyItems, setDirtyItems] = useState(new Set());
 
     useEffect(() => {
@@ -196,7 +187,6 @@ const ManageGroup = () => {
         });
     };
 
-    // Bloqueios de saída
     useEffect(() => {
         const handleBeforeUnload = (e) => {
             if (dirtyItems.size > 0) {
@@ -226,6 +216,7 @@ const ManageGroup = () => {
             if (currentGroup) {
                 const detailsRes = await api.get(`/vote-data/${currentGroup.access_token}`);
                 setGroupData(detailsRes.data);
+                setThemeColor(detailsRes.data.group.theme);
             }
         } catch (err) { console.error(err); }
     };
@@ -295,21 +286,20 @@ const ManageGroup = () => {
                     value={newCategoryName}
                     onChange={e => setNewCategoryName(e.target.value)}
                 />
-                <button onClick={handleAddCategory} className={styles.purpleThemeBtn} style={{padding: '10px 20px', border:'none', fontWeight:'bold', cursor:'pointer', borderRadius: 5}}>
+                <button onClick={handleAddCategory} className={`${styles[`themeBtn${themeColor == "#24398e" ? "Blue" : (themeColor == "#7c4dff" ? "Purple" : "Purple")}`]}`} style={{padding: '10px 20px', border:'none', fontWeight:'bold', cursor:'pointer', borderRadius: 5}}>
                     CRIAR CATEGORIA
                 </button>
             </div>
 
-            {/* LISTA DE CATEGORIAS */}
             {groupData.categories.map((category) => (
-                <section key={category.id} className={styles.categorySection}>
+                <section key={category.id} className={`${styles[`categorySection${themeColor == "#24398e" ? "Blue" : (themeColor == "#7c4dff" ? "Purple" : "Purple")}`]} ${styles.categorySection}`}>
                     
-                    {/* Componente de Cabeçalho da Categoria (Sempre em modo edição) */}
                     <CategoryHeader 
                         category={category}
                         onSave={handleSaveCategory}
                         onDelete={handleDeleteCategory}
                         onDirtyChange={handleDirtyChange}
+                        themeColor={themeColor}
                     />
 
                     <div className={styles.grid}>
@@ -321,6 +311,7 @@ const ManageGroup = () => {
                                 onSave={(data) => handleUpdateNominee(nominee.id, data)}
                                 onDelete={() => handleDeleteNominee(nominee.id)}
                                 onDirtyChange={handleDirtyChange}
+                                themeColor={themeColor}
                             />
                         ))}
                         <ManageCard 
@@ -328,6 +319,7 @@ const ManageGroup = () => {
                             uniqueId={`new-cat-${category.id}`}
                             onSave={(data) => handleCreateNominee(category.id, data)}
                             onDirtyChange={handleDirtyChange}
+                            themeColor={themeColor}
                         />
                     </div>
                 </section>

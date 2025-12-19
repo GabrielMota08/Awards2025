@@ -9,7 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const saltRounds = 10;
 const SECRET_KEY = process.env.SECRET_KEY || "chave_secreta_dev"; 
-
+const PORT = process.env.PORT;
 // --- CONFIGURAÇÃO DO DOCKER ---
 // Se estiver rodando via Docker Compose use: host: "mysql_db"
 // Se estiver rodando o Node localmente e o banco no Docker use: host: "localhost"
@@ -19,7 +19,7 @@ const db = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 4000,
+    port: process.env.DB_PORT,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -49,7 +49,15 @@ db.getConnection((err, connection) => {
 });
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",                
+        "http://localhost:3000",                
+        "https://awards2025-kappa.vercel.app/"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // --- MIDDLEWARE DE AUTENTICAÇÃO ---
 function authenticateToken(req, res, next) {
@@ -69,7 +77,7 @@ function authenticateToken(req, res, next) {
 // 1. AUTENTICAÇÃO
 // ==========================================
 
-app.post("/register", (req, res) => {
+app.post("/api/register", (req, res) => {
     const { email, password, name } = req.body;
 
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
@@ -88,7 +96,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
     const { email, password } = req.body;
 
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
@@ -400,8 +408,8 @@ app.get("/api/results/:groupId", authenticateToken, (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("Servidor rodando na porta 3001");
+app.listen(PORT, () => {
+    console.log("Servidor rodando na porta " + PORT);
 });
 
 app.get("/api/winners/:token", (req, res) => {
