@@ -32,7 +32,7 @@ const Categoria = () => {
         <section className={`${styles.categories} ${styles[`categories${themeBg || "Purple"}`]}`}>
             <h1>TODAS AS CATEGORIAS</h1>
             <div>
-            <h2><span>INDICADOS</span>{group.title}</h2>
+            <h2><span className={styles.indicados}>INDICADOS</span>{group.title}</h2>
             {loading ? 
                 <h4 style={{marginLeft: "20px"}}>Carregando...</h4>
             : (categories.length > 0) 

@@ -205,11 +205,11 @@
 }
 
 .saveButtonBlue{
-    background: #0d30bc; 
+    background: #1038d4; 
 }
 
 .saveButtonBlue:hover {
-    background: #0a1f8a;
+    background: #0d28ae;
 }
 
 .deleteButton {
@@ -248,8 +248,8 @@
 }
 
 .addCardBlue{
-    border: 2px dashed #0d30bc; 
-    color: #0d33bc; 
+    border: 2px dashed #1942e4; 
+    color: #1942e4; 
 }
 
 .addCardBlue:hover {

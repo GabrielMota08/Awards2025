@@ -112,12 +112,19 @@
 }
 
 .timer h2{
-    background-color: rgba(48, 26, 62, 0.6);
     padding: 0.4em 1.5em 0.4em 1.5em;
     width: 15em;
     text-align: center;
     margin-bottom: 1.3em;
     box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.1);
+}
+
+.timerPurple h2{
+    background-color: rgba(48, 26, 62, 0.6);
+}
+
+.timerBlue h2{
+    background-color: rgba(20, 20, 71, 0.6);
 }
 
 .clock{
@@ -141,7 +148,6 @@
 }
 
 .timer a{
-    background-color: #5717ace6;
     font-size: 15px;
     font-weight: bold;
     color: white;
@@ -153,9 +159,24 @@
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
 }
 
+.timerPurple a{
+    background-color: #5717ace6;
+}
+
+.timerBlue a{
+    background-color: #1031b5;
+}
+
 .timer a:hover{
-    background-color: #401775;
     color: white;
+}
+
+.timerPurple a:hover{
+    background-color: #401775;
+}
+
+.timerBlue a:hover{
+    background-color: #0526a9;
 }
 
 .arrowDown {
@@ -301,8 +322,15 @@
 }
 
 .createBox:hover, .createBoxLink:hover {
-    border-color: rgba(124, 77, 255, 0.5);
     background: rgba(255, 255, 255, 0.08);
+}
+
+.createBoxPurple:hover, .createBoxLinkPurple:hover {
+    border-color: rgba(124, 77, 255, 0.5);
+}
+
+.createBoxBlue:hover, .createBoxLinkBlue:hover {
+    border-color: rgba(49, 81, 255, 0.5);
 }
 
 .createBox h3, .createBoxLink h3 {
@@ -320,8 +348,9 @@
 
 .inputGroup {
     display: flex;
-    width: 90%;
+    width: 100%;
     height: 40px;
+    box-sizing: border-box;
 }
 
 .inputGroup input {
@@ -333,11 +362,11 @@
     font-size: 1rem;
     background-color: #eee;
     color: #333;
+    box-sizing: border-box;
 }
 
 .inputGroup button {
     padding: 0 25px;
-    background-color: #7c4dff;
     color: white;
     font-weight: bold;
     border: none;
@@ -345,10 +374,23 @@
     cursor: pointer;
     transition: background-color 0.2s;
     font-size: 0.9rem;
+    box-sizing: border-box;
 }
 
-.inputGroup button:hover {
+.inputGroupPurple button {
+    background-color: #7c4dff;
+}
+
+.inputGroupBlue button {
+    background-color: #1740e6;
+}
+
+.inputGroupPurple button:hover {
     background-color: #6235d6;
+}
+
+.inputGroupBlue button:hover {
+    background-color: #0c2ed7;
 }
 
 .createBoxLink {
@@ -366,7 +408,14 @@
 .createIcon {
     font-size: 2.5rem;
     margin-bottom: 0.5em;
+}
+
+.createIconPurple {
     color: #7c4dff;
+}
+
+.createIconBlue {
+    color: #2142c5;
 }
 
 .footer{

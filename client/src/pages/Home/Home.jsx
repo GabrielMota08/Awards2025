@@ -107,7 +107,7 @@ const Home = () => {
                         <Link to={`/categories/${activeToken}`}>VEJA OS INDICADOS</Link>
                     </div>
 
-                    <div className={styles.timer}>
+                    <div className={`${styles.timer} ${styles[`timer${themeBg || "Purple"}`]}`}>
                         <h2>OS VENCEDORES SERÃO REVELADOS EM:</h2>
 
                         <div className={styles.clock}>
@@ -162,10 +162,10 @@ const Home = () => {
                 </p>
                 
                 <div className={styles.createOptionsContainer}>
-                    <div className={styles.createBox}>
+                    <div className={`${styles.createBox} ${styles[`createBox${themeBg || "Purple"}`]}`}>
                         <h3>Já tem um link?</h3>
                         <p className={styles.boxDesc}>Cole o link da votação abaixo para acessar.</p>
-                        <div className={styles.inputGroup}>
+                        <div className={`${styles.inputGroup} ${styles[`inputGroup${themeBg || "Purple"}`]}`}>
                             <input 
                                 type="text" 
                                 placeholder={token ? token : "Cole o link ou token aqui..." }
@@ -178,9 +178,9 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <Link to="/account" className={styles.createBoxLink}>
+                    <Link to="/account" className={`${styles.createBoxLink} ${styles[`createBoxLink${themeBg || "Purple"}`]}`}>
                         <div className={styles.createBoxContent}>
-                            <FaPlusCircle className={styles.createIcon} />
+                            <FaPlusCircle className={`${styles.createIcon} ${styles[`createIcon${themeBg || "Purple"}`]}`} />
                             <h3>Crie sua Votação</h3>
                             <p className={styles.boxDesc}>Comece do zero e compartilhe com seus amigos.</p>
                         </div>

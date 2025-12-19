@@ -30,10 +30,11 @@
     margin-left: 0.5em;
 }
 
-.categories h2 span{
+.indicados {
+    display: block;
     color: rgb(162, 176, 255);
     font-weight: 800;
-    margin-right: 1vw;
+    margin-bottom: 0.3em;
 }
 
 
