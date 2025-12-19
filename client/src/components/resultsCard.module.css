@@ -21,20 +21,21 @@
 }
 
 .nomineesCardB img {
-    height: 216px !important;
     width: 100% !important;
-    max-height: 216px !important;
     object-fit: cover;
 }
 
-/* REMOVIDO: .nomineesCardB .voteButton { top: ... } */
-/* REMOVIDO: .nomineesCardB h2 { margin-top: ... } */
-
+/* APENAS ESTA REGRA FOI ALTERADA */
 .nomineesCardB .winnerBackground {
-    scale: 1.27;
-    top: 17px !important;
-    left: -8px;
-    width: 96%;
+    scale: 1.27; /* Mantido */
+    
+    /* CORREÇÃO: Mudamos de 17px positivo para -5px negativo. 
+       Isso move o background cerca de 22px para CIMA, 
+       revelando a parte superior que estava escondida atrás da imagem. */
+    top: -5px !important; 
+    
+    left: -8px; /* Mantido */
+    width: 96%; /* Mantido */
 }
 
 /* --- CARD GERAL --- */

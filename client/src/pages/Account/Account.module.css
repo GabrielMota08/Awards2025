@@ -440,6 +440,12 @@
     }
 }
 
+@media (max-width: 500px) {
+    .nomineesPreviewScroll {
+        justify-content: center;
+    }
+}
+
 /* --- NOVAS ADIÇÕES (DATA E TEMA) --- */
 
 .dateEditContainer {
