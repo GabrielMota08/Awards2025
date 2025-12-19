@@ -80,17 +80,34 @@ function authenticateToken(req, res, next) {
 app.post("/api/register", (req, res) => {
     const { email, password, name } = req.body;
 
+    // 1. Verifica se o email já existe
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
-        if (err) return res.send({ msg: err });
-        if (result.length > 0) return res.send({ msg: "Usuário já cadastrado" });
+        if (err) return res.status(500).send({ msg: err.sqlMessage || err.code });
+        if (result.length > 0) return res.status(400).send({ msg: "Usuário já cadastrado" });
 
-        bcrypt.hash(password, saltRounds, (error, hash) => {
-            if (error) return res.send({ msg: error });
+        // 2. Busca o maior ID existente para calcular o próximo (Manual Auto Increment)
+        // COALESCE(MAX(id), 0) garante que se a tabela estiver vazia, retorna 0
+        db.query("SELECT COALESCE(MAX(id), 0) + 1 AS nextId FROM users", (err, resultId) => {
+            if (err) return res.status(500).send({ msg: "Erro ao gerar ID de usuário" });
 
-            const sql = "INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)";
-            db.query(sql, [email, hash, name, 'creator'], (err, result) => {
-                if (err) return res.send({ msg: err });
-                res.send({ msg: "Cadastrado com sucesso" });
+            const nextId = resultId[0].nextId;
+
+            // 3. Criptografa a senha
+            bcrypt.hash(password, saltRounds, (error, hash) => {
+                if (error) return res.status(500).send({ msg: error.message });
+
+                // 4. Insere o usuário forçando o ID calculado
+                const sql = "INSERT INTO users (id, email, password, name, role) VALUES (?, ?, ?, ?, ?)";
+                db.query(sql, [nextId, email, hash, name, 'creator'], (err, result) => {
+                    if (err) {
+                        // Tratamento para caso dois usuários tentem registrar no mesmo milissegundo (Concorrência)
+                        if (err.code === 'ER_DUP_ENTRY') {
+                            return res.status(409).send({ msg: "Erro de concorrência, tente novamente." });
+                        }
+                        return res.status(500).send({ msg: err.sqlMessage || err.code });
+                    }
+                    res.send({ msg: "Cadastrado com sucesso" });
+                });
             });
         });
     });

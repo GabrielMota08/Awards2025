@@ -7,7 +7,7 @@ import styles from "./navbar.module.css";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
-    const { menuOpen, setMenuOpen, isVotingEnded, themeBg } = useContext(AppContext);
+    const { menuOpen, setMenuOpen, isVotingEnded, themeBg, user } = useContext(AppContext);
     const { token, id } = useParams();
     
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
@@ -70,7 +70,7 @@ const Navbar = () => {
                 )}
             </div>
             <div className={menuOpen ? styles.marginTop0em : ""}>
-                <Link to="/auth">
+                <Link to={!user ? "/auth" : "/account"}>
                     <BsPerson />
                 </Link>
             </div>
