@@ -278,6 +278,7 @@ const Account = () => {
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <h2 className={styles.sidebarTitle}>Painel</h2>
+                <div>
                 <a href="#my-account" style={{textDecoration:'none'}}>
                     <button className={`${styles.menuItem} ${activeTab === "account" ? styles.activeMenu : ""}`}>
                         <FaUser style={{ marginRight: 8 }} /> Minha Conta
@@ -289,6 +290,7 @@ const Account = () => {
                         <FaTrophy style={{ marginRight: 8 }} /> Grupos de Premiação
                     </button>
                 </a>
+                </div>
             </div>
 
             <div className={styles.content}>
