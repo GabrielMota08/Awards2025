@@ -152,6 +152,7 @@
     
     .pageContainer {
         /* No mobile, mantém o fundo escuro (não muda pra branco) */
+        margin: 0 auto;
         background-color: #080808; 
         align-items: flex-start;
         padding-top: 2rem;

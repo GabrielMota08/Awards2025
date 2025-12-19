@@ -17,7 +17,6 @@ const Categoria = () => {
                 const response = await api.get(`/vote-data/${token}`);
                 setGroup(response.data.group)
                 setCategories(response.data.categories);
-                console.log(response.data.categories)
             } catch (error) {
                 console.error("Erro ao buscar dados", error);
             } finally {

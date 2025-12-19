@@ -251,6 +251,15 @@ const Account = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        
+        navigate("/");
+        
+        window.location.reload(); 
+    };
+
     const handleUpdateUser = async (e) => {
         e.preventDefault();
         try {
@@ -278,6 +287,7 @@ const Account = () => {
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <h2 className={styles.sidebarTitle}>Painel</h2>
+                <div>
                 <a href="#my-account" style={{textDecoration:'none'}}>
                     <button className={`${styles.menuItem} ${activeTab === "account" ? styles.activeMenu : ""}`}>
                         <FaUser style={{ marginRight: 8 }} /> Minha Conta
@@ -289,6 +299,7 @@ const Account = () => {
                         <FaTrophy style={{ marginRight: 8 }} /> Grupos de Premiação
                     </button>
                 </a>
+                </div>
             </div>
 
             <div className={styles.content}>
@@ -325,6 +336,22 @@ const Account = () => {
                             </div>
                             <button type="submit" className={styles.saveBtn}>SALVAR ALTERAÇÕES</button>
                         </form>
+                        <button 
+                            onClick={handleLogout}
+                            className={styles.logoutBtn}
+                            style={{
+                                backgroundColor: 'rgba(255, 255, 255, 0)',
+                                color: '#ff4d4d',
+                                border: 'none',
+                                padding: '8px 15px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '0.8rem',
+                                marginTop: "1.5rem"
+                            }}
+                        >
+                SAIR DA CONTA
+            </button>
                     </div>
                 )}
 
