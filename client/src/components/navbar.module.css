@@ -14,6 +14,8 @@
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(10px);
     background-color: rgba(39, 4, 68, 0.7);
+    left: 0;
+    right: 0;
 }
 
 .navbarPurple{

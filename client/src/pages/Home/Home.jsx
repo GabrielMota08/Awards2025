@@ -9,7 +9,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import api from "../../services/api";
 
 const Home = () => {
-    const { shortlisted, targetDate, setTargetDate, themeBg } = useContext(AppContext);
+    const { shortlisted, targetDate, themeBg } = useContext(AppContext);
     const { token, id } = useParams();
     const navigate = useNavigate();
 
@@ -20,6 +20,8 @@ const Home = () => {
     const [timeLeft, setTimeLeft] = useState({
         days: 0, hours: 0, minutes: 0, seconds: 0,
     });
+
+    const isWinnersEnabled = new Date() >= targetDate;
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -98,13 +100,22 @@ const Home = () => {
                 <section className={styles.subtitle}>
                     <div className={`${styles.description} ${styles[`description${themeBg || "Purple"}`]}`}>
                         <Link
-                            className={new Date() < targetDate ? styles.disableWinners : ""}
+                            className={
+                                isWinnersEnabled 
+                                    ? styles.animateSlide
+                                    : styles.disableWinners
+                            }
                             to={`/winners/${activeToken}/${id || 0}`}
                         >
                             CONFIRA OS VENCEDORES
                         </Link>
 
-                        <Link to={`/categories/${activeToken}`}>VEJA OS INDICADOS</Link>
+                        <Link 
+                            to={`/categories/${activeToken}`}
+                            className={styles.animateSlideDelay}
+                        >
+                            VEJA OS INDICADOS
+                        </Link>
                     </div>
 
                     <div className={`${styles.timer} ${styles[`timer${themeBg || "Purple"}`]}`}>
