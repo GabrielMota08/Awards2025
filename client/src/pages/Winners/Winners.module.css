@@ -220,11 +220,18 @@
 @media (max-width: 500px) {
     .indicadosContainer .indicadosSection ul > *{
         margin-right: 0;
-        scale: 0.8;
+        scale: 0.9;
     }
 }
 
 @media (max-width: 400px) {
+    .indicadosContainer .indicadosSection ul > *{
+        margin-right: 0;
+        scale: 0.8;
+    }
+}
+
+@media (max-width: 300px) {
     .indicadosContainer .indicadosSection ul > *{
         margin-right: 0;
         scale: 0.7;
