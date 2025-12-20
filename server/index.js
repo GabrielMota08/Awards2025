@@ -183,7 +183,7 @@ app.put("/api/user", authenticateToken, (req, res) => {
 // VALIDAR LOGIN
 // ==========================================
 
-app.get("/validate-token", authenticateToken, (req, res) => {
+app.get("/api/validate-token", authenticateToken, (req, res) => {
     res.send({ valid: true, userId: req.userId });
 });
 
