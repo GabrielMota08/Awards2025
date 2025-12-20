@@ -9,7 +9,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import api from "../../services/api";
 
 const Home = () => {
-    const { shortlisted, targetDate, themeBg } = useContext(AppContext);
+    const { shortlisted, targetDate, themeBg, setTargetDate } = useContext(AppContext);
     const { token, id } = useParams();
     const navigate = useNavigate();
 
@@ -27,24 +27,24 @@ const Home = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    // useEffect(() => {
-    //     const fetchHomeData = async () => {
-    //         try {
-    //             const response = await api.get(`/vote-data/${activeToken}`, { skipAuthRedirect: true });
-    //             const data = response.data;
+    useEffect(() => {
+        const fetchHomeData = async () => {
+            try {
+                const response = await api.get(`/vote-data/${activeToken}`, { skipAuthRedirect: true });
+                const data = response.data;
 
-    //             if (data.group && data.group.end_date) {
-    //                 setTargetDate(new Date(data.group.end_date));
-    //             }
+                if (data.group && data.group.end_date) {
+                    setTargetDate(new Date(data.group.end_date));
+                }
             
 
-    //         } catch (err) {
-    //             console.error("Erro ao carregar dados da Home:", err);
-    //         }
-    //     };
+            } catch (err) {
+                console.error("Erro ao carregar dados da Home:", err);
+            }
+        };
 
-    //     fetchHomeData();
-    // }, [activeToken, setTargetDate]);
+        fetchHomeData();
+    }, [activeToken, setTargetDate]);
 
     const handleScroll = () => {
         const target = document.getElementById("scrollTarget");
