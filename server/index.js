@@ -248,6 +248,13 @@ app.put("/api/categories/:id", authenticateToken, (req, res) => {
     })
 })
 
+app.delete("/api/categories/:id", authenticateToken, (req, res) => {
+    db.query("DELETE FROM categories WHERE id = ?", [req.params.id], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ msg: "Categoria removida!" });
+    });
+});
+
 app.post("/api/nominees", authenticateToken, (req, res) => {
     const { categoryId, name, description, imageUrl } = req.body;
     
@@ -271,13 +278,6 @@ app.delete("/api/nominees/:id", authenticateToken, (req, res) => {
     db.query("DELETE FROM nominees WHERE id = ?", [req.params.id], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send({ msg: "Indicado removido!" });
-    });
-});
-
-app.delete("/api/categories/:id", authenticateToken, (req, res) => {
-    db.query("DELETE FROM categories WHERE id = ?", [req.params.id], (err, result) => {
-        if (err) return res.status(500).send(err);
-        res.send({ msg: "Categoria removida!" });
     });
 });
 
