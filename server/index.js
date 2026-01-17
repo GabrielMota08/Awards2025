@@ -285,7 +285,6 @@ app.delete("/api/nominees/:id", authenticateToken, (req, res) => {
 // 3. VOTAÇÃO (PÚBLICO)
 // ==========================================
 
-// --- ROTA ATUALIZADA: AGORA RETORNA A DESCRIÇÃO DO INDICADO ---
 app.get("/api/vote-data/:token", (req, res) => {
     const token = req.params.token;
 
@@ -425,10 +424,6 @@ app.get("/api/results/:groupId", authenticateToken, (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log("Servidor rodando na porta " + PORT);
-});
-
 app.get("/api/winners/:token", (req, res) => {
     const { token } = req.params;
 
@@ -479,4 +474,8 @@ app.get("/api/winners/:token", (req, res) => {
             res.send(winnersMap);
         });
     });
+});
+
+app.listen(PORT, () => {
+    console.log("Servidor rodando na porta " + PORT);
 });

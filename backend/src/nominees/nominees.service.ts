@@ -40,7 +40,7 @@ export class NomineesService {
         }
     }
 
-    async updateNominee(id, nomineeDto, userId){
+    async updateNominee(id: number, nomineeDto: any, userId: number){
         try {
             const nominee = await this.knex('nominees')
             .join('categories', 'categories.id', 'nominees.category_id')
@@ -72,7 +72,7 @@ export class NomineesService {
         }
     }
     
-    async deleteNominee(id, userId){
+    async deleteNominee(id: number, userId: number){
         try {
             const nominee = await this.knex('nominees')
             .join('categories', 'categories.id', 'nominees.category_id')
