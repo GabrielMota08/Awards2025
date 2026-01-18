@@ -1,3 +1,7 @@
 Será necessário retirar o /api da rota do frontend e mudar as seguintes rotas:
 
 /my-groups -> /groups
+
+/vote-data -> /vote
+
+/my-votes -> /vote/my-votes
